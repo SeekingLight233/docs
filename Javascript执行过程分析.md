@@ -11,7 +11,7 @@ sidebar: "auto"
 *优秀博文参考*
 [这一次，彻底弄懂 JavaScript 执行机制](https://juejin.im/post/59e85eebf265da430d571f89)
 ## JS异步编程
-### 并发与并行  
+### 并发与并行
 ### 回调函数
 ### Generator
 ### Promise
