@@ -1,5 +1,5 @@
 ---
-title: js对象常用api整理
+title: js内置对象常用api整理
 date: 2020-1-28
 categories: 
  - 前端
@@ -320,4 +320,41 @@ console.log(nums); // [ 1, 2, 5 ]
 //从第二个位置开始，增加"a","b"
 nums.splice(2, 0, "a", "b");
 console.log(nums); // [ 1, 2, 'a', 'b', 5 ]
+```
+## Function
+> 每一个javascript的函数其实都是一个函数对象
+- `apply(obj,[arg1,arg2,...])`
+`apply()`方法的第一个参数是一个对象，这个对象会强制的将函数执行中的this指向自身。第二个参数是要函数传递的参数，只不过这些参数需要打包成数组然后传过去。
+``` js
+let obj = {
+    name:'jason',
+    age:18
+};
+function f1(){
+    console.log(this.name);
+}
+f1();//undefined
+f1.apply(obj);//jason
+```
+在来看一个MDN上的一个经典的例子：将一个数组整体push到另一个数组中。
+``` js
+var array = ['a', 'b'];
+var elements = [0, 1, 2];
+array.push.apply(array, elements);
+console.info(array); // ["a", "b", 0, 1, 2]
+```
+- `call()`
+和`apply()`函数很类似，无非是传递参数的形式不一样。
+- `bind()`
+`bind()`函数也会强制更改this的指向，不过它不会执行函数，返回值是一份函数的拷贝。
+``` js
+let obj = {
+    name:'jason',
+    age:18
+};
+function f1(){
+    console.log(this.name);
+}
+let copy = f1.bind(obj);
+copy();//jason
 ```
