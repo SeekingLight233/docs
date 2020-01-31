@@ -74,6 +74,8 @@ console.log(cat.constructor);//Function: Object]
 1.创建一个新的对象。
 2.将函数中的this绑定到这个新的对象上
 3.返回这个新的对象
+
+说白了就是：**构造函数中的this，会指向new出来的实例对象。**
 ``` js
 function Student(name, age) {
     this.name = name;
@@ -216,3 +218,81 @@ Student.prototype.constructor = Student;
 console.log(p.constructor);//[Function: Student]
 ```
 ### 构造函数继承
+::: tip
+建议您在看这部分内容时，请先了解好`call()`函数的作用。
+:::
+``` js
+function Animal(name,age){
+    this.name = name;
+    this.age = age;
+}
+function Cat(name,age,isCute){
+    //将Cat中要new出来的实例对象传入Animal中
+    Animal.call(this,name,age);
+    this.isCute = isCute;
+}
+
+let guoguo = new Cat("果果",1,true);
+console.log(guoguo.name);//果果
+```
+我们需要对`Animal.call(this,name,age);`这行代码进行详细的讨论。<hide txt="PS:那帮人咋这么牛逼呢，这样就能实现继承了卧槽！！！"></hide>
+
+首先我们知道，当构造函数被**new**的时候，会解析构造函数中的this，并将其指向到new出来的实例身上。
+
+也就是说，这行代码在真正执行的时候是长这个样子:
+`Animal.call(guoguo,name,age);`
+其中，可爱的果果（实例）被作为参数传递到了Animal这个函数中，构造函数`Animal()`再一执行，果果就有了`Animal`的属性啦！
+### 组合继承
+
+``` js
+function Animal(name,age){
+    this.name = name;
+    this.age = age;
+}
+Animal.prototype.run = function(){
+    console.log("running!")
+}
+function Cat(name,age,isCute){
+    //将Cat中要new出来的实例对象传入Animal中
+    Animal.call(this,name,age);
+    this.isCute = isCute;
+}
+Cat.prototype = new Animal();
+//猫的原型指向动物的实例，方便拿出实例上的方法
+Cat.prototype.constructor = Cat;
+let guoguo = new Cat("果果",1,true);
+console.log(guoguo.name);//果果
+guoguo.run();//running!
+```
+组合继承就是这两种继承方法的结合，但缺点也很明显————父类构造方法被调用了两次，而且每次调用，除了属性和方法，构造函数里的其他东西我们也跑了一遍(假如有的话，这个例子有些极端，父类构造方法过于简单了)，我们应该去思考一种方案，只要父类的属性和方法。
+### 寄生组合继承
+
+``` js
+function Animal(name,age){
+    this.name = name;
+    this.age = age;
+}
+Animal.prototype.run = function(){
+    console.log("running!")
+}
+function Cat(name,age,isCute){
+    //将Cat中要new出来的实例对象传入Animal中
+    Animal.call(this,name,age);
+    this.isCute = isCute;
+}
+function Brideg(){};
+//让Bridge的原型对象先指向Animal的原型对象
+Brideg.prototype = Animal.prototype;
+let brideg = new Brideg();
+Cat.prototype = brideg;
+
+//找到一个正经原型该有的亚子
+brideg.constructor = Cat;
+
+let guoguo = new Cat("果果",1,true);
+console.log(guoguo.name);
+guoguo.run();
+```
+寄生组合继承的核心思想是:创建一个“缓冲对象”,首先让这个“缓冲对象”的原型先指向父类的原型，然后再让子类的原型指向“缓存对象”的**实例**。当然最后不要忘了更改构造器的指向。
+当然也可以用`Object.create(Animal.prototype)`函数创建一份父类的原型拷贝，然后将子类的原型指到这份原型拷贝上，道理是一样的，最终实现的目标也是一致的————都是为了能“干净的”继承父类的原型。
+## ES6中的Class
