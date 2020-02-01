@@ -295,4 +295,134 @@ guoguo.run();
 ```
 寄生组合继承的核心思想是:创建一个“缓冲对象”,首先让这个“缓冲对象”的原型先指向父类的原型，然后再让子类的原型指向“缓存对象”的**实例**。当然最后不要忘了更改构造器的指向。
 当然也可以用`Object.create(Animal.prototype)`函数创建一份父类的原型拷贝，然后将子类的原型指到这份原型拷贝上，道理是一样的，最终实现的目标也是一致的————都是为了能“干净的”继承父类的原型。
-## ES6中的Class
+## ES6中的面向对象
+### 创建一个类
+``` js
+class Cat {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+
+let guoguo = new Cat("果果", 1);
+let qiuqiu = new Cat("球球", 2);
+console.log(guoguo.name);
+```
+### 类中添加方法
+``` js
+class Cat {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+    meow() {
+        console.log("meow~")
+    }
+}
+
+let guoguo = new Cat("果果", 1);
+let qiuqiu = new Cat("球球", 2);
+console.log(guoguo.name);
+guoguo.meow();//meow~
+```
+### 继承
+和Java、C++一样，都是用`extend`关键字来实现继承
+``` js
+class Animal {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    };
+    run() {
+        console.log("running!")
+    }
+}
+
+class Cat extends Animal {
+    constructor(name, age, isCute) {
+        super(name, age);//用super来调用父类的构造函数
+        this.isCute = isCute;
+        this.meow();
+    }
+    meow() {
+        console.log("喵~~")
+    };
+    //override
+    run() {
+        console.log("不单单会跑，我还会爬树！")
+    }
+}
+
+let guoguo = new Cat("果果", 1, true);
+guoguo.run();
+```
+当我们用ES6之前的这种乱七八糟的方法实现继承之后再来看这些，变觉得清爽了许多。但仍有几点需要我们注意。
+- 当`super`用来调用父类的构造函数时，一定要放到子类this的前面进行调用，如果不写或者写到后面的话，在new实例的时候就会报错。
+- `super`关键字不单单可以调父类的构造函数，也可以调用父类的普通函数。
+``` js
+class Cat extends Animal {
+    constructor(name, age, isCute) {
+        super(name, age);
+        this.isCute = isCute;
+        super.run();
+    }
+    meow() {
+        console.log("喵~~")
+    };
+    //override
+    run() {
+        console.log("不单单会跑，我还会爬树！")
+    }
+}
+
+let guoguo = new Cat("果果", 1, true);//running!
+```
+- 构造器里的`this`指向的是实例对象
+``` js
+class Cat extends Animal {
+    constructor(name, age, isCute) {
+        super(name, age);
+        this.isCute = isCute;
+        // super.run();
+        console.log(this);
+    }
+    meow() {
+        console.log("喵~~")
+    };
+    //override
+    run() {
+        console.log("不单单会跑，我还会爬树！")
+    }
+}
+
+let guoguo = new Cat("果果", 1, true);
+//Cat { name: '果果', age: 1, isCute: true }
+```
+而方法里的`this`指向的是方法的调用者（一般情况下还是实例对象）
+``` js
+class Animal {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    };
+    run() {
+        console.log("running!")
+    }
+}
+
+class Cat extends Animal {
+    constructor(name, age, isCute) {
+        super(name, age);
+        this.isCute = isCute;
+        let obj = {};
+        obj.meow = this.meow;
+    }
+    meow() {
+        console.log(this.name + ":喵喵喵~");
+    };
+}
+
+let guoguo = new Cat("果果", 1, true);
+guoguo.meow();//果果:喵喵喵~
+```
