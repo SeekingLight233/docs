@@ -37,13 +37,8 @@ module.exports = {
                 "icon": "reco-message",
                 "items": [{
                         "text": "GitHub",
-                        "link": "https://github.com/PraiseSunAsh",
+                        "link": "https://github.com/SeekingLight233",
                         "icon": "reco-github"
-                    },
-                    {
-                        "text": "码云",
-                        "link": "https://gitee.com/PraiseSunAsh",
-                        "icon": "reco-mayun"
                     },
                     {
                         "text": "BiliBili",
@@ -54,6 +49,11 @@ module.exports = {
                         "text": "网易云",
                         "link": "https://music.163.com/#/user/home?id=355059838",
                         "icon": "reco-douyin"
+                    },
+                    {
+                        "text": "联系我",
+                        "link": "../contact.md",
+                        "icon": "reco-wechat"
                     },
 
 
