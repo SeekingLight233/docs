@@ -324,7 +324,7 @@ console.log(nums); // [ 1, 2, 5 ]
 nums.splice(2, 0, "a", "b");
 console.log(nums); // [ 1, 2, 'a', 'b', 5 ]
 ```
-## Function
+## Function对象
 > 每一个javascript的函数其实都是一个函数对象
 - `apply(obj,[arg1,arg2,...])`
 `apply()`方法的第一个参数是一个对象，这个对象会强制的将函数执行中的this指向自身。第二个参数是要函数传递的参数，只不过这些参数需要打包成数组然后传过去。
@@ -361,11 +361,15 @@ function f1(){
 let copy = f1.bind(obj);
 copy();//jason
 ```
-### arguments
-PS：`arguments`照官方那意思应该也算是一个独立的内置对象了，但现在从MDN上看仍然是放在`函数`的目录下，这点我也非常的迷惑。。
+### arguments对象实例
+<hide txt="PS：`arguments`照官方那意思应该也算是一个独立的内置对象了，但现在从MDN上看仍然是放在`函数`的目录下，这点我也非常的迷惑"></hide>
+
 每一个函数对象中都会有一个`Arguments`对象实例`arguments`,它指的是函数的实参，是一个“类数组”(Array-like)。
+
 既然是“类数组”，也就意味着可以用`Array.from()`或`[].slice.call()`方法将其转化为数组。
+
 在函数内部，可以用`arguments[i]`来访问函数的某个实参。
+
 那这个对象有啥用呢？
 
 个人觉得最大的作用就是实现了**模拟重载**,关于重载，详见[JS中的面向对象](./Js模拟面向对象.md)。

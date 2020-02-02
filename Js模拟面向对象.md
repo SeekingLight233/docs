@@ -2,8 +2,6 @@
 title: JS中的面向对象
 categories: 
  - 前端
-tags: 
- - 待定
 sidebarDepth: 5
 sidebar: "auto"
 ---

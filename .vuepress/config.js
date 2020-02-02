@@ -21,41 +21,44 @@ module.exports = {
     ],
     "theme": "reco",
     "themeConfig": {
+        "themePicker": false,
         "nav": [{
-            "text": "首页",
-            "link": "/",
-            "icon": "reco-home"
-        },
-        {
-            text: '时间轴', link: '/timeLine/', icon: 'reco-date'
-        },
-        {
-            "text": "关于",
-            "icon": "reco-message",
-            "items": [{
-                "text": "GitHub",
-                "link": "https://github.com/PraiseSunAsh",
-                "icon": "reco-github"
+                "text": "首页",
+                "link": "/",
+                "icon": "reco-home"
             },
             {
-                "text": "码云",
-                "link": "https://gitee.com/PraiseSunAsh",
-                "icon": "reco-mayun"
+                text: '时间轴',
+                link: '/timeLine/',
+                icon: 'reco-date'
             },
             {
-                "text": "BiliBili",
-                "link": "https://space.bilibili.com/37019841?from=search&seid=11160746842115235145",
-                "icon": "reco-bilibili"
-            },
-            {
-                "text": "网易云",
-                "link": "https://music.163.com/#/user/home?id=355059838",
-                "icon": "reco-douyin"
-            },
+                "text": "关于",
+                "icon": "reco-message",
+                "items": [{
+                        "text": "GitHub",
+                        "link": "https://github.com/PraiseSunAsh",
+                        "icon": "reco-github"
+                    },
+                    {
+                        "text": "码云",
+                        "link": "https://gitee.com/PraiseSunAsh",
+                        "icon": "reco-mayun"
+                    },
+                    {
+                        "text": "BiliBili",
+                        "link": "https://space.bilibili.com/37019841?from=search&seid=11160746842115235145",
+                        "icon": "reco-bilibili"
+                    },
+                    {
+                        "text": "网易云",
+                        "link": "https://music.163.com/#/user/home?id=355059838",
+                        "icon": "reco-douyin"
+                    },
 
 
-            ]
-        }
+                ]
+            }
         ],
         "type": "blog",
         "blogConfig": {
@@ -84,8 +87,7 @@ module.exports = {
         ["@vuepress-reco/vuepress-plugin-screenfull", false],
         ["@vuepress-reco/vuepress-plugin-back-to-top", false],
         "@vuepress/medium-zoom",
-        "flowchart",
-        [
+        "flowchart", [
             "@vuepress-reco/vuepress-plugin-kan-ban-niang",
             {
                 theme: ["z16"],
@@ -149,7 +151,7 @@ module.exports = {
                     bottom: '10px',
                     'z-index': '999999'
                 },
-                floatPosition:"right"
+                floatPosition: "right"
             }
         ]
     ]
