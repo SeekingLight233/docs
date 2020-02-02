@@ -74,7 +74,6 @@ console.log(foo instanceof Foo); // true
 ## 原型
 > 如何理解原型？如何理解原形链？
 ## instanceof 的原理
-## call，apply，bind函数的区别
 ## js的作用域与作用域链
 js中的每一个变量或者说函数都会有一个作用的范围，这个范围就叫作用域。
 而作用域链指的是在js中查找一个变量的过程，会从最内层开始找，逐步找到最外层。
@@ -189,20 +188,21 @@ window.a.fn();
 当js引擎遇到函数调用时，会为该函数创建一个独立的context并压入执行栈中。
 ### 执行上下文具体创建的过程
 会经历创建阶段和执行阶段，在创建阶段会去绑定this的指向，分配词法环境与变量环境；在执行阶段会先去完成对变量的分配，最后执行代码。
-### let与var的问题
 ## 谈一谈js方法参数argument
+
 ## 深拷贝与浅拷贝
 ## new和object.creat的区别
 ## js的垃圾回收机制
 ---
 *下面这块算es6的部分了*
-## 箭头函数
-## 手写promise
-## set和map
+## let、var和const
 ## 解构赋值
-## var，let和const
+## 箭头函数
+## promise
+## Proxy
+## set和map
+
 ## generator
-## class继承和原型继承
 ## es6中的模块化
 ## es6中新增的正则符号
-## Proxy
+

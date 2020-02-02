@@ -268,19 +268,24 @@ guoguo.run();//running!
 ### 寄生组合继承
 
 ``` js
-function Animal(name,age){
+function Animal(name, age) {
     this.name = name;
     this.age = age;
 }
-Animal.prototype.run = function(){
+Animal.prototype.run = function() {
     console.log("running!")
 }
-function Cat(name,age,isCute){
+
+function Cat(name, age, isCute) {
     //将Cat中要new出来的实例对象传入Animal中
-    Animal.call(this,name,age);
+    Animal.call(this, name, age);
     this.isCute = isCute;
+    Cat.prototype.run = function() {
+        console.log("不仅仅会跑，我还回爬树！")
+    }
 }
-function Brideg(){};
+
+function Brideg() {};
 //让Bridge的原型对象先指向Animal的原型对象
 Brideg.prototype = Animal.prototype;
 let brideg = new Brideg();
@@ -289,12 +294,50 @@ Cat.prototype = brideg;
 //找到一个正经原型该有的亚子
 brideg.constructor = Cat;
 
-let guoguo = new Cat("果果",1,true);
+let guoguo = new Cat("果果", 1, true);
 console.log(guoguo.name);
-guoguo.run();
+guoguo.run(); //不仅仅会跑，我还回爬树！
 ```
-寄生组合继承的核心思想是:创建一个“缓冲对象”,首先让这个“缓冲对象”的原型先指向父类的原型，然后再让子类的原型指向“缓存对象”的**实例**。当然最后不要忘了更改构造器的指向。
+寄生组合继承的核心思想是:创建一个“缓冲函数对象”,首先让这个“缓冲函数对象”的原型先指向父类的原型，然后再让子类的原型指向“缓存对象”的**实例**。当然最后不要忘了更改构造器的指向。
 当然也可以用`Object.create(Animal.prototype)`函数创建一份父类的原型拷贝，然后将子类的原型指到这份原型拷贝上，道理是一样的，最终实现的目标也是一致的————都是为了能“干净的”继承父类的原型。
+## 多态
+在Java语言中，多态有两种表现形式，一种是方法的重载(`Overload`), 另一种是方法的重写(`Override`)。上面继承中的例子中`Cat`类的`run()`方法已经体现了对方法的重写，接下来重点讨论重载。
+### JS中方法的重载
+- 普通方法模拟重载
+``` js
+function sum(a, b, c) {
+    if (a && b && c) {
+        console.log(a + b + c);
+    } else if (a && b) {
+        console.log(a + b);
+    } else {
+        console.log(a);
+    }
+}
+sum(); //undefined
+sum(11, 12); //23
+sum(11, 12, 13) //36
+```
+能看出来这种方法非常不灵活，万一传进来的参数是4个或者是5个就又要重新加条件判断。
+- 使用`arguments`参数对象实例
+关于`arguments`对象实例，详见[JS内置对象常用api整理](./js对象常用api整理.md)
+``` js
+function sum() {
+    if (arguments.length == 0) return "你不传数过来劳资咋给你算？"
+    let res = 0;
+    for (let i = 0; i < arguments.length; i++) {
+        res += arguments[i];
+    }
+    return res;
+}
+
+let res = sum(1, 2, 3);
+let res2 = sum(7, 7, 7, 7, 7, 7, 7, 7);
+let res3 = sum();
+console.log(res); // 6
+console.log(res2); // 56
+console.log(res3); // 你不传数过来劳资咋给你算？
+```
 ## ES6中的面向对象
 ### 创建一个类
 ``` js
@@ -425,4 +468,24 @@ class Cat extends Animal {
 
 let guoguo = new Cat("果果", 1, true);
 guoguo.meow();//果果:喵喵喵~
+```
+
+### 重载
+在ES6中,由于拓展运算符`...`的存在，实现重载也非常的简单
+``` js
+function sum(...nums) {
+    if (nums.length == 0) return "你不传数过来劳资咋给你算？"
+    let res = 0;
+    for (let i = 0; i < nums.length; i++) {
+        res += nums[i];
+    }
+    return res;
+}
+
+let res = sum(1, 2, 3);
+let res2 = sum(7, 7, 7, 7, 7, 7, 7, 7);
+let res3 = sum();
+console.log(res); // 6
+console.log(res2); // 56
+console.log(res3); // 你不传数过来劳资咋给你算？
 ```
