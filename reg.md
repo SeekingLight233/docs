@@ -53,3 +53,36 @@ sidebar: "auto"
 <!-- ![](./reg/01.PNG) -->
 ![](./os-memory/20.png)
 `/yo{2,4}/g`会匹配出字母o最后出现2次或4次的情况。
+
+## 边界符
+- `^`
+匹配以谁为开始。
+::: warning
+如果这个符号写到了中括号里面代表的意思是范围取反。
+:::
+- `&`
+匹配以谁为结束。
+::: warning
+如果匹配规则是`/^abc$/`,那么只能匹配`abc`为`true`,其余的(`abcabc`)都为false。
+<hide txt="实话实说，我也没想明白。。。"></hide>
+:::
+
+---
+## JS中的正则表达式
+### 创建一个正则对象
+``` js
+let reg = new RegExp(/李../);
+```
+或者
+``` js
+let reg = /李../;
+```
+- `test()`方法
+用来判断一个一个正则规则能否在指定字符串中匹配到字符
+``` js
+let reg = /李../;
+let str = "李小明";
+console.log(reg.test(str));//true
+str = "王小明";
+console.log(reg.test(str));//false
+```
