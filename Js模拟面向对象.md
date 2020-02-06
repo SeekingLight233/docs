@@ -44,7 +44,7 @@ var stu = Object.create(model);
 stu.name = 'jason';
 stu.run();//jason is running!
 ```
-其中，`Object`也是Js的一个内置对象，`Object.created()`是这个内置对象中的一个方法，它可以根据传入的对象创建出一个独立的"副本"。
+其中，`Object`也是Js的一个内置对象，`Object.created()`是这个内置对象中的一个方法，它可以根据传入的对象创建出一个独立的"副本",其中参数是要指定的原型对象。
 
 上面的两种方法都实现了原型继承。
 ## 创建对象的各种方式
@@ -106,6 +106,13 @@ console.log(jason.constructor == guoguo.constructor); //false
 我们发现可以根据构造器的指向来判断类型了！
 
 但这样在构造函数中直接定义构造方法是有问题的，我们接下来会讨论。
+### `Object.create()`
+根据制定的原型对象来创建对象。
+::: warning
+关于`new`与`Object.create()`的区别
+`new`是针对于`类`或者`构造函数`的，而`Object.create()`主要是针对于原型对象的。
+如果你`new`了一个原型对象或者你用`Object.create()`传进去一个类，都是没有意义的，毕竟他们作用的东西不一样，虽然都是实现继承的手段。
+:::
 ## 原型
 每当我们创建一个函数的时候，JS解析器会向函数中添加一个叫`prototype`的属性，这个属性所对应的对象就是所谓的**原型**对象（简称原型）。如果我们new一个实例，这个实例也会拥有原型对象的所有属性。
 ``` js
