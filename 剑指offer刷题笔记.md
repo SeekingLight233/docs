@@ -81,14 +81,53 @@ function insertSort(arr) {
 let arr = insertSort([9, 3, 1, 4, 6, 8, 7, 2, 5]);
 console.log(arr); //[ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 ```
-### 堆排序
-### 快速排序
 ### 归并排序
+归并排序是分治法的典型应用。
+
+所谓分治法，就是讲一个复杂的问题分解成小问题然后逐步求解，求完解之后再将答案**组织**到一起，其中求解并组织子问题的过程是最核心也是最复杂的。
+
+![](https://user-gold-cdn.xitu.io/2019/7/23/16c1f400a943f4fc?imageslim)
+
+``` js
+function mergeSort(arr) {
+    //
+    if (arr.length < 2) return arr;
+    let mid = Math.floor(arr.length / 2);
+    let left = arr.slice(0, mid);
+    let right = arr.slice(mid);
+    return merge(mergeSort(left), mergeSort(right));
+}
+
+function merge(left_arr, right_arr) {
+    let tmp = [];
+    let i = 0; //i指向前半数组的头
+    let j = 0; //j指向后半数组的头
+    let k = 0; //k指向缓存数组
+    while (i < left_arr.length && j < right_arr.length) {
+        if (left_arr[i] < right_arr[j]) {
+            tmp[k++] = left_arr[i++];
+        } else {
+            tmp[k++] = right_arr[j++];
+        }
+    }
+    //有可能上述操作完成之后left_arr或right_arr还没有跑完。
+    while (i < left_arr.length) {
+        tmp[k++] = left_arr[i++];
+    }
+    while (j < right_arr.length) {
+        tmp[k++] = right_arr[j++];
+    }
+    return tmp;
+}
+let res = mergeSort([1, 5, 0, 9, 5, 4, 8, 15]);
+console.log(res); //[ 0, 1, 4, 5, 5, 8, 9, 15 ]
+```
+### 快速排序
+### 堆排序
 ## 二分搜索
 - 二维数组中的查找
 - 旋转数组中的最小数字
 - 统计一个数字在排序数组中出现的次数(知识迁移)
-- 
 ## 二叉树
 ### 前后遍历
 - 前序遍历
