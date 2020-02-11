@@ -320,12 +320,319 @@ function add(a, b) {
 ```
 ---
 *下面这块算es6的部分了*
-## let、var和const
+## let和const
+在es6中新增了`let`与`const`,它们声明的变量，仅仅在块级作用域内才有效，并且不存在变量提升。
+> 变量提升:JS的一种预解析机制，用var和function定义的变量都存在变量提升。
+### let
+``` js
+if (true) {
+    let a = 1;
+    console.log(a); //1
+}
+console.log(a); //ReferenceError: a is not defined
+
+for (var i = 0; i < 9; i++) {}
+console.log(i); //9
+for (let j = 0; j < 9; j++) {}
+console.log(j); //ReferenceError: j is not define
+```
+### const
+和其他语言一样，可以用来声明一些常量
+``` js
+const PI = 3.1415926;
+console.log(PI);
+PI = 3.999;//Assignment to constant variable.
+```
+::: warning
+对于基本数据类型，*const*定义的常量和其他语言没有区别。
+但是对于对象类型就要注意了，const只能保证这个指向对象的引用是不可变的，并不能保证引用对象的value也不可变。
+如果要实现引用对象的value也不可变，我们需要使用`Object.freeze()`将其冻结。
+:::
 ## 解构赋值
+所谓的`解构赋值`,就是从对象中提取值，然后对对象进行赋值操作。
+### 数组的解构赋值
+``` js
+let [a, b, c] = [1, 1, 2];
+console.log(b); //1
+```
+当然这玩意的应用比我想象的要灵活的多。
+``` js
+let [a, b, c] = [1, 1];
+console.log(c) //undefined
+let [x, , z] = [1, 2, 3];
+console.log(z); //3
+//有默认值的情况
+let [p = "ppp", q] = [, 22222];
+console.log(p); //ppp
+//交换两个变量的值
+let [m,n] = [1,2];
+[m,n] = [n,m];
+console.log(m+","+n);//2,1
+//与拓展运算符的结合
+let arr = [1, 2, 3];
+let [i, j, k] = [...arr]
+console.log(i); //1
+```
+最后的例子中有个`...`需要好好解释一下。
+### 拓展运算符
+`...`叫`拓展运算符`。用来拓展啥呢？用来拓展对象(包括数组对象)
+
+它可以将可遍历的对象中的每一个键值对都拓展成由逗号分隔的序列，可能你觉得这不是一句人话，还是看个小例子吧。
+``` js
+let obj1 = {
+    a: 1,
+    b: 2
+}
+
+let obj2 = {
+    ...obj1,
+    c: 3,
+    d: 4
+}
+console.log(obj2);
+//{ a: 1, b: 2, c: 3, d: 4 }
+```
+看明白了嘛？其实`...obj1`就等价于`a:1,b:2`，现在再去读读那句话，应该明白了吧。
+
+看懂了这个例子，那么数组的例子就应该很简单了。
+``` js
+let arr1 = [1, 2, 3];
+let arr2 = [4, 5, 6, ...arr1];
+console.log(arr2);//[ 4, 5, 6, 1, 2, 3 ]
+```
+数组其实算是特殊的对象，这里的`...arr1`其实等价于`1,2,3`。
+
+### 对象的解构赋值
+数组因为有下标所以位置可以很自然的“匹配”好。
+
+而对象在解构赋值要保证赋值成功的重要条件便是**能够匹配到key**。
+``` js
+let { foo: a } = { foo: 'aaa', bar: 'bbb' };
+console.log(a);//aaa
+```
+在上面这段代码中，`foo`是匹配的位置，`a`是要用来被赋值的变量。
+从右边的对象中，找到`foo`对应的value，并赋值给变量`a`.
+
+在ES6里面如果一个对象的key和value重名的话可以只写一个，因此就有了下面的骚操作。
+``` js
+let { log10, round } = Math;
+console.log(log10(100)); //2
+console.log(round(3.14)); //3
+```
+是不是很有意思XD
+
+从`Math`对象中找到这两个“变量”对应的值，他们的值其实是一个**function**，这样的话每次写就很省事了。
+
+如果想给变量设置默认值得话还是用`=`号。
+``` js
+let { e: e = "eee", f: f } = {
+    f: "fuck"
+}
+console.log(e); //eee
+console.log(f); //fuck
+``` 
+### 字符串的解构赋值
+其实除了数组和对象，所有拥有`length`属性的**Array-like**(类数组)都可以进行解构赋值，包括字符串。
+``` js
+let [a, b, c, d, e] = "hello";
+console.log(a);//h
+```
+## for...of 循环
+ES6借鉴别的语言引入了`for...of`循环，作为遍历`Array-Like对象`的统一方法。
+::: warning
+没有特殊说明的话，本块内容中的所有`Array-Like对象`都统一称为`对象`。
+:::
+``` js
+let numbers = [1, 2, 3];
+for (let val of numbers) {
+    console.log(val);
+}
+//1
+//2
+//3
+```
+::: warning
+用`for...of`遍历的是对象的value,而`for...in`遍历的是对象的key
+:::
+``` js
+let numbers = [1, 2, 3];
+for (let key in numbers) {
+    console.log(key + "|" + typeof(key));
+}
+// 0|string
+// 1|string
+// 2|string
+```
+可以看到用`for...in`的时候数组下标被拿出来了。
+
+如果要遍历对象(这里指的是常规的对象)的话，还是用`for...in`方便些。
+## Set
+ES6中引入了集合这种结构,`Set`也是一个`Array-Like`对象，只不过在Set中的元素的value要符合“集合”的定义。
+
+### 基本使用
+``` js
+let set = new Set([1, 2, 3, 4, 5]);
+console.log(set); //Set { 1, 2, 3, 4, 5 }
+set.add(6);
+set.add(7);
+set.add(8);
+console.log(set); //Set { 1, 2, 3, 4, 5, 6, 7, 8 }
+
+//Set转为数组
+let arr = [...set];
+console.log(arr);
+
+//数组转为Set，会自动去重
+let set_1 = new Set([1, 2, 3, 3, 3]);
+console.log(set_1); //Set { 1, 2, 3 }
+
+//只要是array-like,都可以转成set
+let set_str = new Set("jasonlee");
+console.log(set_str); //Set { 'j', 'a', 's', 'o', 'n', 'l', 'e' }
+```
+### 删除
+``` js
+let set = new Set([1, 2, 3, 4, 5]);
+console.log(set); //Set { 1, 2, 3, 4, 5 }
+set.delete(2);
+console.log(set); //Set { 1, 3, 4, 5 }
+```
+### 判断是否存在
+``` js
+console.log(set.has(2)); //false
+```
+### 清空Set
+``` js
+set.clear();
+console.log(set);//Set {}
+```
+### 遍历操作
+方法很多，个人喜欢用`for...of`
+``` js
+let set = new Set([1, 2, 3]);
+for (let val of set) {
+    console.log(val);
+}
+//1
+//2
+//3
+```
+## Map
+在传统意义上的对象只能用字符串当**key**，即便你写的不是字符串JS也会给你自动转化为字符串。
+
+而新增的`Map`解构就没有这种约束。
+``` js
+let map = new Map([
+    [1, "aaa"],
+    //甚至布尔类型的值也没有问题
+    [false, "bbb"]
+]);
+console.log(map.has(1)); //true
+console.log(map.has(false)); //true
+```
+在传参数的时候需要注意，传进去的是一个数组，而每一个键值对也要求是一个数组，而且是两个元素，一个用来指**key**，一个用来指**value**。
+``` js
+let set = new Set([3, 4])
+let map = new Map([
+    [1, "aaa"],
+    Array.from(set)
+]);
+console.log(map);//Map { 1 => 'aaa', 3 => 4 }
+```
+### 遍历操作
+`Map`也算是一个`Array-Like`,因此也可以使用`for...of`进行遍历。
+不过在遍历的时候需要指定出要遍历的是`key`还是`value`。
+``` js
+let map = new Map([
+    [1, "aaa"],
+    [2, "bbb"],
+    ["3", "ccc"]
+]);
+//如果不指定会遍历每一个键值对
+for (let val of map) {
+    console.log(val);
+}
+// [ 1, 'aaa' ]
+// [ 2, 'bbb' ]
+// [ '3', 'ccc' ]
+
+// 遍历map中的key
+for (let val of map.keys()) {
+    console.log(val);
+}
+// 1
+// 2
+// 3  最后的这个三在vscode中颜色不一样，因为它是string
+
+//遍历map中的value
+for (let val of map.values()) {
+    console.log(val);
+}
+// aaa
+// bbb
+// ccc
+```
+### Map的属性和操作方法
+- `size`属性
+返回map成员的数目
+``` js
+let map = new Map([
+    [1, "aaa"],
+    [2, "bbb"],
+    ["3", "ccc"]
+]);
+console.log(map.size);//3
+```
+- `set()`与`get()`
+``` js
+let map = new Map([
+    [1, "aaa"],
+    [2, "bbb"],
+    ["3", "ccc"]
+]);
+map.set(4, "ddd");
+map.set("5", "eee");
+console.log(map.get(1)); //aaa
+console.log(map.get("5")); //eee
+console.log(map.get(6)); //undefined
+```
+- `has(key)`方法
+传进去的参数是个**key**，判断map中是否有这个key。
+``` js
+let map = new Map([
+    [1, "aaa"],
+    [2, "bbb"],
+    ["3", "ccc"]
+]);
+console.log(map.has("3")); //true
+```
+- `delete(key)`与`clear()`方法
+``` js
+let map = new Map([
+    [1, "aaa"],
+    [2, "bbb"],
+    ["3", "ccc"]
+]);
+map.delete("3");
+console.log(map); //Map { 1 => 'aaa', 2 => 'bbb' }
+map.clear();
+console.log(map); //Map {}
+```
+### Map转数组
+``` js
+let map = new Map([
+    [1, "aaa"],
+    [2, "bbb"],
+    ["3", "ccc"]
+]);
+//map转数组
+let arr_map = [...map];
+console.log(arr_map);
+//[ [ 1, 'aaa' ], [ 2, 'bbb' ], [ '3', 'ccc' ] ]
+```
 ## 箭头函数
 ## promise
 ## Proxy
-## set和map
 ## generator
 ## es6中的模块化
 ## es6中新增的正则符号
