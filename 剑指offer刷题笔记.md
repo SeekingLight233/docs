@@ -36,8 +36,8 @@ console.log(res)//  [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 在写算法题一定要遵循**从具体到抽象**。
 同时在**抽象化**过程中一定要重新读一遍之前写过的代码，千万不能“漏”。
 :::
-时间复杂度: O(n2)
-空间复杂度: O(1)
+**时间复杂度: O(n2)
+空间复杂度: O(1)**
 
 ### 冒泡排序
 ![](./algorithm/01.png)
@@ -60,8 +60,8 @@ console.log(res); // [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 如果不知道怎么抽象化，可以多写几下具体的情况，但请注意在写**第二个**具体情况时一定要谨慎！一定要想好！就像这道题，先是“最右边的元素”落定之后再开始处理“从头到倒数第二个元素”。多去思考这个动态的过程。
 :::
 
-时间复杂度: O(n2)
-空间复杂度: O(1)
+**时间复杂度: O(n2)
+空间复杂度: O(1)**
 
 ### 插入排序
 ![](./algorithm/02.png)
@@ -81,6 +81,8 @@ function insertSort(arr) {
 let arr = insertSort([9, 3, 1, 4, 6, 8, 7, 2, 5]);
 console.log(arr); //[ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 ```
+**时间复杂度：O(n2)
+空间复杂度: O(1)**
 ### 归并排序
 归并排序是分治法的典型应用。
 
@@ -122,8 +124,40 @@ function merge(left_arr, right_arr) {
 let res = mergeSort([1, 5, 0, 9, 5, 4, 8, 15]);
 console.log(res); //[ 0, 1, 4, 5, 5, 8, 9, 15 ]
 ```
+**时间复杂度：O(nlogn)
+空间复杂度:O(n)**
 ### 快速排序
+在开始学习这个排序算法之前，建议先看下这个几分钟的小视频：[【TED-ed】快速排序是什么【6小时字幕组】](https://www.bilibili.com/video/av10076626)
+
+快速排序是我个人比较喜欢的一个算法，和归并相比，它的稳定性欠佳，但一般情况下都要比归并排序要快，空间复杂度也稍微有点大。但是它好写啊！逻辑清晰，转化成代码很容易。
+
+> 思路:将数组的第一个数作为`compared_num`,然后遍历一遍数组，比这个数小的放左边，比这个数大的放右边，最后递归返回。
+``` js
+function quickSort(arr) {
+    //边界条件
+    if (arr.length < 2) return arr;
+    //把数组中的第一数选出来作为要比较的数
+    let compared_num = arr[0];
+    let letf_arr = [];
+    let right_arr = [];
+    //然后遍历一遍arr，讲比compared_num小的数放左边，比他大的放右边
+    //注意是从第二个数开始
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i] < compared_num) {
+            letf_arr.push(arr[i])
+        } else {
+            right_arr.push(arr[i])
+        }
+    }
+    return quickSort(letf_arr).concat([compared_num], quickSort(right_arr));
+}
+let res = quickSort([3, 1, 2, 4, 5, 7, 7, 7]);
+console.log(res); //[ 1, 2, 3, 4, 5, 7, 7, 7 ]
+```
+**时间复杂度：平均O(nlogn)，最坏O(n2)，实际上大多数情况下小于O(nlogn)
+空间复杂度: O(logn)**
 ### 堆排序
+
 ## 二分搜索
 - 二维数组中的查找
 - 旋转数组中的最小数字

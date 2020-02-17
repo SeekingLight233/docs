@@ -630,6 +630,7 @@ let arr_map = [...map];
 console.log(arr_map);
 //[ [ 1, 'aaa' ], [ 2, 'bbb' ], [ '3', 'ccc' ] ]
 ```
+
 ## 箭头函数
 ## promise
 ## Proxy
