@@ -11,7 +11,7 @@ sidebar: "auto"
 *优秀博文参考*
 [这一次，彻底弄懂 JavaScript 执行机制](https://juejin.im/post/59e85eebf265da430d571f89)
 
-**同步区 > （异步）微任务区 > 宏任务**
+**同步区 > 微任务区(promise) > 宏任务**
 
 ## 并发与并行
 并发强调的是时间段内执行多个任务，而并行强调的是在一个时间点上执行多个任务。
@@ -156,7 +156,215 @@ pAll.then(val => {
 ```
 如果存在一个失败了就会将失败的`reason`传出来。
 
-### 手动实现Promise
+### Promise核心源码手动实现
+``` js
+const PENDING = "pending";
+const FULFILLED = "fulfilled";
+const REJECTED = "rejected";
+
+class Mypromise {
+    //构造器内部
+    constructor(executor) {
+        this.state = PENDING;
+        this.value = null;
+        this.reason = null;
+        this.onFulfiledCallBack = [];
+        this.onRejectedCallBack = [];
+        //构造器内部的两个方法
+        /*如果在构造器内调用了resolve()或者reject()
+        就将其状态进行改变
+        */
+        const resolve = (value) => {
+            if (this.state == PENDING) {
+                this.state = FULFILLED;
+                this.value = value;
+                //resolve的时候记得将用户在resolve()前的操作先跑一下
+                //看 ① 处的代码注释(then函数中)
+                this.onFulfiledCallBack.forEach(func => {
+                    func();
+                })
+            }
+        }
+        const reject = (reason) => {
+            if (this.state == PENDING) {
+                this.state = REJECTED;
+                this.reason = reason;
+                //此处同理
+                this.onRejectedCallBack.forEach(func => {
+                    func();
+                })
+            }
+        }
+
+        //尝试跑一下，executor通常是用户传进来的异步操作
+        //promise内部为用户传进来的异步操作附带了两个“动作”
+        try {
+            executor(resolve, reject);
+        } catch (reason) {
+            reject(reason);
+        }
+    }
+    then(onFulfiled, onRejected) {
+        //这里需要注意
+        //如果用户没有指定这两个函数的操作那么就老老实实把值或者异常传递下去
+        if (typeof(onFulfiled) != "function") {
+            onFulfiled = (value) => {
+                return value;
+            }
+        };
+        if (typeof(onRejected) != "function") {
+            onRejected = (reason) => {
+                throw reason;
+            }
+        }
+
+        //为了实现链式调用，then()方法也要返回一个promise实例
+        //规范要求这个地方必须起名为promise2
+        const promise2 = new Mypromise(
+            (resolve, reject) => {
+                switch (this.state) {
+                    /*如果此时实例的状态改变成了"fulfilled",就执行“fulfilled时的操作”(用户自定义)
+                    当然不要忘了把resolve的值给用户，用户可能会有下一步的操作。
+                    */
+                    case FULFILLED:
+                        //为了模拟then()函数的异步调用，我们需要用定时器把这玩意包一下
+                        setTimeout(() => {
+                            try {
+                                //保证链式调用需要把返回的实例resolve出去
+                                const x = onFulfiled(this.value);
+                                resolve(x);
+                            } catch (reason) {
+                                reject(reason)
+                            }
+
+                        }, 0);
+
+                        break;
+                    case REJECTED:
+                        setTimeout(() => {
+                            try {
+                                const x = onRejected(this.reason);
+                                resolve(x);
+                            } catch (reason) {
+                                reject(reason);
+                            }
+
+                        }, 0);
+
+                        break;
+                        //如果还是“pending”态，就把用户要进行的操作(异步操作成功或失败后该怎么样)先放到一个“缓冲区”中
+                        // ① 因为一个异步操作可能需要很长时间，当数据下来后再用户可能还要对数据进行一些操作，然后再执行resolve()
+                    case PENDING:
+                        //注意：要将整个函数对象保存进去！
+                        this.onFulfiledCallBack.push(() => {
+                            setTimeout(() => {
+                                try {
+                                    const x = onFulfiled(this.value);
+                                    resolve(x);
+                                } catch (reason) {
+                                    reject(reason)
+                                }
+
+                            }, 0);
+                        });
+                        this.onRejectedCallBack.push(() => {
+                            setTimeout(() => {
+                                try {
+                                    const x = onRejected(this.reason)
+                                    resolve(x);
+                                } catch (reason) {
+                                    reject(reason);
+                                }
+                            }, 0);
+                        });
+                        break;
+                }
+            }
+        );
+        return promise2;
+    }
+    static all(promises) {
+        return new Mypromise(
+            (resolve, reject) => {
+                let result = [];
+                let index = 0;
+                for (let i = 0; i < promises.length; i++) {
+                    //让传进来的promises数组中的每一个promise都走一个then方法
+                    promises[i].then(val => {
+                            //把值拿出来，然后把值打包扔出去
+                            result[i] = val;
+                            //如果最后能在这种情况能走到头，就判定这个方法全部成功了
+                            if (++index === promises.length) {
+                                //把所有成功的promise的val都resolve出去
+                                resolve(result);
+                            }
+                        },
+                        err => {
+                            //如果有一个有问题就不用走了，直接返回
+                            reject(err);
+                            return;
+                        })
+                }
+            }
+        )
+    }
+}
+```
+
+## async和await
+`async`和`await`可以是目前为止最新的js异步解决方案。
+在使用的时候用户需要先自己去定义一个`async`函数，然后将需要异步执行的函数放入`async`函数的内部，同时在前面加上`await`关键字。
+
+有一点需要注意，`await`后面跟的函数**必须**要返回一个`promise`实例，`await`函数的返回值就是这个`promise`实例中的value。
+
+``` js
+const axios = require('axios');
+
+function getPage(num) {
+    return new Promise((resolve, reject) => {
+        axios.get("https://www.jixieclub.com:3002/list?Pnum=" + num)
+            .then(res => {
+                //异步操作成功
+                resolve(res);
+            })
+            .catch(error => {
+                reject(error);
+            });
+    });
+}
+// 异步转同步！！！
+async function await_getPage(num) {
+    let res = await getPage(num);
+    console.log(res);
+    ////拉取的数据很长就不粘过来了
+}
+await_getPage(2);
+```
+上述代码中如果你将`await_getPage()`中的`res`直接**return**出来是得不到数据的，因为async函数中最终返回的还是一个promise,也就是说你要把这个值拿到`async`函数外面进行操作的话还需要调用`then()`方法。
+
+如果`await`函数返回的promise失败了，此时需要通过`try...catch`进行异常处理。
+``` js
+const axios = require('axios');
+
+function getPage(num) {
+    return new Promise((resolve, reject) => {
+        //简单模拟一个失败的情况
+        reject("啊！请求失败了嘤嘤嘤")
+    });
+}
+// 异步转同步！！！
+async function await_getPage(num) {
+    try {
+        const value = await getPage(num);
+        console.log(value);
+    } catch (error) {
+        console.log(error);
+        //啊！请求失败了嘤嘤嘤
+    }
+}
+await_getPage(2);
+```
+
 ## Generator
 `Generator`函数是一种特殊的函数，这种函数最大的特点就是**能停**。请看这段代码
 ``` js
@@ -239,15 +447,57 @@ console.log(period3); // { value: '炒好的菜', done: true }
 
 三个阶段返回值也可以顺利打印出来~~
 
+## JavaScript执行机制
+js的任务类型总的来说可以分为两类：**同步任务**和**异步任务**。
 
-## async和await
-## 常用的定时器函数
+其中异步任务又可以继续细分为**微任务**和**宏任务**。
 
+关于它们的执行机制，可以直接记结论。
 
-## 事件循环
-### 浏览器中的事件循环
-### node中的事件循环
-## 微任务的执行
-## 函数的执行
-## 语句的执行
+**同步区 => 微任务区 => 宏任务区**
+``` js
+setTimeout(() => {
+    console.log("宏任务区")
+}, 0);
 
+Promise.resolve("微任务区").then(val => {
+    console.log(val);
+})
+
+console.log("同步区");
+/*********** console ****************/
+// 同步区
+// 微任务区
+// 宏任务区
+```
+典型的**宏任务**有:`定时器回调`,`ajax回调`，和`dom事件回调`。
+典型的**微任务**有:`promise回调`,`mutation`回调。
+
+::: warning
+如果一个微任务在一个宏任务中，它并不会被先执行，而是按着队列顺序执行。
+:::
+``` js
+setTimeout(() => {
+    console.log("宏任务区");
+    //微任务如果在宏任务里的话并不会被先执行
+    Promise.resolve("宏任务区里的微任务").then(val => {
+        console.log(val);
+    })
+}, 0);
+
+Promise.resolve("微任务区").then(val => {
+    console.log(val);
+})
+
+console.log("同步区");
+/********* console *********/
+// 同步区
+// 微任务区
+// 宏任务区
+// 宏任务区里的微任务
+```
+### Event Loop
+
+js的同步任务放在**执行栈**中，而异步任务放在**任务队列**中。
+
+js引擎会先执行执行栈中的同步任务，如果栈空了就去任务队列里看看有没有任务可以执行了，有的话就把任务队列中的任务扔到执行栈中，这个过程是循环的，也就是所谓的**Event Loop**。
