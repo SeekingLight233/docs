@@ -156,10 +156,166 @@ console.log(res); //[ 1, 2, 3, 4, 5, 7, 7, 7 ]
 ```
 **时间复杂度：平均O(nlogn)，最坏O(n2)，实际上大多数情况下小于O(nlogn)
 空间复杂度: O(logn)**
-### 堆排序
+### 堆与堆排序
+优秀资源参考 [堆排序(heapSort)](https://www.bilibili.com/video/av47196993)
+
+在讲解堆排序之前我们必须先弄明白`堆`是个啥。
+<hide txt="PS:这里我们讨论的堆特指最大堆哦。"></hide>
+堆是一种数据结构<hide txt="废话"></hide>,这种数据结构必须要满足下面两个条件。
+
+1. 是一颗**完全二叉树**。
+2. 这颗树上的每一个子节点都**不能大于**它的父节点。就像这样：
+![](./re_js/07.png)
+
+那**完全二叉树**又是个啥呢？
+
+**完全二叉树**的定义取决于它生成节点的顺序，必须满足：
+
+**从上到下，从左往右。**
+![完全二叉树](./re_js/06.png)
+
+这里展示的便是一个符合定义的**堆**。
+![](./re_js/08.png)
+
+由于堆是一颗**从上往下，从左往右**生成的**二叉树**，因此我们可以很方便的用**一维数组**来表示一个堆。
+
+如果我们将每一个节点都标上下标，
+
+![](./re_js/09.png)
+那么我们会发现堆中的每一个节点中的下标都会满足这样的关系：
+``` js
+//假设当前节点的下标为 i
+P_i = Math.floor((i-1)/2);//父节点下标
+//左孩子和右孩子的下标
+Ls_i = 2*i+1;
+Rs_i = 2*i+2;
+```
+下面的代码演示了如何将一个用数组表示出来的二叉树变成一个堆。
+``` js
+//对单个节点进行递归的heapify操作
+function heapify(tree, i) {
+    let end_node = Math.floor((tree.length - 1) / 2);
+    if (i > end_node) return;
+    //左右孩子的下标
+    let ls_i = 2 * i + 1;
+    let rs_i = 2 * i + 2;
+    //假设第i个元素是最大的
+    //如果它的两个儿子都比它大，那么久交换他们的位置
+    if (ls_i < tree.length && tree[ls_i] > tree[i]) {
+        [tree[i], tree[ls_i]] = [tree[ls_i], tree[i]];
+    }
+    if (rs_i < tree.length && tree[rs_i] > tree[i]) {
+        [tree[i], tree[rs_i]] = [tree[rs_i], tree[i]];
+    }
+    heapify(tree, i + 1);
+    return tree;
+}
+//如果要将一个完全混乱的二叉树变成一个堆，我们需要从最后一个节点开始“堆化”。
+function full_heapify(tree) {
+    let end_node = Math.floor((tree.length - 1) / 2);
+    for (let i = end_node; i >= 0; i--) {
+        heapify(tree, i);
+    }
+    return tree;
+}
+
+let res = full_heapify([1, 5, 7, 8, 9, 2]);
+console.log(res);//[ 9, 8, 7, 1, 5, 2 ]
+```
+经过上面的操作，我们有一个堆了，那么我们如何将这个堆变成一个有序的数组呢？
+
+很简单，对堆中的每一个元素，我们只需要这三步操作：
+
+1. 先交换**堆顶**和**最后一个节点**
+2. 砍断最后一个节点(此时的最后一个节点是最大值)，`push()`到一个容器中。
+3. 上面的操作我们破坏了堆结构，因此需要重新进行“堆化”。(不用完全堆化，只针对根节点就可以)
+
+代码如下
+
+``` js
+function heapSort(arr) {
+    let res = [];
+    let tree = full_heapify(arr);
+    //从树的最后一个元素开始
+    for (let i = tree.length - 1; i >= 0; i--) {
+        //先交换根节点和最后一个节点
+        [tree[0], tree[tree.length - 1]] = [tree[tree.length - 1], tree[0]];
+        //然后砍断最后一个节点
+        res.push(tree.pop());
+        //此时破坏了堆的解构，我们需要从根节点再次进行“堆化”
+        heapify(tree, 0);
+    }
+    return res;
+}
+
+let res = heapSort([1, 2, 5, 8, 6, 4, 7, 8, 0.5, 6, 9, 100]);
+console.log(res); //[ 100, 9, 8, 8, 7, 6, 6, 5, 4, 2, 1, 0.5 ]
+```
 
 ## 二分搜索
+二分搜索是一种在一个有序的容器中查找某一个元素的方法。
+
+先来看一个最简单的例子
+::: tip
+假设给了一个有序数组和一个数，现在要判断这个数在这个数组中是否存在。
+:::
+``` js
+//判断一个元素是否在一个排好序的数组中存在
+
+function binarySearch(arr, target) {
+    if (arr.length < 1) return false;
+    let mid = Math.floor(arr.length / 2);
+    if (target == arr[mid]) return true;
+    if (target < arr[mid]) {
+        let left_arr = arr.slice(0, mid);
+        return binarySearch(left_arr, target);
+    }
+    if (target > arr[mid]) {
+        let right_arr = arr.slice(mid + 1, arr.length);
+        return binarySearch(right_arr, target);
+    }
+}
+
+let res = binarySearch([1, 2, 3, 4, 6, 7, 8, 9], 5);
+console.log(res); //false
+```
 - 二维数组中的查找
+::: tip
+在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
+:::
+> 思路：对每一行进行二分查找
+``` js
+function Find(target, array) {
+    for (let val of array) {
+        let res = binarySearch(val, target);
+        if (res == true) {
+            return res;
+        }
+    }
+    return false;
+}
+
+function binarySearch(arr, target) {
+    if (arr.length < 1) return false;
+    let mid = Math.floor(arr.length / 2);
+    if (target == arr[mid]) return true;
+    if (target < arr[mid]) {
+        let left_arr = arr.slice(0, mid);
+        return binarySearch(left_arr, target);
+    }
+    if (target > arr[mid]) {
+        let right_arr = arr.slice(mid + 1, arr.length);
+        return binarySearch(right_arr, target);
+    }
+}
+
+let res = Find(10, [
+    [1, 2, 3],
+    [2, 4, 6],
+    [7, 8, 9]
+])
+console.log(res); //false
+```
 - 旋转数组中的最小数字
 - 统计一个数字在排序数组中出现的次数(知识迁移)
 ## 二叉树
