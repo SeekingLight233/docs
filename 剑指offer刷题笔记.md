@@ -278,6 +278,26 @@ function binarySearch(arr, target) {
 
 let res = binarySearch([1, 2, 3, 4, 6, 7, 8, 9], 5);
 console.log(res); //false
+
+//非递归的写法
+function binarySearch(arr, target) {
+    let left = 0;
+    let right = arr.length - 1;
+
+    while (left <= right) {
+        let mid = Math.floor((left + right) / 2);
+        if (arr[mid] == target) return mid;
+        if (arr[mid] > target) {
+            right = mid - 1;
+        }
+        if (arr[mid] < target) {
+            left = mid + 1;
+        }
+    }
+    return -1;
+}
+let res = binarySearch([0, 2, 6, 7, 9, 11, 12, 45], 999);
+console.log(res); //-1
 ```
 - 二维数组中的查找
 ::: tip
@@ -317,7 +337,78 @@ let res = Find(10, [
 console.log(res); //false
 ```
 - 旋转数组中的最小数字
+::: tip
+把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。 输入一个非减排序的数组的一个旋转，输出旋转数组的最小元素。 例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。   
+
+注意：给出的所有元素都大于0，若数组大小为0，请返回0。
+:::
+``` js
+function minNumberInRotateArray(rotateArray) {
+    if (rotateArray.length == 0) return 0;
+    let left = 0;
+    let right = rotateArray.length - 1;
+    let mid = 0;
+    while (left < right) {
+        mid = left + Math.floor((right - left) / 2);
+        //如果中间的值比左边的值小，那就说明“断崖”在左边，右边找无意思，将其缩短
+        if (rotateArray[mid] < rotateArray[left]) {
+            right = mid;
+        } else if (rotateArray[mid] > rotateArray[left]) {
+            left = mid;
+        } else {
+            left++;
+        }
+    }
+    return rotateArray[left];
+}
+let res = minNumberInRotateArray([9, 10, 11, 12, 13, 14, 15, 16, 7, 8, 9]);
+console.log(res); //7
+```
 - 统计一个数字在排序数组中出现的次数(知识迁移)
+::: tip
+统计一个数字在排序数组中出现的次数。
+:::
+这题好写，套个二分，找下初始位置。
+``` js
+var search = function(nums, target) {
+    let left = binarySearch(nums, target);
+    const value = nums[left];
+    if (left == -1) {
+        return 0;
+    }
+    let right = left;
+    let res = 1;
+    while (true) {
+        left--;
+        if (nums[left] != value) break;
+        res++;
+    }
+    while (true) {
+        right++;
+        if (nums[right] != value) break;
+        res++;
+    }
+    return res;
+};
+
+
+function binarySearch(arr, target) {
+    let left = 0;
+    let right = arr.length - 1;
+
+    while (left <= right) {
+        let mid = Math.floor((left + right) / 2);
+        if (arr[mid] == target) return mid;
+        if (arr[mid] > target) {
+            right = mid - 1;
+        }
+        if (arr[mid] < target) {
+            left = mid + 1;
+        }
+    }
+    return -1;
+}
+```
 ## 二叉树
 ### 前后遍历
 - 前序遍历
