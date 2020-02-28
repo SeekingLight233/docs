@@ -115,7 +115,9 @@ var str = 'abcdefg';
 str.slice(-1) //g
 str.slice(1, -2) //bcde
 ```
-
+::: warning
+slice方法并不会更改原变量！
+:::
 - `substr()`
 从第m个数开始，往后截取n个字符
 ``` js

@@ -409,13 +409,64 @@ function binarySearch(arr, target) {
     return -1;
 }
 ```
+## 链表
+``` js
+class Node {
+    constructor(data) {
+        this.data = data;
+        this.next = null;
+    }
+};
+
+class LinkedList {
+    constructor() {
+        this.header = null;
+        this.length = 0;
+    }
+    append(data) {
+        let newNode = new Node(data);
+        //判断是否添加的是第一个节点
+        if (this.length == 0) {
+            this.header = newNode;
+        } else {
+            let current = this.header;
+            //current先保存第一个节点
+            while (current.next) {
+                current = current.next;
+            }
+            current.next = newNode;
+        }
+        this.length++;
+    }
+    print() {
+        let res = [];
+        let current = this.header;
+        while (current) {
+            res.push(current.data);
+            current = current.next;
+        }
+        console.log(res);
+    }
+}
+let ls = new LinkedList();
+ls.append("第一个节点");
+ls.append("第二个节点");
+ls.append("第三个节点");
+
+ls.print();
+```
 ## 二叉树
 ### 遍历问题
+在遍历树的过程中，我们可以采取两种策略，一种是**DFS**，一种是**BFS**。
+
+其中**DFS**可以根据访问当前节点，访问左子树和访问右子树的顺序将其再次细分为**前序遍历**，**中序遍历**和**后序遍历**。
 - 前序遍历
+
+**当前节点 => 左子树 => 右子树**
+
 ::: tip
 给定一个二叉树，返回它的前序遍历。
-
-输入: [1,null,2,3]  
+输入: 
    1
     \
      2
@@ -423,9 +474,138 @@ function binarySearch(arr, target) {
    3 
 输出: [1,2,3]
 :::
+``` js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var preorderTraversal = function (root, array = []) {
+    //增加一个可选参数的入口，用于递归调用
+    if(root){
+        array.push(root.val);
+        //这个array要给它传到递归函数的内部，不然遍历过得遍历无法保存！
+        preorderTraversal(root.left,array);
+        preorderTraversal(root.right,array);
+    }
+    return array;
+};
+```
 - 中序遍历
+**左子树 => 当前节点 => 右子树**
+
+``` js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var inorderTraversal = function(root,array=[]) {
+    if(root){
+        inorderTraversal(root.left,array);
+        array.push(root.val);
+        inorderTraversal(root.right,array);
+    }
+    return array;
+};
+```
 - 后序遍历
+
+**左子树 => 右子树 => 当前节点**
+``` js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var postorderTraversal = function(root,array = []) {
+    if(root){
+        postorderTraversal(root.left,array);
+        postorderTraversal(root.right,array);
+        array.push(root.val);
+    }
+    return array;
+};
+```
 - 重建二叉树
+::: tip
+输入某二叉树的前序遍历和中序遍历的结果，请重建该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
+
+例如，给出
+前序遍历 preorder = [3,9,20,15,7]
+中序遍历 inorder = [9,3,15,20,7]
+
+返回如下的二叉树：
+    3
+   / \
+  9  20
+    /  \
+   15   7
+:::
+这道题的核心点很简单，前序遍历的第一个节点肯定是根节点，此时你去看一下这个根节点在中序遍历中的位置会发现：
+左边那一坨是左子树的元素，右边那一坨是右子树的元素。
+
+思考分治问题要遵循一个原则：**不要多想！**，只需要关注递归方法的返回值即可。
+leetcode链接：[重建二叉树](https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/)
+``` js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {number[]} preorder
+ * @param {number[]} inorder
+ * @return {TreeNode}
+ */
+var buildTree = function(preorder, inorder) {
+    if (preorder.length == 0) return null;
+    if (inorder.length == 0) return null;
+    let rootVal = preorder.shift();
+    //用于记录根节点在inorder中的位置
+    let root_indexINinorder = null;
+    for (let i in inorder) {
+        if (inorder[i] == rootVal) {
+            root_indexINinorder = i;
+        }
+    }
+    //写完发现傻逼了，忘了有个方法叫indexof
+
+    //将这两个数组分别截成四个部分
+    let left_inorder = inorder.slice(0, root_indexINinorder);
+    let right_inorder = inorder.slice(++root_indexINinorder, inorder.length);
+    let left_preorder = preorder.slice(0, left_inorder.length);
+    let right_preorder = preorder.slice(left_inorder.length, preorder.length);
+
+    let root = new TreeNode(rootVal);
+    root.left = buildTree(left_preorder, left_inorder, root);
+    root.right = buildTree(right_preorder, right_inorder, root);
+    return root;
+};
+```
+### 深度优先搜索
+- 二叉树的深度
+- 二叉树中序遍历
 ### 二叉树的对称性
 - 对称的二叉树
 ### 二叉搜索树
@@ -436,9 +616,7 @@ function binarySearch(arr, target) {
 - 平衡二叉树(知识迁移)
 ### 广度优先搜索
 - 从上往下打印二叉树
-### 深度优先搜索
-- 二叉树的深度
-- 二叉树中序遍历
+
 ## 数组
 - 反转数组
 - 去掉数组中重复的元素
