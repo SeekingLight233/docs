@@ -93,3 +93,73 @@ console.log("too young too simple!")
 import './naive'
 //too young too simple!
 ```
+
+## webpack
+### 基本命令
+``` js
+//calculate.js
+function add(a, b) {
+    return a + b;
+}
+
+function sub(a, b) {
+    return a - b;
+}
+
+function multify(a, b) {
+    return a * b;
+}
+
+function div(a, b) {
+    return a / b;
+}
+//这些变量不导出的话外界是访问不到的
+export default {
+    add,
+    sub,
+    multify,
+    div
+}
+//按需导出
+export const PI = 3.141592;
+export const SQRT2 = 1.414;
+export const SQRT3 = 1.732;
+```
+``` js
+//main.js
+import calculate from "./calculate";
+
+let res = calculate.add(1, 3);
+console.log(res);
+```
+此时`main.js`和`calculate.js`位于同一目录下，可以使用webpack命令编译
+``` shell
+webpack main.js -o out.js
+```
+如果不指定配置的话默认的出口文件是用于生产环境的，如果要指定生成开发环境的入口文件需要加上`--mode development`
+
+``` shell
+webpack main.js -o out.js
+```
+
+在webpack4里，如果你有一个`src`文件，src文件中又有一个`index.js`,此时当你执行`webpack`命令时它会自动给你生成出打包好的`dist`文件夹。当然如果你不去指定配置项默认还是生产环境。
+### 配置文件详解
+如果要手动更改配置项的话，我们需要创建出一个`webpack.config.js`配置文件并放到项目的根目录。
+``` js
+//webpack.config.js
+const path = require('path');
+
+module.exports = {
+    //entry用来指定到打包的入口文件
+    entry: {
+        a: './src/a.js',
+        b: './src/b.js',
+        c: './src/c.js',
+    },
+    //output用来指定出口文件的名称及路径
+    output: {
+        filename: '[name].bundle.js',
+        path: path.resolve(__dirname, 'dist')
+    }
+};
+```

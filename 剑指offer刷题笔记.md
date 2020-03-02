@@ -460,20 +460,11 @@ ls.print();
 在遍历树的过程中，我们可以采取两种策略，一种是**DFS**，一种是**BFS**。
 
 其中**DFS**可以根据访问当前节点，访问左子树和访问右子树的顺序将其再次细分为**前序遍历**，**中序遍历**和**后序遍历**。
-- 前序遍历
+- [前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
 
 **当前节点 => 左子树 => 右子树**
 
-::: tip
-给定一个二叉树，返回它的前序遍历。
-输入: 
-   1
-    \
-     2
-    /
-   3 
-输出: [1,2,3]
-:::
+![](./leetcode/01.png)
 ``` js
 /**
  * Definition for a binary tree node.
@@ -498,6 +489,7 @@ var preorderTraversal = function (root, array = []) {
 };
 ```
 - 中序遍历
+
 **左子树 => 当前节点 => 右子树**
 
 ``` js
@@ -545,26 +537,14 @@ var postorderTraversal = function(root,array = []) {
     return array;
 };
 ```
-- 重建二叉树
-::: tip
-输入某二叉树的前序遍历和中序遍历的结果，请重建该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
+- [重建二叉树](https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/)
 
-例如，给出
-前序遍历 preorder = [3,9,20,15,7]
-中序遍历 inorder = [9,3,15,20,7]
+![](./leetcode/02.png)
 
-返回如下的二叉树：
-    3
-   / \
-  9  20
-    /  \
-   15   7
-:::
 这道题的核心点很简单，前序遍历的第一个节点肯定是根节点，此时你去看一下这个根节点在中序遍历中的位置会发现：
 左边那一坨是左子树的元素，右边那一坨是右子树的元素。
 
 思考分治问题要遵循一个原则：**不要多想！**，只需要关注递归方法的返回值即可。
-leetcode链接：[重建二叉树](https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/)
 ``` js
 /**
  * Definition for a binary tree node.
@@ -602,21 +582,319 @@ var buildTree = function(preorder, inorder) {
     root.right = buildTree(right_preorder, right_inorder, root);
     return root;
 };
-```
-### 深度优先搜索
-- 二叉树的深度
-- 二叉树中序遍历
-### 二叉树的对称性
-- 对称的二叉树
-### 二叉搜索树
-- 二叉搜索树的第K个节点
-- 二叉搜索树的后序遍历
-### 二叉树的深度
-- 二叉树的最大深度
-- 平衡二叉树(知识迁移)
-### 广度优先搜索
-- 从上往下打印二叉树
 
+```
+### 广度优先搜索
+- 从上往下遍历二叉树
+1. [不分行直接遍历](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-lcof/)
+
+![](./leetcode/03.png)
+
+层序遍历的话肯定少不了用**队列**这种结构，先让父节点入队，当父节点出队的时候，再让自己的左右两个子节点依次入队。
+
+而对于子节点依旧采取这样的操作，所以你会观察到:
+
+**当第一层出队的时候，第二层已经完全入队；当第二层出队的时候，第三层已经完全入队。**
+
+因此我们只需要在出队的时候对其进行访问便能够达到层次遍历的效果。
+``` js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var levelOrder = function(root) {
+    let quque = [];
+    let res = [];
+    //妈的竟然有个样例是个空数组
+    if(root){
+        quque.push(root);
+    }
+    while(quque.length>0){
+        let node = quque.shift();
+        res.push(node.val);
+        //放完节点后判断下是否存在孩子，有的话放到队列中去
+        if(node.left != null){
+            quque.push(node.left);
+        }
+        if(node.right != null){
+            quque.push(node.right);
+        }
+    }
+    return res;
+};
+```
+
+2. [分行遍历](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-ii-lcof/)
+
+![](./leetcode/04.png)
+
+这道题唯一的麻烦点在于不清楚如何去获取每一层的长度，其实我们只需要在**元素第一次出队之前**记录一下就能获取每一层的长度了<hide txt="为什么我就想不到嘤嘤嘤"></hide>，知道长度后我们就明白接下来该进行几次操作。
+``` js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[][]}
+ */
+var levelOrder = function(root) {
+    let res = [];//存放最终的结果
+    let queue = [];
+    if(!root) return [];
+    queue.push(root)
+    let level = 0;//设置一个变量，用来记录层数
+    
+    while(queue.length>0){
+        //接下来就开始对队列进行层次遍历操作
+        res[level] = [];//第level层的遍历结果放到这里
+        let level_length = queue.length;//获取到当前层节点树
+        for(let i = 0;i<level_length;i++){
+            let node = queue.shift();
+            res[level].push(node.val);
+            if(node.left!=null) queue.push(node.left);
+            if(node.right!=null) queue.push(node.right);
+        }
+        level++;
+    }
+    return res;
+};
+```
+::: warning
+反思:这道题做的我很沮丧，这道题甚至让我怀疑自己最基本的编程功底，可能自己题量刷的还是不够吧。。
+    其实while循环就是一个循环版的if条件，自己平时写代码可能用的也比较少。
+:::
+3. [之字形遍历](https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-iii-lcof/)
+
+![](./leetcode/05.png)
+    
+上道题如果弄明白这道题就很简单了，只需要分一下情况，将奇数行`reverse()`一下就OK。
+``` js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[][]}
+ */
+var levelOrder = function(root) {
+    let res = []; //存放最终的结果
+    let queue = [];
+    if (!root) return [];
+    queue.push(root)
+    let level = 0; //设置一个变量，用来记录层数
+
+    while (queue.length > 0) {
+        //接下来就开始对队列进行层次遍历操作
+        res[level] = []; //第level层的遍历结果放到这里
+        let level_length = queue.length; //获取到当前层节点树
+        //偶数行  PS：从0开始
+        if (level % 2 == 0) {
+            for (let i = 0; i < level_length; i++) {
+                let node = queue.shift();
+                res[level].push(node.val);
+                if (node.left != null) queue.push(node.left);
+                if (node.right != null) queue.push(node.right);
+            }
+        }
+        if (level % 2 != 0) {
+            for (let i = 0; i < level_length; i++) {
+                let node = queue.shift();
+                res[level].push(node.val);
+                if (node.left != null) queue.push(node.left);
+                if (node.right != null) queue.push(node.right);
+            }
+            //人家想要之字形，那咱就reverse()一下喽
+            res[level].reverse();
+        }
+        level++;
+    }
+    return res;
+}
+```
+### 二叉树的深度
+- 二叉树的深度
+``` js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var maxDepth = function(root) {
+    if (!root) return 0;
+    //二叉树的深度 = 左子树的深度与右子树深度的最大值+1
+    let left = maxDepth(root.left);
+    let right = maxDepth(root.right);
+    return Math.max(left, right) + 1;
+};
+```
+
+- [平衡二叉树](https://leetcode-cn.com/problems/ping-heng-er-cha-shu-lcof/)
+
+输入一棵二叉树的根节点，判断该树是不是平衡二叉树。如果某二叉树中任意节点的左右子树的深度相差不超过1，那么它就是一棵平衡二叉树。
+
+![](./leetcode/06.png)
+
+唉，对于我这样的笨孩子也只能这么做了呜呜呜~~
+
+大概的思路就是对每一个节点进行一个左右深度的判断，如果都满足最后返回true
+``` js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isBalanced = function(root) {
+    //既然提到了“任意”，那就说明必须先遍历一遍这个二叉树
+    let res = dfs(root);
+    for (let val of res) {
+        if (val == false) return false;
+    }
+    return true;
+};
+
+function dfs(root, array = []) {
+    if (root) {
+        array.push(isBalanced_node(root));
+        dfs(root.left, array);
+        dfs(root.right, array);
+    }
+    return array;
+}
+
+function isBalanced_node(node) {
+    if (node == null) return true;
+    let left_depth = deep(node.left);
+    let right_depth = deep(node.right);
+    if (Math.abs(left_depth - right_depth) <= 1) {
+        return true;
+    } else return false;
+}
+
+function deep(root) {
+    if (root == null) return 0;
+    let left = deep(root.left);
+    let right = deep(root.right);
+    return Math.max(left, right) + 1;
+}
+```
+### 二叉树的对称性
+- [对称的二叉树](https://leetcode-cn.com/problems/dui-cheng-de-er-cha-shu-lcof/submissions/)
+``` js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isSymmetric = function(root) {
+    return isSymmetricTree(root, root);
+};
+function isSymmetricTree(node1,node2){
+    //先去考虑下这两个节点的存在情况
+    if(!node1||!node2){
+        //如果俩全都不存在的话就说明他们对称
+        if (!node1&&!node2){
+            return true;
+            //剩下的情况就是这俩只有一个存在
+        }else return false;
+    }
+    //值不相等不对称
+    if(node1.val!=node2.val){
+        return false;
+    };
+    //注意镜像对称时满足的条件
+    return isSymmetricTree(node1.left, node2.right) && isSymmetricTree(node1.right, node2.left);
+}
+```
+### 二叉搜索树
+- [二叉搜索树的第K个节点](https://www.nowcoder.com/practice/ef068f602dde4d28aab2b210e859150a?tpId=13&tqId=11215&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
+思路一：暴力遍历一遍然后排个序。
+``` js
+/* function TreeNode(x) {
+    this.val = x;
+    this.left = null;
+    this.right = null;
+} */
+function KthNode(pRoot, k) {
+    // write code here
+    if (!pRoot) return undefined;
+    let res = dfs(pRoot);
+    res.sort((a, b) => {
+        return a.val - b.val
+    });
+    return res[k - 1];
+}
+
+function dfs(root, array = []) {
+    if (root) {
+        array.push(root);
+        dfs(root.left, array);
+        dfs(root.right, array);
+    }
+    return array;
+}
+```
+当然这样做就没意思了，其实这道题如果知道一个结论会很简单。
+
+**中序遍历一个二叉搜索树时本来就是排好序的！**<hide txt="哇！好神奇呢~~"></hide>
+``` js
+/* function TreeNode(x) {
+    this.val = x;
+    this.left = null;
+    this.right = null;
+} */
+function KthNode(pRoot, k) {
+    // write code here
+    if (!pRoot) return undefined;
+    let res = dfs(pRoot);
+    return res[k - 1];
+}
+
+function dfs(root, array = []) {
+    if (root) {
+        dfs(root.left, array);
+        array.push(root);
+        dfs(root.right, array);
+    }
+    return array;
+}
+```
+## 递归
+- 斐波那契
+
+- 跳台阶
 ## 数组
 - 反转数组
 - 去掉数组中重复的元素
@@ -628,7 +906,4 @@ var buildTree = function(preorder, inorder) {
 - 常数时间插入、删除和获取随机元素
 - 字符流中第一个不重复的字符
 
-## 递归
-- 斐波那契
-- 跳台阶
 ## 贪心、回溯、动态规划
