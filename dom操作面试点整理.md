@@ -41,13 +41,59 @@ document.body.appendChild(elem);
 - **document.querySelector**
 通过制定选择器返回单个元素，挺灵活的一个方法。
 
+::: warning
+如果要对dom进行遍历操作，一定要先将要遍历的dom的**length**取出来。
+
+不然重新计算dom的length会造成巨大的性能损耗。
+![](./re_js/13.png)
+:::
+
 ### 修改
+第一种修改方式是手动修改`property`
+比如你用`dom.style.xxx = "xxx"`就是一种修改已有`property`的方式，这样只能更改已经有的标签属性。
+
+第二种方式可以去直接修改元素的`attribute`，这种方式比起修改标签`property`要更加粗暴，甚至你还可以自定义标签属性。
+说白了就是可以更改HTML的结构。
+但这样做挺消耗性能...这两种方法都有可能引起dom重新渲染。
+``` js
+let div = document.querySelector("#mydiv");
+        //把div绿了
+        div.setAttribute("style", "background-color: green");
+        //自定义标签属性
+        div.setAttribute("div-name", "王宝强");
+        //getAttribute可以获取属性值
+        console.log(div.getAttribute("div-name"));
+```
+### 附加操作
+
+改完后不要忘了把dom给append上。
+    
 - **appendChild**
 用于向节点的子节点列表追加新的子节点。
 - **appendChild**
 用于向节点的子节点列表前追加新的子节点。
 - **insertAdjacentHTML**
 也是一个用于追加的挺好用的api，具体使用参考[原生js操作dom方法之insertAdjacentHTML](https://www.jianshu.com/p/112bc211c39e)
+
+::: tip
+如果要进行的append操作很多的话，最好先将要插入的dom附加到**DocumentFragment**上
+
+都完成以后，再讲frag插入dom中，这样会节省很大的性能开销。
+:::
+``` js
+const listNode = document.getElementById('list');
+    //在内存中先创建一个缓存片段
+    const frag = document.createDocumentFragment();
+
+    for (let i = 0; i < 10; i++) {
+        const li = document.createElement("li");
+        li.innerHTML = "List item " + i;
+        //每一次操作先附加到文档片段上
+        frag.appendChild(li);
+    }
+     //都弄完以后，再一次性给插入到dom中
+    listNode.appendChild(frag);
+```
 ### 删除
 - **removeChild**
 removeChild用于删除指定的子节点并返回子节点
@@ -95,9 +141,44 @@ inner.addEventListener('click', (e) => {
 第一种方法有局限性，它只能为一个dom对象绑定一个响应事件，如果绑定多个事件，后面的会将前面的覆盖掉。
 ## 事件委托
 一种优化dom事件响应的方式。
-当子元素拥有大量且逻辑相同的监听函数时，最好讲监听函数直接设置到父元素上，通过事件冒泡的机制，父元素可以“委托”子元素来完成特定的事件。
+当子元素拥有大量且逻辑相同的监听函数时，最好讲监听函数直接设置到父元素上，通过事件冒泡的机制，子元素可以“委托”父元素来完成特定的事件。
 这样做的好处一是优化性能，二是更加灵活————如果有新添加的子元素也会有监听函数。
 可以通过事件触发函数中的`e.target`来判断是谁触发了事件。
+### 编写一个通用的事件绑定函数，考虑事件委托
+``` js
+/**
+         * 
+         * @param {object} elem 要传入的dom元素
+         * @param {string} type 操作的类型
+         * @param {string} selector 要委托的dom元素
+         * @param {Function} fn 要绑定的操作
+         */
+function bindEvent(elem, type, selector, fn) {
+            //如果是三个参数，就改变一下参数的引用z
+            if (fn == null) {
+                fn = selector;
+                selector = null;
+            }
+            elem.addEventListener(type, event => {
+                //获得点击源
+                const target = event.target;
+                if (selector) {
+                    //找出符合要选择的dom，防止elem内的其他元素被触发
+                    if (target.matches(selector)) {
+                        fn.call(target, event);
+                    }
+                } else {
+                    //无代理直接调用
+                    fn.call(target, event);
+                }
+            })
+        }
+        //以后统统用这个选元素
+        let div = document.querySelector("#father");
+        bindEvent(div, 'click', '.box', (e) => {
+            alert(e.target.innerHTML);
+        })
+```
 ## document实例
 `document`其实是`HTMLDocument`的实例
 `HTMLDocument`的原型对象是`Document`,换言之`HTMLDocument`继承了`Document`。

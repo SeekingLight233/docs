@@ -9,7 +9,7 @@ sidebarDepth: 5
 sidebar: "auto"
 ---
 ## Js中类型分类
-### 原始类型
+### 原始类型(值类型)
 - 包括number/string/boolean/null/undefined/symbol;
 
 - 原始类型中存的都是值，是不可能调出任何函数的。
@@ -30,8 +30,9 @@ console.log(Object.getOwnPropertySymbols(obj).map(sym => obj[sym]));
 通过调用`Symbol()`方法来创建symbol实例，即便传入参数一样也不影响。
 
 最终如果要拿对象中**symbol作为键的值**的话可以用`Object.getOwnPropertySymbols(obj).map(sym => obj[sym])`。
-### 对象类型
-- 对象类型里面存的是地址
+### 对象类型(引用类型)
+- 对象类型定义的变量里面放的不是对象，而是对象的**引用**，因为对象太大了如果放到栈内存里会造成很大的性能损耗！
+![](./re_js/01.png)
 - 如果函数参数是对象的话（假设传过来的这个对象叫p1），千万不要用`person = {...}`的形式修改传进来的对象(person是函数的形参)，你会发现根本修改不了。
 ``` js
 function test(person) {
@@ -53,7 +54,7 @@ console.log(p1.age) // 25
 ![](./re_js/01.png)
 ## typeof和instanceof
 - typeof可以检查原始类型(除了null)，但是在检查对象类型的时候，除了函数能显示出一个function以外，其他的统统显示的是object
-- 如果要判断对象到底是什么类型，可以用`instanceof `,但是需要提前知道对象的具体类型，因此也不是非常的灵活。
+- instanceof主要是用来判断是否是某个类(或构造函数)的实例。(继承下来的实例也可以判断)
 ``` js
 function Foo() {};
 let foo = new Foo();
@@ -86,8 +87,24 @@ function myinstantof(ins, origin_obj) {
 ### 转字符串
 通过`String()`方法可以强制转换任意类型为字符串，具体的转换效果可以参考下表
 ![](./re_js/02.png)
+以下变量在经历两次`!!`运算后结果都为false
+
+`0`,`NaN`,`""`,`null`,`undefined`,`false`.
+
+上面的变量统称为**false类**变量，而剩余的变量都为**true类**变量。
+
+这两种变量可以帮助我们进行逻辑判断。
+``` js
+console.log(11 && 0); //0
+console.log('' || 'abc'); //'abc'
+let abc = {};
+console.log(!abc.a); //true
+```
 ## `==`和`===`
-==只会比较value，===更加严格，除了比较value还会检查类型。
+==只会比较"转换之后的value"，===更加严格，除了比较value还会检查类型。
+:::tip
+除了在对`null`进行判断用两等，其余的情况一律用三等。
+:::
 ## js的作用域与作用域链
 js中的每一个变量或者说函数都会有一个作用的范围，这个范围就叫作用域。
 而作用域链指的是在js中查找一个变量的过程，会从最内层开始找，逐步找到最外层。
@@ -103,42 +120,28 @@ f1();
 //200
 ```
 ## 闭包
-*不得不承认闭包这个概念对于我这种“一句话描述党”真的是个灾难。*
-简单理解为有权限访问另一个函数作用域的函数,通常表现为对另一个被返回函数的引用。
-下面代码中的 ==closure()== 就是一个闭包。
-```js
-function makefunc() {
-    var name = "jason2";
+闭包是啥？
 
-    function closure() {
-        console.log(name);
-    }
-    return closure;
-}
-var clo = makefunc();
-clo();//jason2
-```
-闭包有一个重要的特性。
-- 创建了闭包之后，一旦调用，会延长作用域链，直到闭包不存在。
-```js
-function makeAdder(x) {
-    return function(y) {
-        return x + y;
-    }
-}
-var add5 = makeAdder(5);
-var add10 = makeAdder(10);
-console.log(add5(2));
-console.log(add10(2));
-// 释放对闭包的引用
-add5 = null;
-add10 = null;
-```
-在上面这段代码中，add5和add10都是**对闭包的引用**，按理来说在别的语言中，==clo(),add5(),add10()== 都是不可能执行成功的——makeAdder()已经执行完了啊，内部的变量不应该已经被销毁了么？但最后“jason2”和下面的两个结果都打印出来了说明javascript中由于函数创建产生闭包的机制延长了函数的作用域链。
+这个问题在网上看了很多的博客，都写的很奇怪，反正我是没看懂。
 
-闭包最大的作用就是用来模拟一个类，从而间接实现面向对象编程。
+其实说简单点，**闭包就是一个函数**。
+
+那什么时候我们管一个函数叫闭包呢？
+
+两种情况：
+1. “这个函数”作为参数传到了另一个函数中去，此时我们管“这个函数”叫**闭包**。
+![](./re_js/12.png)
+
+2. “这个函数”作为函数的返回值，被返回。这时我们也管“这个函数”叫**闭包**。
+![](./re_js/11.png)
+
+从上面两个例子我们可以看到，闭包的最大特点就是：
+
+**闭包函数被调用时，不受当前作用域的影响！**
+
+闭包最大的作用就是用来封装数据，只对外提供API
 ``` js
-// 实现一个模拟的name类，包含set和get方法
+// 封装一个name对象，包含set和get方法
 var Name = function() {
     var name = "未定义";
     return {
@@ -156,6 +159,8 @@ console.log(Name.getName());
 ```
 ## this的指向判断问题
 一句话：this永远指向**最后调用this的函数所处的对象**
+
+(PS:你拿`call()`函数来强制更改就是另一回事儿了)
 ::: warning
 这里的对象指的是"狭义"的对象，不包括函数对象(Function Object)。
 :::
@@ -194,6 +199,9 @@ window.a.fn();
 //调用this的函数是谁？是fn()
 //fn()所处的对象在哪？在对象a里面
 ```
+::: warning
+有一点需要注意，定时器类函数是window对象自带的，因此定时器内回调的this是window，但如果用箭头函数的话就不一样了，箭头函数会将函数内部的this指向上一层作用域的this。
+:::
 ## 执行上下文
 > 解释下“全局执行上下文“和“函数执行上下文”。
 ### 全局执行上下文
@@ -335,6 +343,18 @@ for (var i = 0; i < 9; i++) {}
 console.log(i); //9
 for (let j = 0; j < 9; j++) {}
 console.log(j); //ReferenceError: j is not define
+```
+``` js
+//创建10个a标签，点击时弹出对应的序号
+for (let i = 1; i < 11; i++) {
+    let a = document.createElement('a');
+    a.innerHTML = i + '</br>';
+    a.addEventListener('click', (e) => {
+        e.preventDefault();
+        alert(i);
+    });
+    document.body.append(a);
+}
 ```
 ### const
 和其他语言一样，可以用来声明一些常量

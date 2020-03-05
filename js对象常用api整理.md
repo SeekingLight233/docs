@@ -351,7 +351,8 @@ console.info(array); // ["a", "b", 0, 1, 2]
 - `call()`
 和`apply()`函数很类似，无非是传递参数的形式不一样。
 - `bind()`
-`bind()`函数也会强制更改this的指向，不过它不会执行函数，返回值是一份函数的拷贝。
+  “bind”顾名思义就是讲函数与对象绑定到一起。
+`bind()`函数也会强制更改this的指向，不过它不会执行函数，返回值是一份函数的引用拷贝。
 ``` js
 let obj = {
     name:'jason',
@@ -362,6 +363,23 @@ function f1(){
 }
 let copy = f1.bind(obj);
 copy();//jason
+```
+### 手写bind函数
+``` js
+Function.prototype.bind1 = function() {
+    //讲参数拆解为数组
+    const args = Array.from(arguments);
+    //获取要绑定的对象
+    const obj = args.shift();
+
+    //获取调用bind的函数对象
+    const fn = this;
+
+    //返回一个闭包函数
+    return function() {
+        return fn.apply(obj, args);
+    }
+}
 ```
 ### arguments对象实例
 <hide txt="PS：`arguments`照官方那意思应该也算是一个独立的内置对象了，但现在从MDN上看仍然是放在`函数`的目录下，这点我也非常的迷惑"></hide>

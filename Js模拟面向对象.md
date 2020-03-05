@@ -130,7 +130,13 @@ qiuqiu.meow();//Meow~~
 console.log(guoguo.__proto__);//Cat {}
 console.log(qiuqiu.__proto__);//Cat {}
 ```
-在上述的测试代码中，我们通过实例的`__proto__`属性查看了原型(PS:实际代码中可千万不要这样用)。
+在上述的测试代码中，我们通过实例的`__proto__`属性(**隐式原型**)查看了**显式原型**(PS:实际代码中可千万不要这样用)。
+
+也就是说，**实例的隐式原型指向构造函数的显式原型**。
+
+``` js
+console.log(guoguo.__proto__ === Cat.prototype);//true
+```
 
 那原型的作用到底是什么呢？
 
@@ -475,6 +481,7 @@ class Cat extends Animal {
 let guoguo = new Cat("果果", 1, true);
 guoguo.meow();//果果:喵喵喵~
 ```
+
 
 ### 重载
 在ES6中,由于拓展运算符`...`的存在，实现重载也非常的简单

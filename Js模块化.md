@@ -7,7 +7,7 @@ sidebarDepth: 5
 sidebar: "auto"
 ---
 现在前端的需求开始变得越来越复杂，许多代码如果你全写到一个js文件里的话一是不好维护，二是没法多人协作，因此模块化是一个非常重要的话题。
-## 模块化
+## ES6模块化
 ### babel安装
 1. cnpm install --save-dev @babel/core @babel/cli @babel/preset-env @babel/node
 2. cnpm i --save @babel/polyfill
