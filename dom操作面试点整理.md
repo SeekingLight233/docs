@@ -171,7 +171,7 @@ function bindEvent(elem, type, selector, fn) {
                     //无代理直接调用
                     fn.call(target, event);
                 }
-            })
+            }) 
         }
         //以后统统用这个选元素
         let div = document.querySelector("#father");
@@ -179,6 +179,8 @@ function bindEvent(elem, type, selector, fn) {
             alert(e.target.innerHTML);
         })
 ```
+## `load`事件和`DOMContentLoaded`事件
+`load`事件要求页面上全部资源加载完之后执行，而`DOMContentLoaded`会在dom渲染完之后直接执行(此时有可能图像，视频啥的还没加载完)
 ## document实例
 `document`其实是`HTMLDocument`的实例
 `HTMLDocument`的原型对象是`Document`,换言之`HTMLDocument`继承了`Document`。

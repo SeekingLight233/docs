@@ -131,7 +131,7 @@ var str = "do you love me";
 str.replace('love','hate'); // "do you hate me"
 ```
 - `split()`
-将字符串分割为字符数组
+将字符串用指定的规则分割为字符数组
 ``` js
 var str="How are you doing today?";
 str.split("");//H,o,w, ,a,r,e, ,y,o,u, ,d,o,i,n,g, ,t,o,d,a,y,?
@@ -140,6 +140,10 @@ str.split(" ",3);//How,are,you
 // 自定义分隔规则
 str.split("o");//H,w are y,u d,ing t,day?
 ```
+::: tip
+与之对应的有数组的`join()`方法，可以指定数组元素以某种规则拼接成字符串
+:::
+
 - `trim()`
 去除字符串两边的空白
 ``` js
@@ -312,7 +316,7 @@ let sort_nums = nums.sort((a, b) => {
 })
 console.log(sort_nums);//[ 1, 2, 4, 5, 6 ]
 ```
-- `splice(index,amount,item1,item2,...)`
+- `splice(index,amount,item1,item2,...)` (移接)
 ::: warning
 这个方法会修改原数组！
 :::
@@ -326,6 +330,12 @@ console.log(nums); // [ 1, 2, 5 ]
 nums.splice(2, 0, "a", "b");
 console.log(nums); // [ 1, 2, 'a', 'b', 5 ]
 ```
+
+### Array对象中的纯函数
+1. 不改变原数组
+2. 返回一个新数组
+
+典型的纯函数有`concat()`,`map()`,`filter()`,`slice()`。
 ## Function对象
 > 每一个javascript的函数其实都是一个函数对象
 - `apply(obj,[arg1,arg2,...])`
@@ -352,7 +362,7 @@ console.info(array); // ["a", "b", 0, 1, 2]
 和`apply()`函数很类似，无非是传递参数的形式不一样。
 - `bind()`
   “bind”顾名思义就是讲函数与对象绑定到一起。
-`bind()`函数也会强制更改this的指向，不过它不会执行函数，返回值是一份函数的引用拷贝。
+`bind()`函数也会强制更改this的指向，不过它不会执行函数，返回值是一份函数的引用。
 ``` js
 let obj = {
     name:'jason',

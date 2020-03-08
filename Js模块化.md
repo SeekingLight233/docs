@@ -143,11 +143,12 @@ webpack main.js -o out.js
 ```
 
 在webpack4里，如果你有一个`src`文件，src文件中又有一个`index.js`,此时当你执行`webpack`命令时它会自动给你生成出打包好的`dist`文件夹。当然如果你不去指定配置项默认还是生产环境。
-### 配置文件详解
+### 基本配置
 如果要手动更改配置项的话，我们需要创建出一个`webpack.config.js`配置文件并放到项目的根目录。
 ``` js
 //webpack.config.js
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     //entry用来指定到打包的入口文件
@@ -160,6 +161,68 @@ module.exports = {
     output: {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist')
-    }
+    },
+    //不指定的话默认为生产模式
+    mode: "development",
+    devServer: {
+        //以dist来作为文件服务器
+        contentBase: path.join(__dirname, 'dist'),
+        compress: true,
+        port: 9000,
+        proxy: {
+            '/': {
+                target: 'http://127.0.0.1:6901',
+                changeOrigin: true
+            }
+        }
+    },
+    //module指定要加载的模块
+    module: {
+        rules: [
+            //url-loader,用来将图片处理成base64
+            //cnpm install --save-dev url-loader
+            //有可能会提示让你安装file-loader
+            //cnpm install --save-dev file-loader
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 8192
+                    }
+                }]
+            },
+            //如果要使用babel转义高级ES就必须要使用babel-loader
+            //cnpm install @babel/core @babel/preset-env babel-loader -D
+            {
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                }
+            },
+            //sass文件处理
+            //cnpm install sass-loader node-sass webpack --save-dev
+            {
+                test: /\.scss$/,
+                use: [{
+                    loader: "style-loader" // 将 JS 字符串生成为 style 节点
+                }, {
+                    loader: "css-loader" //  将 CSS 转化成 CommonJS 模块
+                }, {
+                    loader: "sass-loader" // 将 Sass 编译成 CSS
+                }]
+            }
+        ],
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+            filename: 'index.html'
+        })
+    ]
 };
 ```

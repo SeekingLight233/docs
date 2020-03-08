@@ -303,7 +303,31 @@ obj1.b[0] = "111111111";
 console.log(obj2);
 //{ a: 1, b: [ '1', '2', '3' ], c: 'hello' }
 ```
+### 手写深度比较
+即便你能够拷贝出一个完全一样的对象，你也不能用等于号来比较他们。
+因为比较的永远是引用。
+``` js
+function isObject(obj) {
+    return typeof(obj) === 'object' && obj !== null;
+}
 
+function isEqual(obj1, obj2) {
+    //首先参与运算的必须都是两个对象,不是的话直接让他俩用等于号比较，就不受累了
+    if (!isObject(obj1) || !isObject(obj2)) return obj1 === obj2;
+    //先取出这两个对象的keys
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+    if (keys1.length != keys2.length) return false;
+    // core code
+    for (let key in obj1) {
+        //比较当前key上的val
+        const res = isEqual(obj1[key], obj2[key]);
+        if (!res) return false;
+    }
+    //循环跑完发现没问题的话
+    return true;
+}
+```
 ## js的垃圾回收机制
 总的来说就是定时去检查程序中不再被引用的内存，然后将其释放。
 ``` js
@@ -374,7 +398,7 @@ PI = 3.999;//Assignment to constant variable.
 ``` js
 let [a, b, c] = [1, 1, 2];
 console.log(b); //1
-```
+``` 
 当然这玩意的应用比我想象的要灵活的多。
 ``` js
 let [a, b, c] = [1, 1];
