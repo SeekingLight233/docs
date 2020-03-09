@@ -4,7 +4,9 @@ date: 2020-2-19
 categories: 
  - 前端
 tags: 
- - 待定
+ - 异步
+ - Promise
+ - async/await
 sidebarDepth: 5
 sidebar: "auto"
 ---

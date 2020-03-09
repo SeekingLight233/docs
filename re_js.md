@@ -4,7 +4,11 @@ date: 2020-1-12
 categories: 
  - 前端
 tags: 
- - 待定
+ - ES6
+ - JS类型
+ - 闭包
+ - 深拷贝
+ - Set/Map
 sidebarDepth: 5
 sidebar: "auto"
 ---
@@ -679,6 +683,5 @@ console.log(arr_map);
 ## promise
 ## Proxy
 ## generator
-## es6中的模块化
 ## es6中新增的正则符号
 

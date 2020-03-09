@@ -4,7 +4,8 @@ date: 2020-1-18
 categories: 
  - 前端
 tags: 
- - 待定
+ - 事件绑定
+ - 事件委托
 sidebarDepth: 5
 sidebar: "auto"
 ---
