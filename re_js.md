@@ -104,7 +104,7 @@ console.log('' || 'abc'); //'abc'
 let abc = {};
 console.log(!abc.a); //true
 ```
-## `==`和`===`
+### `==`和`===`
 ==只会比较"转换之后的value"，===更加严格，除了比较value还会检查类型。
 :::tip
 除了在对`null`进行判断用两等，其余的情况一律用三等。
@@ -332,6 +332,20 @@ function isEqual(obj1, obj2) {
     return true;
 }
 ```
+## js中的异常捕获
+第一种方法是使用`try...catch`语句，但总不能每次都将错误的地方全包起来，比较保险的另一种方式是在开头重写`window.onerror()`方法<hide txt="记住一定要在开头写因为这是函数表达式不存在变量提升！！！"></hide>,然后发给后台统计错误信息啥的。
+也就是说，只要在你的js出现问题就会自动执行`window.onerror()`方法
+
+附个MDN的链接[GlobalEventHandlers.onerror](https://developer.mozilla.org/zh-CN/docs/Web/API/GlobalEventHandlers/onerror)
+``` js
+window.onerror = function(message, url, line, column, error) {
+    alert("出错了!")
+        //给后端发送错误请求
+        //...
+}
+console.log(a);
+let a = 1;
+```
 ## js的垃圾回收机制
 总的来说就是定时去检查程序中不再被引用的内存，然后将其释放。
 ``` js
@@ -356,9 +370,50 @@ function add(a, b) {
 ```
 ---
 *下面这块算es6的部分了*
+## requestAnimationFrame()
+`requestAnimationFrame()`是一个动画相关的api，它要求传一个回调进去，告诉浏览器用这个回调来更新动画。
+
+``` html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #div1 {
+        width: 100px;
+        height: 50px;
+        background-color: red;
+    }
+</style>
+
+<body>
+    <div id="div1"></div>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        let div1 = $('#div1');
+        let oriWidth = 100;
+        let maxWidth = 640;
+
+        function animate() {
+            oriWidth += 1;
+            div1.css('width', oriWidth);
+            if (oriWidth < maxWidth) {
+                window.requestAnimationFrame(animate);
+            }
+        }
+        animate();
+    </script>
+</body>
+</html>
+```
 ## let和const
 在es6中新增了`let`与`const`,它们声明的变量，仅仅在块级作用域内才有效，并且不存在变量提升。
 > 变量提升:JS的一种预解析机制，用var和function定义的变量都存在变量提升。
+> 但是函数表达式不存在变量提升。
 ### let
 ``` js
 if (true) {

@@ -49,11 +49,16 @@ sidebar: "auto"
 ## ?匹配出现1次或0次的字符
 `/jasonf?[led]*/g`
 会匹配全部的`jasonfllllllleeeeeeeeeeeeee`
-## {}匹配更复杂的出现规则
+## {}长度范围限定
 <!-- ![](./reg/01.PNG) -->
 ![](./os-memory/20.png)
-`/yo{2,4}/g`会匹配出字母o最后出现2次或4次的情况。
-
+`/yo{2,4}/g`会匹配出字母o最后出现2次到4次的情况。
+### 6位邮政编码
+``` js
+let reg = /^\d{6}$/
+let res = reg.test("13456");
+console.log(res);//false
+```
 ## 边界符
 - `^`
 匹配以谁为开始。
@@ -80,9 +85,46 @@ let reg = /李../;
 - `test()`方法
 用来判断一个一个正则规则能否在指定字符串中匹配到字符
 ``` js
+//加上开头结尾意为必须全部满足规则
 let reg = /李../;
 let str = "李小明";
 console.log(reg.test(str));//true
 str = "王小明";
 console.log(reg.test(str));//false
+```
+
+## 很常见的正则练习
+> 建议先自己先写下试试哦
+### 设定一个规则，以字母开头，后面数字字母下划线，长度6-30
+``` js
+let reg = /^[a-zA-Z]\w{5,29}$/
+let str = 'a690163223';
+console.log(reg.test(str));
+```
+### 匹配日期
+``` js
+let reg = /^\d{4}-\d{1,2}-\d{1,2}$/
+let res = reg.test("2020-1-1");
+console.log(res); //true
+```
+### 简单IP地址匹配
+``` js
+let reg = /\d+\.\d+\.\d+\.\d+/;
+console.log(reg.test("192.168.0.1")); //true
+```
+### 将字符串中所有的小b换成大B
+``` js
+let str = 'aaaaaaaaaaaaabaaaaaaaaaab';
+let res = str.replace(/b/g, 'B');
+console.log(res);
+//aaaaaaaaaaaaaBaaaaaaaaaaB
+```
+### 手写字符串`trim()`方法保证浏览器的兼容性
+``` js
+//先去掉开头的空格，再去掉结尾的空格
+String.prototype.trim = function() {
+    return this.replace(/^\s+/, '').replace(/\s+$/, '');
+}
+let a = "  abc  ";
+console.log(a.trim());//abc
 ```

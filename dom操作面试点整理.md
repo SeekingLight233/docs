@@ -98,7 +98,13 @@ const listNode = document.getElementById('list');
 ### 删除
 - **removeChild**
 removeChild用于删除指定的子节点并返回子节点
-
+### 移动dom节点
+先获取要移动的节点，再将其追加到指定父节点的后面。
+``` js
+let div1 = document.querySelector("#div1");
+let father = document.querySelector('#father');
+father.appendChild(div1);
+```
 ## 事件传播模型
 由于一些历史原因，W3C将事件的传播模型分成了下面三个阶段:
 ![](./re_js/04.png)
@@ -112,8 +118,15 @@ removeChild用于删除指定的子节点并返回子节点
 
 3.冒泡阶段: 在冒泡阶段事件会从目标元素开始依次向上进行传递，在传递的过程中默认会触发事件。
 ::: tip
-如果不想让事件被冒泡触发，可以在事件函数中将`e.cancelBubble`设置为`true`。
+如果不想让子元素冒泡到父元素上，可以执行在子元素身上执行以下stopPropagation();
 :::
+``` js
+let son = document.querySelector("#son");
+son.addEventListener('click', (e) => {
+    e.stopPropagation();
+    console.log("hhh");
+})
+```
 ## 事件绑定
 有两种方法。
 ### `dom对象.事件 = function(event){}`
@@ -140,6 +153,8 @@ inner.addEventListener('click', (e) => {
 ```
 ### 二者的区别
 第一种方法有局限性，它只能为一个dom对象绑定一个响应事件，如果绑定多个事件，后面的会将前面的覆盖掉。
+### 取消事件的默认行为
+`event.preventDefault()`
 ## 事件委托
 一种优化dom事件响应的方式。
 当子元素拥有大量且逻辑相同的监听函数时，最好讲监听函数直接设置到父元素上，通过事件冒泡的机制，子元素可以“委托”父元素来完成特定的事件。

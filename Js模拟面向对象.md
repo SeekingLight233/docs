@@ -51,21 +51,15 @@ stu.run();//jason is running!
 ### 字面量直接创建
 这种方法最简单，但劣势也非常明显，那就是无法复用。如果有大量同类型的对象，则代码就会非常冗余。
 ### new一个Object()
-``` js
-function add_stu(name, age) {
-    let obj = new Object();
-    obj.name = name;
-    obj.age = age;
-    return obj;
-}
+等同于字面量直接创建。
+### `Object.create()`
+`Object.create(null)`没有原型<hide txt="感觉是找不到原型，毕竟引用传了个null过去"></hide>，通过`Object.create()`可以指定原型。
 
-let jason = add_stu("jason", 18);
-console.log(jason);//{ name: 'jason', age: 18 }
-let cat = add_stu("果果", 2);
-console.log(jason.constructor);//Function: Object]
-console.log(cat.constructor);//Function: Object]
-```
-这种方法虽然解决了代码复用的问题，但由于都是从`Object()`new过来的，因此无法判断类型。
+::: warning
+关于`new`与`Object.create()`的区别
+`new`是针对于`类`或者`构造函数`的，而`Object.create()`主要是针对于原型对象的。
+如果你`new`了一个原型对象或者你用`Object.create()`传进去一个类，都是没有意义的，毕竟他们作用的东西不一样，虽然都是实现继承的手段。
+:::
 ### new一个构造函数
 每当我们去new一个函数时，new完后会返回一个新的对象，这个新的对象我们可以把它类比为“类的实例”，当然new的那个函数我们可以将它类比为一个“类”。
 在函数被new的过程中，主要会做三件事情。
@@ -106,19 +100,13 @@ console.log(jason.constructor == guoguo.constructor); //false
 我们发现可以根据构造器的指向来判断类型了！
 
 但这样在构造函数中直接定义构造方法是有问题的，我们接下来会讨论。
-### `Object.create()`
-根据制定的原型对象来创建对象。
-::: warning
-关于`new`与`Object.create()`的区别
-`new`是针对于`类`或者`构造函数`的，而`Object.create()`主要是针对于原型对象的。
-如果你`new`了一个原型对象或者你用`Object.create()`传进去一个类，都是没有意义的，毕竟他们作用的东西不一样，虽然都是实现继承的手段。
-:::
+
 ## 原型
 每当我们创建一个函数的时候，JS解析器会向函数中添加一个叫`prototype`的属性，这个属性所对应的对象就是所谓的**原型**对象（简称原型）。如果我们new一个实例，这个实例也会拥有原型对象的所有属性。
 ``` js
 function Cat(name, age) {
     this.name = name;
-    this.age = age;
+    this.age = age; 
     this.meow = function() {
         console.log("Meow~~")
     }
@@ -449,7 +437,7 @@ class Cat extends Animal {
     run() {
         console.log("不单单会跑，我还会爬树！")
     }
-}
+} 
 
 let guoguo = new Cat("果果", 1, true);
 //Cat { name: '果果', age: 1, isCute: true }
@@ -462,7 +450,7 @@ class Animal {
         this.age = age;
     };
     run() {
-        console.log("running!")
+        console.log("running!");
     }
 }
 
@@ -482,12 +470,11 @@ let guoguo = new Cat("果果", 1, true);
 guoguo.meow();//果果:喵喵喵~
 ```
 
-
 ### 重载
 在ES6中,由于拓展运算符`...`的存在，实现重载也非常的简单
 ``` js
 function sum(...nums) {
-    if (nums.length == 0) return "你不传数过来劳资咋给你算？"
+    if (nums.length == 0) return "你不传数过来劳资咋给你算？" 
     let res = 0;
     for (let i = 0; i < nums.length; i++) {
         res += nums[i];
