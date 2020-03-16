@@ -1,5 +1,5 @@
 <template>
-  <span :id="txt" style="background-color: black;" @click="myclick()">
+  <span :id="txt" style="background-color: #24292e;" @click="myclick()">
       {{txt}}
   </span>
 </template>
