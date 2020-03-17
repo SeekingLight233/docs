@@ -1226,4 +1226,351 @@ export default {
 如果引得混入过多会让逻辑变得非常混乱，更要命的是，你按Ctrl键去找变量都没法找。。
 :::
 ## vuex
+如果我们开发的应用组件非常多，这时候在各个组件之间难免要进行消息传递。
+
+如果我们采用`$emit/$on`的方式来传递数据的话，就会非常的麻烦。
+
+vuex为我们提供了很好的策略：将要传递的数据放到一个“公共区域”，从而实现组件间消息的传递。
+
+### state
+`state`可以理解为“公共状态”。
+
+假设你在做一个电商网站，你需要获取当前的库存
+> store/index.js
+
+``` js
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+    state: {
+        amount: 99
+    },
+    mutations: {},
+    actions: {},
+    modules: {}
+})
+```
+在任意组件内你就可以用`$store.state.amount`对其进行访问。
+``` vue
+<template>
+  <div class="home">
+    {{$store.state.amount}}
+  </div>
+</template> 
+```
+### mutations
+当然，对于每一个组件，都是可以直接操作`$store.state`的。
+
+但是这不符合vuex的设计理念，最好的方法是调用`mutations`来间接操作。
+> store/index.js
+``` js
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+    state: {
+        amount: 99
+    },
+    mutations: {
+        add(state) {
+            state.amount++;
+        }
+    },
+    actions: {},
+    modules: {}
+})
+```
+组件内调用`$store.commit('方法名',参数)`来调用`mutation`。
+``` vue
+<template>
+  <div class="home">
+    {{$store.state.amount}}
+    <button @click="$store.commit('add')">+1</button>
+    <button @click="$store.commit('sub',5)">减</button>
+  </div>
+</template> 
+```
+::: warning
+`$store.commit('sub',5)`中最多支持俩参数，如果参数多的话需要打包传过去。
+:::
+### actions
+`actions`也和`mutations`一样，可以定义一些操作，不过在`actions`中定义的方法都是**异步**的。
+> store/index.js
+``` js
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+    state: {
+        amount: 99
+    },
+    mutations: {
+        sub(state, num) {
+            state.amount -= num
+        }
+    },
+    getters: {},
+    actions: {
+        subasync(context, step) {
+            setTimeout(() => {
+                context.commit('sub', step)
+            }, 1000);
+        }
+    },
+    modules: {}
+})
+```
+组件内用`$store.dispatch(action,参数)`来触发异步操作
+``` js
+methods: {
+    onClick(){
+      //触发异步操作
+      this.$store.dispatch('subasync',3);
+    }
+  },
+```
+### getter
+这个官方文档也只说了，你可以直接把它理解为计算属性，可以对数据进行包装。
+``` js
+getters: {
+        showAmount(state) {
+            return '当前的数量为' + state.amount;
+        }
+}
+```
+``` vue
+<template>
+  <div class="home">
+    {{$store.getters.showAmount}}
+    <button @click="$store.commit('add')">+1</button>
+    <button @click="$store.commit('sub',5)">减</button>
+  </div>
+</template> 
+```
+
 ## vue-router
+### 快速上手
+首先需要定义出两个vue页面组件。
+> home.vue
+``` vue
+<template>
+  <div class="home">
+    <h2>这是home页</h2>
+  </div>
+</template> 
+```
+> about.vue
+``` vue
+<template>
+  <div class="about">
+    <h1>This is an about page</h1>
+  </div>
+</template>
+```
+然后在父组件上设置路由导航位和路由填充位
+``` vue
+<template>
+  <div id="app">
+    <!-- 路由导航位 -->
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </div>
+    <!-- 路由填充位 -->
+    <router-view/>
+  </div>
+</template>
+```
+最后别忘了配置路由规则
+> router/index.js
+``` js
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Home from '../views/Home.vue'
+
+Vue.use(VueRouter)
+//在routers中配置路由规则
+const routes = [{
+        path: '/',
+        name: 'Home',
+        //同步引入组件
+        component: Home
+    },
+    {
+        path: '/about',
+        name: 'About',
+        //异步组件按需加载
+        component: () =>
+            import ( /* webpackChunkName: "about" */ '../views/About.vue')
+    }
+]
+
+const router = new VueRouter({
+    mode: 'hash',
+    base: process.env.BASE_URL,
+    routes
+})
+
+export default router
+```
+### 路由路径重定向
+在路由配置数组中配置`redirect`字段。
+``` js
+{
+    path: '/a',
+    //重定向路由路径
+    redirect: '/'
+}
+```
+### 嵌套路由
+在需要配置子路由的配置项中，添加`children`字段。
+
+`children`就类似于外层的routes，value部分也是一个路由配置数组。
+
+``` js
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Home from '../views/Home.vue'
+import tab1 from '../views/tab1.vue'
+import tab2 from '../views/tab2.vue'
+
+Vue.use(VueRouter)
+const routes = [{
+        path: '/',
+        component: Home,
+        //为其配置子路由
+        children: [{
+                path: '/tab1',
+                component: tab1
+            },
+            {
+                path: '/tab2',
+                component: tab2
+            }
+        ]
+    },
+    //其他路由页面的配置项
+```
+然后我们在home页为其子路由设置路由导航位和路由填充位。
+
+``` vue
+<template>
+  <div class="home">
+    <h2>这是home页</h2>
+    <!-- 路由导航位 -->
+    <router-link to="/tab1">tab1</router-link>
+    <router-link to="/tab2">tab2</router-link>
+    <!-- 路由填充位 -->
+    <router-view/>
+  </div>
+</template> 
+```
+::: warning
+`router-link`中的`to`一定要和路由配置中的`path`对应好！
+:::
+### 动态路由
+假如说有多个路由页面有相同的逻辑，这时候我们就可以把这多个路由页面合并成一个，然后在路由配置中动态的传递参数过去。
+
+> 路由导航位肯定还是不变的
+
+``` vue
+<template>
+  <div id="app">
+    <!-- 路由导航位 -->
+    <div id="nav">
+      <router-link to="/1">Home1</router-link> |
+      <router-link to="/2">Home2</router-link> |
+      <router-link to="/3">Home3</router-link> |
+      <router-link to="/about">About</router-link>
+    </div>
+    <!-- 路由填充位 -->
+    <router-view/>
+  </div>
+</template>
+```
+在配置项中设置动态路由路径。
+``` js
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Home from '../views/Home.vue'
+
+Vue.use(VueRouter)
+    //在routers中配置路由规则
+const routes = [{
+        //动态路由路径
+        path: '/:id',
+        component: Home,
+    },
+    //...
+```
+在“被抽象”的路由组件中，我们可以用`$route.params`来访问路由参数。
+``` vue
+<template>
+  <div class="home">
+    <h2>这是第{{$route.params.id}}个home页</h2>
+  </div>
+</template> 
+```
+![](./vue-learn/20.png)
+#### 第二种访问路由参数的方法
+直接在路由配置上设置`props`为`true`,这样参数就能作为组件的属性值被访问了。
+``` js
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Home from '../views/Home.vue'
+
+Vue.use(VueRouter)
+    //在routers中配置路由规则
+const routes = [{
+        //动态路由路径
+        path: '/:id',
+        component: Home,
+        props: true
+    },
+    //...
+```
+组件中记得设置`props`接口
+``` vue
+<template>
+  <div class="home">
+    <h2>这是第{{$route.params.id}}个home页</h2>
+    <button @click="show">打印</button>
+  </div>
+</template> 
+<script>
+export default {
+  props:['id'],
+  methods: {
+    show(){
+      console.log(this.id);
+    }
+  },
+}
+</script>
+```
+### script中路由跳转
+可以用`this.$router.push(路由路径)`
+``` vue
+<template>
+  <div class="home">
+    <h2>这是第{{$route.params.id}}个home页</h2>
+    <button @click="jump">跳转到about</button>
+  </div>
+</template> 
+<script>
+export default {
+  methods: {
+    jump(){
+      this.$router.push('/about')
+    }
+  },
+}
+</script>
+```
