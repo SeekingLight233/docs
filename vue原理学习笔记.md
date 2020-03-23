@@ -44,11 +44,10 @@ export function initState (vm: Component) {
 }
 ```
 从代码里我们能够看到，在`initState()`中又将`props`,`data`,`methods`,`computed`,`watched`这些重要选项给初始化了。
-
-### MVVM
+## MVVM
 - `M`:`Model`,指的是数据模型，包括操作数据的动作。
-- `V`:`View`,视图。
-- `VM`:`ViewModel`,一个**双向**连接层，用来连接`Model`和`View`。他会监听`Model`中的数据变化从而去控制视图层的渲染，也会由视图层的变化去改变`Model`中的数据，这个变化的过程是双向的，也是自动  的。
+- `V`:`View`,视图。 
+- `VM`:`ViewModel`,一个**双向**连接层，用来连接`Model`和`View`。他会监听`Model`中的数据变化从而去控制视图层的渲染，也会由视图层的变化去改变`Model`中的数据，这个变化的过程是双向的，也是自动的。
 `MVVM`最大的一个好处就是能够让开发人员调出繁琐的操作dom，将主要的精力放在数组模型(业务逻辑)上。
 ## 响应式原理
 ### 核心api
@@ -215,7 +214,7 @@ vue的diff算法借鉴的是`snabbdom`这个库，这个库中在进行虚拟dom
 ![](https://user-gold-cdn.xitu.io/2018/4/18/162d4772f1f40c49?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 如果判断节点不同，那么会直接将新节点replace到旧节点上。
 
-如果判断节点相同，则执行局部渲染。
+如果判断节点相同，则执行局部渲染(patch函数。
 
 局部渲染主要比较的是里面的内容，会根据两个vnode是否有子节点和文本是否相同进行进一步处理。
 
@@ -227,9 +226,156 @@ vue的diff算法借鉴的是`snabbdom`这个库，这个库中在进行虚拟dom
 
 ### 为什么在v-for中要使用key
 
-使用key可以提高渲染性能，因为使用key的话就能够判断虚拟dom是否相同，此时的虚拟dom在更新时只需要移动就可以了，而不需要全部销毁重建重新渲染。
+使用key可以提高渲染性能，在diff算法中通过key和tag来判断sameNode，如果判断是sameNode直接移动就好了，而不需要全部销毁重建重新渲染。
 
 ![](./vue-learn/22.png)
-## 模板编译
+## template被编译成了什么
+我们可以借助于`vue-template-compiler`来查看模板最终的编译结果。
+
+先看一个非常简单的例子。
+``` js
+const compiler = require('vue-template-compiler')
+
+const template = `<p>div</p>`
+
+const res = compiler.compile(template);
+
+console.log(res.render);
+//with(this){return _c('p',[_v("div")])}
+```
+我们能够看到，这个template最终被编译成了render函数，render函数则会根据`_c()`函数返回一个vnode。
+
+::: tip
+`_c()`函数在vue源码里的意思是`createElement()`,也就是创建一个vnode。
+:::
+_v,_s,_l在vue的模板编译中也很常用。
+``` js
+target._v = createTextVNode;
+target._s = toString;
+target._l = renderList;
+```
+以下是常见的vue模板编译结果。
+- 插值
+``` js
+const template = `<p>{{message}}</p>`
+// with(this){return _c('p',[_v(_s(message))])}
+```
+可以看到{{message}}被编译成了`createTextVNode(toString(message))`。
+
+- 表达式
+``` js
+const template = `<p>{{flag ? message : 'no message found'}}</p>`
+//with(this){return _c('p',[_v(_s(flag ? message : 'no message found'))])}
+```
+
+- 属性和动态属性
+``` js
+const template = `
+    <div id="div1" class="container">
+        <img :src="imgUrl"/>
+    </div>
+     `
+//with(this){return _c('div',{staticClass:"container",attrs:{"id":"div1"}},[_c('img',{attrs:{"src":imgUrl}})])}
+```
+动态属性就是把属性值直接作为变量传过去了，很符合我们的猜测。
+
+- 条件编译
+``` js
+const template = `
+    <div>
+        <p v-if="flag === 'a'">A</p>
+        <p v-if="flag === 'b'">A</p>
+    </div>
+`
+//with(this){return _c('div',[(flag === 'a')?_c('p',[_v("A")]):_e(),_v(" "),(flag === 'b')?_c('p',[_v("A")]):_e()])}
+```
+<hide txt="PS:大佬们写代码都喜欢用三元表达式嘛？？"/>
+
+- 循环
+``` js
+const template = `
+    <ul>
+        <li v-for="item in list" :key="item.id">{{item.title}}</li>
+    </ul>
+`
+//with(this){return _c('ul',_l((list),function(item){return _c('li',{key:item.id},[_v(_s(item.title))])}),0)}
+```
+主要就是调了一个`renderList()`这样一个函数。
+
+- 事件
+``` js
+const template = `
+    <button @click="clickHandler">submit</button>
+`
+//with(this){return _c('button',{on:{"click":clickHandler}},[_v("submit")])}
+```
+
+- v-model（v-model的实现原理）
+``` js
+const template = `<input type="text" v-model="name">`
+// with(this){return _c('input',{directives:[{name:"model",rawName:"v-model",value:(name),expression:"name"}],attrs:{"type":"text"},domProps:{"value":(name)},on:{"input":function($event){if($event.target.composing)return;name=$event.target.value}}})}
+```
+
+这个稍微有点长不过并不是很难理解。
+> 这里有个面试题考点：v-model的原理
+
+首先input里的value会去等于data.xxx。(单向绑定)
+然后data.xxx = $event.target.value。（双向绑定）
+
+
 ## 组件渲染过程分析
+### 初次渲染
+
+1. 首先会将模板解析为render函数
+2. 执行render函数()，通过getter拿到data生成虚拟dom，并通过`patch(el,vnode)`函数将其更新到视图上。
+
+### 更新渲染
+当我们修改data的时候，就会触发setter,从而触发视图更新。
+此时会重新触发render函数，生成新的vnode，然后通过patch函数更新上去。
+
+::: tip
+我们能够看到，不管是初次渲染还是更新渲染都是需要步骤和时间的，因此在vue中，渲染的过程是异步的！这点很重要
+:::
+
 ## 前端路由
+哈希模式下是通过`window.onhashchagne()`监听url中hash值变化，从而渲染页面。
+
+history模式主要利用`history.pushState()`在实现改变网址而不刷新界面，监听的话用的是`windows.onpopstate()`。
+同时history需要后端进行相应的配置。
+
+---
+## 面试题补充
+### Q：为什么Vue组件里的data必须是一个函数？
+A：既然是组件嘛，肯定要保证复用性.
+
+但数据不能复用啊，如果不是函数的话那么所有组件的data都会指向同一个静态对象，修改任何一个组件的data都会影响到其他组件的data。
+
+如果是函数的话每次实例化一个Vue组件都会调用data()这个函数，然后返回一个新的对象。
+
+### Q：ajax请求应该放在哪个生命周期？
+A: 都是异步的直接放`mounted`得了，放created里其实也快不了多少，还会让夜壶逻辑变得更加混乱。
+
+### Q: 如何将组件上所有的属性传递给子组件？
+A:可以通过`$props`打包传过去。
+
+### Q: 何时可能会用到 beforeDestroy?
+A:解除绑定自定义事件/清楚定时器
+
+### Q：什么是作用域插槽
+一种可以将子组件的数据带出来进行渲染的插槽，具体使用[请点击](./vue学习笔记.html/#插槽)
+
+### Q：Vuex中action和mutation有何区别
+mutation主要进行一系列原子操作。
+action可以整合多个mutation中的原子操作，同时也可以处理异步。
+
+### 请描述响应式的原理
+在前面响应式的基础上附加上组件渲染与更新的流程。
+
+### Vue中常见的性能优化点
+- 合理使用v-show和v-if
+- 合理使用computed
+- v-for时加key，以及避免和v-if同时使用
+- 自定义事件，dom上的事件要及时销毁
+- 合理使用异步组件和keep-alive
+- data层级尽量扁平
+- 在webpack下用vue-loader做模板编译

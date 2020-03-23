@@ -188,7 +188,7 @@ export default {
 ::: tip
 计算属性计算的结果会被缓存起来，方便下一次继续调用。
 也就是说，只要**data**里的东西不变，则计算属性就不会重新计算。
-:::
+::: 
 ### 监听器属性
 监听器可以对`data`里的数据进行监听，如果发生变化则触发。
 ``` vue
@@ -660,7 +660,7 @@ mounted() {
 在**创建时**,vue会去初始化`data`里的数据和`methods`里的方法。也就是说，在`beforeCreate`时，你是拿不到这些数据和方法的，只有到了`created`时，你才能拿到这些数据和方法。
 ![](./vue-learn/09.png)
 
-在`created`之后，vue就会根据组件内“是否有挂载目标el”和“是否有template”来将模板**渲染到内存中**。
+在`created`之后，vue就会根据组件内“是否有挂载目标el”和“是否有template”来将模板**渲染到内存中**，生成虚拟dom。
 ![](./vue-learn/10.png)
 > 画红框的地方为将模板渲染到内存中的阶段。
 
@@ -694,7 +694,7 @@ mounted() {
 ![](./vue-learn/14.png)
 
 是不是发现顺序有些像呢？没错，在 **更新前 => 更新后**，父子组件的运行顺序也是一个递归的过程。
-
+ 
 同理，在 **销毁前 => 销毁后**，只有子组件销毁完了，父组件才能说“自己销毁完了”，毕竟**子组件是父组件的一部分**。
 ## 高级特性
 ### v-model的自定义配置
@@ -838,7 +838,7 @@ export default {
   </div>
 </template> 
 <script>
-import myVmodel from '../components/BaseUse/myVmodel'
+import myVmodel from '../components/BaseUse/myVmodel' 
 export default {
   name: "Home",
   components:{

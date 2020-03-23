@@ -735,7 +735,6 @@ console.log(arr_map);
 ```
 
 ## 箭头函数
-## promise
 ## Proxy
 ## generator
 ## es6中新增的正则符号
