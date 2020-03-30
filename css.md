@@ -12,13 +12,24 @@ tags:
  - 响应式布局
  - 媒体查询
 ---
+
 ## css选择器优先级
-内联 > ID选择器 > 类选择器 > 标签选择器
+内联 > ID选择器 > 类选择器 > 标签选择器和伪类选择器
+1000 > 0100 > 0010 > 0001
+如果有多个选择器，会对其进行加权比较
+::: warning
+如果元素的属性值后面跟了`!important`,那么这个属性值得优先级最高。
+:::
 ### 样式表优先级
 内联 > 内部css > 外部css
-具体比较可以应用加权(感觉用的不多啊)
+### 伪类与伪元素
+伪类一般匹配元素的特殊状态，比如hover，而伪元素会匹配元素的特殊位置，像before，after。
+在CSS3的新标准中，我们用单引号表示伪类，双引号表示伪元素。
+### CSS3中新增的伪类
+- elem:nth-child(n):选择当前玄素的第n个子元素
+- elem:last-child: 选中最后一个子元素
+选择元素的方法更灵活了。
 ## position属性
-
 ### fix
 多用于广告啥的，会随着页面滚动。这种布局会脱离文档流。
 ### relative
@@ -92,7 +103,24 @@ display属性设置一个元素如何显示
 
 ### inline-block
 行内块元素，顾名思义，不会单独占一行的块元素。宽，高，margin，padding都可以设置。
-
+## 元素居中
+### 水平居中
+`margin:0 auto`
+### 垂直居中
+- 绝对定位的情况下
+``` css
+#mydiv {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* width: 50px;
+    height: 50px;
+    border: 1px solid red; */
+}
+```
+然后利用`margin`或者`transform: translate();`来调整元素位置
+- flex布局的情况下
+只需要为需要居中的子元素设置`margin:auto`。
 ## float
 加了float的元素会“飘“起来，脱离当前的文档流。
 注意：文字对于float起来的元素依然是敏感的，因此可以利用这个属性做一些图文环绕的效果。
@@ -201,12 +229,11 @@ display属性设置一个元素如何显示
 ![](./css/05.png)
 
 #### jusify-content
-定义子元素在**主轴**方向上的分布方式
+定义子元素在**主轴**方向上(就是flex-direction的方向)的分布方式
 [具体值的效果](https://www.w3cschool.cn/cssref/css3-pr-justify-content.html)
 
 #### align-items 
-
-规定flex子项们在**侧轴**上的对齐方式。
+规定主轴上子项们在**侧轴**上的对齐方式。
 
 #### 利用弹性盒子实现双飞翼布局
 
@@ -264,11 +291,31 @@ display属性设置一个元素如何显示
 ```
 
 ![](./css/06.png)
+### 品字布局
+上面宽度设置为100%，下面两个各设置为50%。(一个左浮动，一个右浮动)
+``` css
+#top {
+    background-color: red;
+    width: 100%;
+    height: 100px;
+}
 
+#left {
+    float: left;
+    background-color: yellow;
+    width: 50%;
+    height: 100px;
+}
 
-
-
-
+#right {
+    float: right;
+    background-color: green;
+    width: 50%;
+    height: 100px;
+}
+```
+### 多列等高布局
+直接flex布局，子盒子不要设置高度，具体高度会自动对齐。
 ## 响应式布局解决方案
 
 **方案一：**
@@ -313,7 +360,20 @@ html {
 **方案二：**直接上vw，现在兼容性应该都解决了。
 
 **方案三:**  媒体查询
-
+## CSS实现三角形
+主要利用了边框与边框间等分的原理。
+![](./css/08.png)
+想象一下，外面的黄色部分是边框，里面的红色部分是内容，如果我们把红色部分“挖掉”，边框会变成什么样子呢？
+``` css
+#mydiv {
+    border-width: 100px;
+    border-style: solid;
+    /* 其余的方向设置为透明 */
+    border-color: transparent mediumseagreen transparent transparent;
+    width: 0px;
+    height: 0px;
+}
+```
 ## css常用@规则
 ### @import
 用来引入一个css文件
@@ -452,15 +512,33 @@ p { font-family: Gentium, serif; }
 </html>
 ```
 最终的效果是当鼠标放上去的时候，盒子会弹一下。
+## 其他面试问题补充
+### li与li之间的空格怎么解决？
+A: 直接把li写一行。
+### 初始化样式的意义是什么？
+A: 为了兼容性，但是不利于SEO。
+### visibility中的collapse有什么作用？
+正常情况下和`hidden`一样：隐藏元素，但是占用空间。
+但如果指定的是table相关的元素，效果就和`display:none`一样：隐藏元素，并且不占用空间。
+### width:auto和width:100%的区别
+子元素如果设置100%,此时如果在加个margin就会撑出父元素(底部滚动条)，而auto则会自动充满。
 
+### base64的优缺点
+优点: 减少HTTP请求。
 
-
-
-
-
-
-
-
+缺点:
+- 增大HTML的体积
+- 兼容性问题(IE8)
+- 缓存性能不如直接用原图片
+### BFC是什么以及触发BFC的条件
+BFC是指的是**块级格式化上下文**，一旦某个元素触发了BFC，那么这个元素就可以视为是一个独立的“容器”，布局不受外界影响。
+常见触发BFC的条件:
+- 设置浮动
+- 元素绝对定位
+- display = inline-block或flex
+- overflow = hidden
+### 浏览器解析选择器的顺序是什么？
+从右往左，这样会减少大量的重复匹配，可以将范围先控制到最小。
 
 
 

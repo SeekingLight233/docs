@@ -299,6 +299,25 @@ function binarySearch(arr, target) {
 let res = binarySearch([0, 2, 6, 7, 9, 11, 12, 45], 999);
 console.log(res); //-1
 ```
+### 可以返回索引值的二分查找
+上面的二分查找只能返回true或者false，返回索引值我们可以做更细节的处理
+``` js
+function binsarySearch(arr, target, lp, rp) {
+    if (lp > rp) {
+        return -1;
+    }
+
+    let midIndex = Math.floor((lp + rp) / 2);
+    let midVal = arr[midIndex];
+    if (target === midVal) return midIndex;
+    if (target < midVal) {
+        //从左半旯开始找
+        return binsarySearch(arr, target, lp, midIndex - 1);
+    } else {
+        return binsarySearch(arr, target, midIndex + 1, rp);
+    }
+}
+```
 - 二维数组中的查找
 ::: tip
 在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
@@ -893,16 +912,392 @@ function dfs(root, array = []) {
 ```
 ## 递归
 - 斐波那契
+记忆化的题目可以利用一个map来缓存下中间计算的结果，如果map中有的话就不用重复计算
+``` js
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var fib = function(n) {
+    //小于2的情况
+    if (n < 2) {
+        return n;
+    }
+    //如果大于2，就采用记忆化的方法
+    //如果要记忆化，首先要有一个记忆化的容器
+    let map = new Map();
+    map.set(0, 0);
+    map.set(1, 1);
+
+    function memoize(number) {
+        if (map.get(number) !== undefined) return map.get(number);
+
+        let val = memoize(number - 1) + memoize(number - 2);
+        //这一步是核心中的核心，将计算的结果缓存到map中
+        map.set(number, val%1000000007);
+        return val%1000000007;
+    }
+    return memoize(n)
+};
+```
 - 跳台阶
+其实就是变形版的斐波那契
+``` js
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var numWays = function(n) {
+    //小于2的情况
+    if(n == 0) return 1;
+    if(n == 1) return 1;
+    //如果大于2，就采用记忆化的方法
+    //如果要记忆化，首先要有一个记忆化的容器
+    let map = new Map();
+    map.set(0, 1);
+    map.set(1, 1);
+
+    function memoize(number) {
+        if (map.get(number) !== undefined) return map.get(number);
+
+        let val = memoize(number - 1) + memoize(number - 2);
+        //这一步是核心中的核心，将计算的结果缓存到map中
+        map.set(number, val%1000000007);
+        return val%1000000007;
+    }
+    return memoize(n)
+};
+```
 ## 数组
 - 反转数组
 - 去掉数组中重复的元素
 ## 栈与队列
-- 队列与栈的互相实现
+- 用两个栈实现队列
+``` js
+var CQueue = function() {
+    this.inStack = [];
+    this.outStack = [];
+};
+
+/** 
+ * @param {number} value
+ * @return {void}
+ */
+CQueue.prototype.appendTail = function(value) {
+    this.inStack.push(value);
+};
+
+/**
+ * @return {number}
+ */
+CQueue.prototype.deleteHead = function() {
+    const {inStack,outStack} = this;
+    if(outStack.length!=0){
+        return outStack.pop();
+    }else{
+        //如果out里没东西，就从in里面拿
+        while(inStack.length!=0){
+            outStack.push(inStack.pop());
+        }
+        return outStack.pop()||-1;
+    }
+};
+
+/**
+ * Your CQueue object will be instantiated and called as such:
+ * var obj = new CQueue()
+ * obj.appendTail(value)
+ * var param_2 = obj.deleteHead()
+ */
+```
 - 包含min函数的栈
+PS:在leetcode上最后一个极端的样例一直过不了。。。
+``` js
+/**
+ * initialize your data structure here.
+ */
+var MinStack = function() {
+    //整一个最小值队列
+    this.min_num = [];
+    this.arr = [];
+};
+MinStack.prototype = [];
+
+/** 
+ * @param {number} x
+ * @return {void}
+ */
+MinStack.prototype.push = function(x) {
+    let mintmp = this.min_num[this.min_num.length - 1];
+    if (x <= mintmp || mintmp == null) this.min_num.push(x);
+    this.arr.push(x);
+};
+
+/**
+ * @return {void}
+ */
+MinStack.prototype.pop = function() {
+    let val = this.arr.pop();
+    if (val === this.min_num[this.min_num.length - 1] && this.min_num.length > 1) {
+        this.min_num.pop();
+    }
+};
+
+/**
+ * @return {number}
+ */
+MinStack.prototype.top = function() {
+    return this.arr[this.arr.length - 1];
+};
+
+/**
+ * @return {number}
+ */
+MinStack.prototype.min = function() {
+    return this.min_num[this.min_num.length - 1];
+};
+```
 - 滑动窗口的最大值
+``` js
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number[]}
+ */
+var maxSlidingWindow = function(nums, k) {
+    if(nums.length == 0) return [];
+    let res = [];
+    //区间遍历
+    for(let i = 0;i+k<=nums.length;i++){
+        let max = Math.max(...nums.slice(i,i+k));
+        res.push(max)
+    }
+    return res;
+};
+```
 ## 哈希表
-- 常数时间插入、删除和获取随机元素
+- 数组中重复的数字
+遍历每一个数组，并将其添加到对象中(添加的时候用键值对记录)
+``` js
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findRepeatNumber = function(nums) {
+    const map = {};
+    for(let num of nums){
+        if(!map[num]){
+            map[num] = true;
+        }else{
+            return num;
+        }
+    }
+};
+```
 - 字符流中第一个不重复的字符
 
-## 贪心、回溯、动态规划
+蛮简单的，主要就是用hash表跑一会记录一下，不过要先初始化
+``` js
+/**
+ * @param {string} s
+ * @return {character}
+ */
+var firstUniqChar = function(s) {
+    let res = " ";
+    
+    let map = {};
+    //初始化计数器
+    for(let val of s){
+        map[val] = 0;
+    }
+    //访问到对应的key，就将其的val+1
+    for(let val of s){
+        map[val]++
+    }
+    
+    for(let key in map){
+        if(map[key] === 1){
+            return key   
+        }
+    }
+    return res;
+};
+```
+## 链表
+### 基本应用
+- 删除链表中的节点
+``` js
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} val
+ * @return {ListNode}
+ */
+var deleteNode = function(head, val) {
+    let pre = new ListNode("虚拟头结点");
+    //将pre节点与头结点相连
+    pre.next = head;
+    //从preNode开始遍历
+    let preNode = pre;
+    
+    while(preNode.next){
+        //关键在这里，让它的下一个节点值去进行比较
+        if(preNode.next.val != val){
+            preNode = preNode.next;
+        }else{
+            preNode.next = preNode.next.next;
+            break;
+        }
+    }
+    return pre.next;
+};
+```
+- 反转链表
+``` js
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var reverseList = function(head) {
+    let pre = null;
+    let cur = head;
+    while(cur){
+        //保存一份cur.next的拷贝
+        let curNext = cur.next;
+        if(pre === null){
+            cur.next = null;
+        }else{
+            cur.next = pre;
+        }
+
+        //步进两个指针
+        pre = cur;
+        cur = curNext;
+    }
+    return pre;
+};
+```
+
+### 双指针
+- 两个链表的第一个公共节点
+两个链表同时入栈，然后同时出栈，第一个相同的节点就是要求的结果
+``` js
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+
+/**
+ * @param {ListNode} headA
+ * @param {ListNode} headB
+ * @return {ListNode}
+ */
+var getIntersectionNode = function(headA, headB) {
+    let stackA = [];
+    let stackB = [];
+    let curA = headA;
+    let curB = headB;
+    //有两个神仙样例。。。
+    if(curA == null||curB == null) return null;
+    if(curA == curB) return curA;
+    while(curA){
+        stackA.push(curA);
+        curA = curA.next;
+    }
+    while(curB){
+        stackB.push(curB);
+        curB = curB.next;
+    }
+    //同时出栈,定义一个变量保存最后结果
+    let res = null;
+    while(true){
+        let a = stackA.pop();
+        let b = stackB.pop();
+        if(a!=b){
+            return res;
+        }else res = a;
+    }
+};
+```
+- 链表中倒数第K个节点
+**故 计 重 施**
+``` js
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} k
+ * @return {ListNode}
+ */
+var getKthFromEnd = function(head, k) {
+    let stack = [];
+    let cur = head;
+    while(cur){
+        stack.push(cur);
+        cur = cur.next;
+    }
+    let res = null;
+    for(let i = 0;i<k;i++){
+        res = stack.pop();
+    }
+    return res;
+};
+```
+## 回溯
+- 字符串的排列
+``` js
+/**
+ * @param {string} s
+ * @return {string[]}
+ */
+var permutation = function(s) {
+    let result = [];
+    if (s) {
+        //queue为未排序的字符
+        let queue = s.split("");
+        dfs(queue, result);
+    }
+    //?
+    return [...new Set(result)];
+};
+//temp用于存储需要进入排列的那一个字符
+//current用于记录已经排好序的字符
+function dfs(queue = [], result, temp = "", current = "") {
+    //先将需要排序的字符添加到current上面
+    current += temp;
+
+    if (queue.length == 0) {
+        result.push(current);
+        return;
+    }
+    for (let i = 0; i < queue.length; i++) {
+        temp = queue.shift();
+        dfs(queue, result, temp, current);
+        queue.push(temp);
+    }
+}
+
+let res = permutation("abc");
+console.log(res);
+```

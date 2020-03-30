@@ -15,6 +15,8 @@ tags:
 
 ![](./note01/01.png)
 
+IE盒子模型的宽高也包含了content，padding,border,而标准盒模型的宽高只包含content
+
 ## 语义化标签
 
 HTML5新增了一些新的语义化标签，类似这样
@@ -206,6 +208,8 @@ toDataURL()  将canvas转换成图片，返回地址
   #content { … }
   #footer { … }
 }
-```
-
 //如果一个设备的最大宽度不到600px就套用上述样式
+```
+## 面试题补充
+
+
