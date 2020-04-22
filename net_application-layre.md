@@ -1,21 +1,15 @@
 ---
-title: 网络-应用层
+title: 前端层面必须要掌握的网络知识
 date: 2019-11-23
 categories: 
  - 计算机网络
 tags: 
  - DNS
- - FTP
- - TELNET
- - WWW万维网
- - HTTP协议
- - SMTP
- - POP3
- - IMAP
- - DHCP
+ - HTTP
+ - HTTPS
 ---
 ## 域名系统DNS
-## HTTP
-## TSL
-## HTTP2
-## HTTP3
+## HTTP协议
+
+## HTTPS
+## HTTP各个版本

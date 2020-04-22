@@ -99,13 +99,13 @@ display属性设置一个元素如何显示
 
 ### inline
 内联元素，只会占领自身的宽度和高度所在的空间。宽度和高度取决于内容本身，高度没法改，要改宽度只能设置padding值。
-常见内联元素:`<a><em><img>`
+常见内联元素:`span`,`img`,`input`
 
 ### inline-block
 行内块元素，顾名思义，不会单独占一行的块元素。宽，高，margin，padding都可以设置。
 ## 元素居中
 ### 水平居中
-`margin:0 auto`
+设置宽度，`margin:0 auto`或者父盒子设置`text-align:center`
 ### 垂直居中
 - 绝对定位的情况下
 ``` css
@@ -415,37 +415,8 @@ html {
 p { font-family: Gentium, serif; }
 ```
 ## css3常用特性
-### transform
-可以实现对元素的旋转，缩放，倾斜，和移动等变换。
-**eg**:将一个div盒子横向移动300px，纵向移动100px，旋转30度
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <style>
-    #mydiv{
-        background-color: grey;
-        width: 200px;
-        height: 300px;
-        transform: translateX(300px) translateY(100px) rotate(30deg);
-    }
-    </style>
-</head>
-<body>
-    <div id="mydiv"></div>
-</body>
-</html>
-```
-
-![](./css/07.png)
-
 ### transition
-将元素的某个属性从一个值过渡到另一个值。
+定义元素的变化过程。
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -476,6 +447,36 @@ p { font-family: Gentium, serif; }
 ```
 最后的效果可以看到灰色盒子逐渐变红并移动到左边。
 
+### transform(转变)
+定义元素变化的结果。
+**eg**:将一个div盒子横向移动300px，纵向移动100px，旋转30度
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    #mydiv{
+        background-color: grey;
+        width: 200px;
+        height: 300px;
+        transform: translateX(300px) translateY(100px) rotate(30deg);
+    }
+    </style>
+</head>
+<body>
+    <div id="mydiv"></div>
+</body>
+</html>
+```
+
+![](./css/07.png)
+
+
 ### animate
 在调用动画之前要先定义动画帧。
 ```html
@@ -503,7 +504,7 @@ p { font-family: Gentium, serif; }
         60% {transform: translateY(-60px);}
         100% {transform: translateY(0px);}
     }
-    /* 这个动画帧要是能用函数描述就nb了 */
+
     </style>
 </head>
 <body>
@@ -517,9 +518,10 @@ p { font-family: Gentium, serif; }
 A: 直接把li写一行。
 ### 初始化样式的意义是什么？
 A: 为了兼容性，但是不利于SEO。
-### visibility中的collapse有什么作用？
-正常情况下和`hidden`一样：隐藏元素，但是占用空间。
-但如果指定的是table相关的元素，效果就和`display:none`一样：隐藏元素，并且不占用空间。
+### visibility和display的区别？
+visibility：可见性。
+display: 是否展示。
+
 ### width:auto和width:100%的区别
 子元素如果设置100%,此时如果在加个margin就会撑出父元素(底部滚动条)，而auto则会自动充满。
 
@@ -533,13 +535,15 @@ A: 为了兼容性，但是不利于SEO。
 ### BFC是什么以及触发BFC的条件
 BFC是指的是**块级格式化上下文**，一旦某个元素触发了BFC，那么这个元素就可以视为是一个独立的“容器”，布局不受外界影响。
 常见触发BFC的条件:
-- 设置浮动
+- 浮动元素
 - 元素绝对定位
 - display = inline-block或flex
 - overflow = hidden
+作用:可以不被浮动元素覆盖；可以阻止外边距重叠
 ### 浏览器解析选择器的顺序是什么？
 从右往左，这样会减少大量的重复匹配，可以将范围先控制到最小。
-
-
-
-
+### CSS和js实现动画的方式？
+CSS:`transition`,`animate`;
+JS:`RAF接口`+`Canvs`
+### 实现一个自适应的正方形盒子？
+vw/vh布局直接画。

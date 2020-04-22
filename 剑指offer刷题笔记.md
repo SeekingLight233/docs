@@ -362,26 +362,24 @@ console.log(res); //false
 注意：给出的所有元素都大于0，若数组大小为0，请返回0。
 :::
 ``` js
-function minNumberInRotateArray(rotateArray) {
-    if (rotateArray.length == 0) return 0;
-    let left = 0;
-    let right = rotateArray.length - 1;
-    let mid = 0;
+/**
+ * @param {number[]} numbers
+ * @return {number}
+ */
+var minArray = function(numbers) {
+    let left = 0, right = numbers.length
     while (left < right) {
-        mid = left + Math.floor((right - left) / 2);
-        //如果中间的值比左边的值小，那就说明“断崖”在左边，右边找无意思，将其缩短
-        if (rotateArray[mid] < rotateArray[left]) {
-            right = mid;
-        } else if (rotateArray[mid] > rotateArray[left]) {
-            left = mid;
-        } else {
-            left++;
+        if (numbers[left] > numbers[left + 1]) {
+            return numbers[left + 1]
         }
+        if (numbers[right] < numbers[right - 1]) {
+            return numbers[right]
+        }
+        left++
+        right--
     }
-    return rotateArray[left];
-}
-let res = minNumberInRotateArray([9, 10, 11, 12, 13, 14, 15, 16, 7, 8, 9]);
-console.log(res); //7
+    return numbers[0]
+};
 ```
 - 统计一个数字在排序数组中出现的次数(知识迁移)
 ::: tip
@@ -1264,6 +1262,8 @@ var getKthFromEnd = function(head, k) {
     return res;
 };
 ```
+- 环形链表
+- 回文字符串
 ## 回溯
 - 字符串的排列
 ``` js

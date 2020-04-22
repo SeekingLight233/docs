@@ -22,6 +22,7 @@ sidebar: "auto"
 - null如果用typeof检查类型发现是Object，其实这是js的一个老bug。。。
 
 - symbol是ES6中新增的原始类型，它可以用来生成唯一的标志来避免命名冲突。
+- `NaN`是number中的特殊值，代表的是参与数学计算错误后的返回值。
 ``` js
   let obj = {
     [Symbol(01)]: "hello",
@@ -580,7 +581,6 @@ set.add(6);
 set.add(7);
 set.add(8);
 console.log(set); //Set { 1, 2, 3, 4, 5, 6, 7, 8 }
-
 //Set转为数组
 let arr = [...set];
 console.log(arr);
@@ -733,9 +733,17 @@ let arr_map = [...map];
 console.log(arr_map);
 //[ [ 1, 'aaa' ], [ 2, 'bbb' ], [ '3', 'ccc' ] ]
 ```
-
-## 箭头函数
-## Proxy
-## generator
-## es6中新增的正则符号
-
+## 面试题补充
+### 常用的JavaScript规范
+- for和if后面必须跟大括号
+- switch语句要带上default分支
+- 不要再内置对象的原型上添加方法
+- 尽量使用三等，在判断空的时候可以使用两等
+### 获取原型的方法
+- p.__proto__
+- p.constructor.prototype
+- Object.getPrototypeOf(p)
+### js中表示进制数字的方法
+- 0x表示16进制
+- 0o表示8进制
+- 0b表示二进制
