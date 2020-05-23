@@ -78,17 +78,83 @@ ts 中的 Array 可以具体的为其制定元素类型。
 
 ```ts
 //数组
-let arr_num: number[] = [1, 2, 3, 4]
+let arr: Array<number>
+let arr_num: number[] = [1, 2, 3, 4] //简写
 arr_num.push(5)
 
 let arr_num: Array<number> = [1, 2, 3, 4] //等同,后面会提及到泛型
 ```
 
-元组可以理解为合并了不同类型的一种数组,可以具体到为每一个元素规定不同的类型。
+元组可以理解为合并了不同类型的一种数组,可以具体到为每一个元素规定不同的类型。(定长数组)
 
 ```ts
 //元组
 let user: [string, number, string] = ["jason", 20, "你好"]
+```
+
+### Enum
+
+Enum 类型可以允许用户去定义**一组**常量。
+
+#### 数字枚举
+
+```ts
+enum Direction {
+  Up = 10,
+  Down,
+  Left,
+  Right,
+}
+
+console.log(Direction.Up) //10
+console.log(Direction[11]) //反向映射
+
+enum Gender {
+  male,
+  female,
+  other,
+}
+
+//usage
+let sex: Gender = Gender.male
+```
+
+#### 字符串枚举
+
+```ts
+enum Direction {
+  Up = "go up!",
+  Down = "go down!",
+  Left = "go left",
+  Right = "go right",
+}
+
+console.log(Direction.Up) //go up!
+```
+
+使用常量枚举可以提高性能。
+
+```ts
+const enum Direction {
+  Up = "go up!",
+  Down = "go down!",
+  Left = "go left",
+  Right = "go right",
+}
+
+console.log(Direction.Up) //10
+```
+
+### 字面类型
+
+在 ts 中，字面量也可以作为类型来定义。
+
+```ts
+let Type: "video" | "audio"
+let sex: "male" | "female" | true | 1
+
+Type = "video"
+sex = false //报错
 ```
 
 ### 类型别名
@@ -111,6 +177,95 @@ function getName(n: NameOrResolver): string {
     //传入的参数为函数，直接执行
     return n()
   }
+}
+```
+
+### 类型推断
+
+当你声明变量后直接为变量赋值，便会自动触发 ts 的类型推断系统。
+
+```ts
+let str = "string"
+str = 1 //报错
+```
+
+> 函数表达式也能进行推断
+
+```ts
+//函数表达式
+const multiply = function(x: number, y: number, z?: number): number {
+  if (typeof z === "number") {
+    return x * y * z
+  } else {
+    return x * y
+  }
+}
+
+const multi2: (x: number, y: number, z?: number) => number = multiply
+```
+
+::: warning
+其实多些几行也没啥坏处，还是尽量不要用类型推测了。
+:::
+
+### 类型声明
+
+使用 type 关键字可以手动定义类型
+
+```ts
+//定义User类型
+type User = {
+  name: String
+  age?: number
+}
+
+let user: User
+user = {
+  name: "jason",
+  age: 18,
+}
+//定义url类型
+type url = {
+  host: string
+  port: number
+  path: string
+}
+
+let a: url
+a = "www.pronhub.com" //报错
+```
+
+### 类型守卫函数
+
+有时候函数的输入类型是不确定的，这时候直接传进去编译会报错，此时可以通过引入类型守卫函数进行判断
+
+```ts
+type User = {
+  name: String
+  age: number
+}
+
+function showUser(user: User) {
+  alert(user.name)
+  alert(user.age)
+}
+
+//类型守卫函数
+function isUser(arg: any): arg is User {
+  if (!arg) return false
+  else {
+    if (typeof arg.name === "string" && arg.name === "number") {
+      return true
+    } else {
+      return false
+    }
+  }
+}
+
+let num = 123
+//使用类型守卫函数进行断言
+if (isUser(num)) {
+  showUser(num) //不报错
 }
 ```
 
@@ -162,47 +317,28 @@ let result1 = add(7, 7, 7)
 ```
 
 在 ts 中，不确定的函数参数也可以用？来进行标注。
-
-### 类型推断
-
-typescript 会默认有一个“类型推断”的功能，如果你在为一个变量赋值的时候没有刻意规定类型，ts 就会根据你第一次赋值的类型为改变量的类型进行推断。
-
-```ts
-let str = "string"
-str = 1 //报错
-```
-
-> 函数表达式也能进行推断
-
-```ts
-//函数表达式
-const multiply = function(x: number, y: number, z?: number): number {
-  if (typeof z === "number") {
-    return x * y * z
-  } else {
-    return x * y
-  }
+### 用接口规定函数
+``` ts
+//函数接口
+interface SearchFunc {
+  (keyword: string, page?: number): string[]
+}
+//1.返回值必须一样
+//2.参数可以不写，但写的话要能对得上
+interface SaveFunc {
+  (data: string[]): void
 }
 
-const multi2: (x: number, y: number, z?: number) => number = multiply
+
+function searchAndSave(search: SearchFunc, save: SaveFunc) {}
+searchAndSave(
+  () => {
+    return ["a", "b"]
+  },
+  () => {}
+)
+
 ```
-
-### 类型断言
-
-如果程序员想自己定义推断的类型，那么可以手动在变量前添加类型断言。
-语法:`(<type>param)`
-
-```ts
-function getLength(input: string | number): number {
-  //手动推断类型
-  if ((<string>input).length) {
-    return (<string>input).length
-  } else {
-    return input.toString().length
-  }
-}
-```
-
 ## Class
 
 ### 基本使用
@@ -248,9 +384,36 @@ const guoguo = new Cat("guoguo") //guoguo
 console.log(guoguo.run()) //Meow,guoguo is running
 ```
 
-### 修饰符
+### 静态属性和静态方法
 
-和面向对象的语言一样，ts 也为我们提供了修饰符。
+静态属性和静态方法不用实例化便可以直接访问(调用)。
+
+```ts
+class Animal {
+  readonly name: string
+  static categoies: string[] = ["mammal", "bird"]
+  static isAnimal(a) {
+    {
+      return a instanceof Animal
+    }
+  }
+  constructor(name: string) {
+    this.name = name
+  }
+  run() {
+    return `${this.name} is running`
+  }
+}
+
+const snake = new Animal("sss")
+console.log(snake.name)
+console.log(Animal.categoies[1]) //bird
+console.log(Animal.isAnimal(snake)) //true
+```
+
+### 访问修饰符
+
+和面向对象的语言一样，ts 也为我们提供了访问修饰符。
 
 #### public
 
@@ -327,31 +490,33 @@ class Dog extends Animal {
 }
 ```
 
-### 静态属性和静态方法
+### 修饰符顺序问题
 
-静态属性和静态方法不用实例化便可以直接访问(调用)。
+允许的语法顺序是:`访问修饰符 static readonly`
+
+### 访问器
+
+如果想对私有属性进行访问控制，可以在类中设置访问器
 
 ```ts
-class Animal {
-  readonly name: string
-  static categoies: string[] = ["mammal", "bird"]
-  static isAnimal(a) {
-    {
-      return a instanceof Animal
+class Person {
+  private _age = 0
+
+  public get age() {
+    return this._age
+  }
+
+  public set age(val) {
+    if (val < 18) {
+      console.log("未成年人禁止访问！")
+      return
     }
-  }
-  constructor(name: string) {
-    this.name = name
-  }
-  run() {
-    return `${this.name} is running`
+    this._age = val
   }
 }
 
-const snake = new Animal("sss")
-console.log(snake.name)
-console.log(Animal.categoies[1]) //bird
-console.log(Animal.isAnimal(snake)) //true
+let p = new Person()
+p.age = 17 //未成年人禁止访问！
 ```
 
 ### 类中的接口
@@ -385,48 +550,33 @@ class Smartphone implements RadioWithBattery {
 }
 ```
 
-### Enum
+``
 
-枚举可以允许用户去定义一组常量。
-
-#### 数字枚举
+### 抽象类
 
 ```ts
-enum Direction {
-  Up = 10,
-  Down,
-  Left,
-  Right,
+abstract class Sharp {
+  abstract area(): number
+  abstract length()
+  number
+}
+class Circle extends Sharp {
+  r: number
+  constructor(r: number) {
+    super()
+    this.r = r
+  }
+  area(): number {
+    return Math.PI * this.r * this.r
+  }
+  length() {
+    return 2 * this.r * Math.PI
+  }
 }
 
-console.log(Direction.Up) //10
-console.log(Direction[11]) //反向映射
-```
-
-#### 字符串枚举
-
-```ts
-enum Direction {
-  Up = "go up!",
-  Down = "go down!",
-  Left = "go left",
-  Right = "go right",
-}
-
-console.log(Direction.Up) //go up!
-```
-
-使用常量枚举可以提高性能。
-
-```ts
-const enum Direction {
-  Up = "go up!",
-  Down = "go down!",
-  Left = "go left",
-  Right = "go right",
-}
-
-console.log(Direction.Up) //10
+let circle = new Circle(50)
+console.log(circle.area().toFixed(2)) //7853.98
+console.log(circle.length().toFixed(2)) //314.16
 ```
 
 ## 泛型
@@ -438,6 +588,20 @@ console.log(Direction.Up) //10
 为函数中参数和返回值指定泛型。
 
 ```ts
+function jionArray<T>(...args: T[][]): T[] {
+  let res: T[] = []
+
+  args.forEach((elem) => {
+    res = res.concat(elem)
+  })
+
+  return res
+}
+//使用时显示指定泛型是个好习惯
+let arr = jionArray<number | string>([1, 2, 3], [4, 5, 6])
+console.log(arr)
+
+//
 function echo<T>(arg: T): T {
   return arg
 }
