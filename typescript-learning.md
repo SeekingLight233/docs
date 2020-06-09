@@ -57,9 +57,22 @@ let num: number = undefined
 let num1: string = null
 ```
 
+### 交叉类型
+
+交叉类型可以使得一个类型变量同时拥有多个属性，逻辑上是并，不是交。
+
+```ts
+type NativeButtonProps = BaseButtonProps &
+  React.ButtonHTMLAttributes<HTMLElement>
+type AnchorButtonProps = BaseButtonProps &
+  React.AnchorHTMLAttributes<HTMLElement>
+
+export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>
+```
+
 ### 联合类型与 any 类型
 
-联合类型与 any 类型可以允许我们为一个变量赋不同类型的值。
+联合类型与 any 类型可以允许我们为一个值变量赋不同类型的值。
 
 ```ts
 //any类型允许你用任何类型的变量为其赋值
@@ -71,6 +84,17 @@ notSure.name = "jason"
 let numberOrString: number | string = 234
 numberOrString = "234"
 ```
+
+::: warning
+联合类型与交叉类型在取变量上的**属性**时非常容易搞混
+
+如果是联合类型`|`那么在取属性时只能取到“相交的属性”。
+如下图
+![](./ts/01.png)
+
+反之如果是交叉类型`&`在取属性时取到的是“相并的属性”,个人感觉这点设计的非常奇怪。
+![](./ts/02.png)
+:::
 
 ### Array 和 Tuple
 
@@ -235,6 +259,19 @@ let a: url
 a = "www.pronhub.com" //报错
 ```
 
+### 类型断言
+
+下面的代码为一个测试用例，我们可以使用`as`关键字手动为其设置类型断言。
+
+```ts
+it("应该渲染不可选按钮", () => {
+  const wrapper = render(<Button {...disabledProps}>button</Button>)
+  const element = wrapper.getByText("button") as HTMLButtonElement //手动设置断言
+  expect(element).toBeInTheDocument()
+  expect(element.disabled).toBeTruthy()
+})
+```
+
 ### 类型守卫函数
 
 有时候函数的输入类型是不确定的，这时候直接传进去编译会报错，此时可以通过引入类型守卫函数进行判断
@@ -299,6 +336,17 @@ function plus(a: number, b: number) {
   return a + b
 }
 const a: IPlus = plus
+
+//对象中定义多个键值对
+interface Iobj {
+  [name: string]: number
+}
+
+const obj: Iobj = {
+  jason: 23,
+  circle: 20,
+  lee: 21,
+}
 ```
 
 ### 函数
@@ -317,8 +365,10 @@ let result1 = add(7, 7, 7)
 ```
 
 在 ts 中，不确定的函数参数也可以用？来进行标注。
+
 ### 用接口规定函数
-``` ts
+
+```ts
 //函数接口
 interface SearchFunc {
   (keyword: string, page?: number): string[]
@@ -329,7 +379,6 @@ interface SaveFunc {
   (data: string[]): void
 }
 
-
 function searchAndSave(search: SearchFunc, save: SaveFunc) {}
 searchAndSave(
   () => {
@@ -337,8 +386,40 @@ searchAndSave(
   },
   () => {}
 )
-
 ```
+
+### 接口的兼容性
+
+在 ts 中，如果一个对象拥有另一个对象(“鸭子”)的所有属性(包括方法)，我们就可以把这个对象也叫做“鸭子”。
+
+具体体现就是：**属性成员多的对象可以赋值给属性成员少的对象**
+::: warning
+函数参数的兼容性与上面的逻辑刚好相反。
+:::
+
+```ts
+interface Ia {
+  a: any
+  b: any
+}
+interface Ib {
+  a: any
+  b: any
+  c: any
+}
+let obja: Ia = {
+  a: 123,
+  b: 456,
+}
+let objb: Ib = {
+  a: 789,
+  b: 234,
+  c: 777,
+}
+// obja = objb;//不报错
+objb = obja //报错
+```
+
 ## Class
 
 ### 基本使用
@@ -370,6 +451,7 @@ console.log(erha.run()) //erha is running
 console.log(erha.bark()) //erha is wangwangwang
 
 class Cat extends Animal {
+  //如果父类中有构造器，一定要调用super
   constructor(name) {
     super(name)
     console.log(this.name)
@@ -382,6 +464,16 @@ class Cat extends Animal {
 const guoguo = new Cat("guoguo") //guoguo
 //多态
 console.log(guoguo.run()) //Meow,guoguo is running
+```
+
+#### 构造器赋值的简写形式
+
+```ts
+class Person {
+  constructor(public name: string, public age: number) {}
+}
+let p = new Person("jason", 18)
+console.log(p.name) //jason
 ```
 
 ### 静态属性和静态方法
