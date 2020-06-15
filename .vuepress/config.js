@@ -23,42 +23,42 @@ module.exports = {
     "themeConfig": {
         "themePicker": false,
         "nav": [{
-                "text": "首页",
-                "link": "/",
-                "icon": "reco-home"
+            "text": "首页",
+            "link": "/",
+            "icon": "reco-home"
+        },
+        {
+            text: '时间轴',
+            link: '/timeLine/',
+            icon: 'reco-date'
+        },
+        {
+            "text": "关于",
+            "icon": "reco-message",
+            "items": [{
+                "text": "GitHub",
+                "link": "https://github.com/SeekingLight233",
+                "icon": "reco-github"
             },
             {
-                text: '时间轴',
-                link: '/timeLine/',
-                icon: 'reco-date'
+                "text": "BiliBili",
+                "link": "https://space.bilibili.com/37019841?from=search&seid=11160746842115235145",
+                "icon": "reco-bilibili"
             },
             {
-                "text": "关于",
-                "icon": "reco-message",
-                "items": [{
-                        "text": "GitHub",
-                        "link": "https://github.com/SeekingLight233",
-                        "icon": "reco-github"
-                    },
-                    {
-                        "text": "BiliBili",
-                        "link": "https://space.bilibili.com/37019841?from=search&seid=11160746842115235145",
-                        "icon": "reco-bilibili"
-                    },
-                    {
-                        "text": "网易云",
-                        "link": "https://music.163.com/#/user/home?id=355059838",
-                        "icon": "reco-douyin"
-                    },
-                    {
-                        "text": "联系我",
-                        "link": "../contact.md",
-                        "icon": "reco-wechat"
-                    },
+                "text": "网易云",
+                "link": "https://music.163.com/#/user/home?id=355059838",
+                "icon": "reco-douyin"
+            },
+            {
+                "text": "联系我",
+                "link": "../contact.md",
+                "icon": "reco-wechat"
+            },
 
 
-                ]
-            }
+            ]
+        }
         ],
         "type": "blog",
         "blogConfig": {
@@ -87,20 +87,6 @@ module.exports = {
         ["@vuepress-reco/vuepress-plugin-screenfull", false],
         ["@vuepress-reco/vuepress-plugin-back-to-top", false],
         "@vuepress/medium-zoom",
-        "flowchart", [
-            "@vuepress-reco/vuepress-plugin-kan-ban-niang",
-            {
-                theme: ["z16"],
-                clean: true,
-                modelStyle: {
-                    position: "fixed",
-                    left: "20px",
-                    bottom: "0px",
-                    opacity: "0.9",
-                    zIndex: 99999
-                }
-            }
-        ],
         [
             "@vuepress-reco/vuepress-plugin-bgm-player",
             {
