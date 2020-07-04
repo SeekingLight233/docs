@@ -50,7 +50,7 @@ sidebar: "auto"
 `/jasonf?[led]*/g`
 会匹配全部的`jasonfllllllleeeeeeeeeeeeee`
 ## {}长度范围限定
-<!-- ![](./reg/01.PNG) -->
+<!-- ![](./reg/01.png) -->
 ![](./os-memory/20.png)
 `/yo{2,4}/g`会匹配出字母o最后出现2次到4次的情况。
 ### 6位邮政编码
