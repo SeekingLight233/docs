@@ -43,6 +43,25 @@ app.get('/search', (req, res0) => {
 为了解决这个问题，社区和搞标准的那帮人又整出了下面的东西。
 ## Promise
 `Promise`的出现的最大的意义就是为了解决像回调地狱这种问题，当然除此之外它还有其他的好处。
+
+`Promise`实例存在三种状态，这三种状态会影响then和catch的执行。
+
+- 当处于`pending`状态的时候，不会触发then和catch。
+- 当`resolved`的时候，此时可以执行then方法中的回调，但不能执行catch方法中的回调。
+- 当`rejected`的时候，此时可以执行catch方法中的回调，但不能执行then方法中的回调。
+
+``` js
+Promise.resolve().then(() => {
+    console.log(1);
+}).catch(() => {
+    console.log(2);
+}).then(() => {
+    console.log(3);
+})
+// 1
+// 3
+```
+
 ### 基本感知
 ``` js
 const axios = require('axios');
@@ -112,6 +131,31 @@ getPage(1).then(val => {
     }
 )
 ```
+
+
+### `then`和`catch`对`PromiseStatus`的影响
+
+-  在链式调用中，依然会返回promise.但此时返回的promise实例状态取决于链式回调中是否有报错，与then/catch无关。
+
+``` js
+Promise.resolve().then(() => {
+    console.log(1);
+    throw new Error("error!!!")
+}).catch(() => {
+    console.log(2);
+}).then(() => {
+    console.log(3);
+})
+
+//1
+//2
+//3
+```
+![](./re_js/16.png)
+
+
+### 三道面试题
+
 ### `Promise.all()`
 这个方法接受几个promise实例，主要用来指定当全部的promise实例都成功时该执行什么操作。
 
@@ -314,7 +358,7 @@ class Mypromise {
 ```
 
 ## async和await
-`async`和`await`可以是目前为止最新的js异步解决方案。
+`async`和`await`是目前为止最新的js异步解决方案。
 在使用的时候用户需要先自己去定义一个`async`函数，然后将需要异步执行的函数放入`async`函数的内部，同时在前面加上`await`关键字。
 
 有一点需要注意，`await`后面跟的函数**必须**要返回一个`promise`实例，`await`函数的返回值就是这个`promise`实例中的value。
