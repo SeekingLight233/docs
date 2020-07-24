@@ -48,7 +48,7 @@ app.get('/search', (req, res0) => {
 
 - 当处于`pending`状态的时候，不会触发then和catch。
 - 当`resolved`的时候，此时可以执行then方法中的回调，但不能执行catch方法中的回调。
-- 当`rejected`的时候，此时可以执行catch方法中的回调，但不能执行then方法中的回调。
+- 当`rejected`的时候，此时可以执行catch方法中的回调，但不能执行then方法中的回调，**一旦执行就会报错**。
 
 ``` js
 Promise.resolve().then(() => {
@@ -153,8 +153,6 @@ Promise.resolve().then(() => {
 ```
 ![](./re_js/16.png)
 
-
-### 三道面试题
 
 ### `Promise.all()`
 这个方法接受几个promise实例，主要用来指定当全部的promise实例都成功时该执行什么操作。
@@ -359,9 +357,16 @@ class Mypromise {
 
 ## async和await
 `async`和`await`是目前为止最新的js异步解决方案。
+
+**`await`相当于promise的`then`，`try...catch`相当于promise的`catch`。**
+
 在使用的时候用户需要先自己去定义一个`async`函数，然后将需要异步执行的函数放入`async`函数的内部，同时在前面加上`await`关键字。
 
+`async` 函数会返回一个promise对象。
+
 有一点需要注意，`await`后面跟的函数**必须**要返回一个`promise`实例，`await`函数的返回值就是这个`promise`实例中的value。
+
+而`await`后面的代码，就相当于是一个“大回调”。
 
 ``` js
 const axios = require('axios');
@@ -410,7 +415,31 @@ async function await_getPage(num) {
 }
 await_getPage(2);
 ```
+## 异步遍历问题
+如果要异步的处理一个数组中的内容，只能用`for...of`循环，用`for...in`,`foreach`,还有`map`都是无效的。
 
+```js
+const muti = (num) => {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve(num * num)
+        }, 1000)
+    })
+}
+
+const nums = [1, 2, 3]
+// nums.map(async (item, index) => {
+//     const res = await muti(item)
+//     console.log(res); //此时的1 4 9会同时打印出来
+// })
+
+!(async function () {
+    for (let val of nums) {
+        const res = await muti(val)
+        console.log(res);//此时的1 4 9会间隔1秒打印
+    }
+})()
+```
 ## Generator
 `Generator`函数是一种特殊的函数，这种函数最大的特点就是**能停**。请看这段代码
 ``` js
@@ -498,9 +527,9 @@ js的任务类型总的来说可以分为两类：**同步任务**和**异步任
 
 其中异步任务又可以继续细分为**微任务**和**宏任务**。
 
-关于它们的执行机制，可以直接记结论。
+关于它们的执行机制，可以直接记结论,原理稍后会讲。
 
-**同步区 => 微任务区 => 宏任务区**
+**同步区 => 微任务区（promise） => 宏任务区**
 ``` js
 setTimeout(() => {
     console.log("宏任务区")
@@ -517,7 +546,11 @@ console.log("同步区");
 // 宏任务区
 ```
 典型的**宏任务**有:`定时器回调`,`ajax回调`，和`dom事件回调`。
-典型的**微任务**有:`promise回调`,`mutation`回调。
+典型的**微任务**有:`promise`的`then/catch`回调,`MutationObserver`（浏览器）
+
+:::warning
+`Promise`的初始化回调并不是宏任务，而async函数中，**await之前的代码等同于`Promise`的初始化回调**。
+:::
 
 ::: warning
 如果一个微任务在一个宏任务中，它并不会被先执行，而是按着队列顺序执行。
@@ -554,8 +587,56 @@ for (i = 1; i <= 3; i++) {
 //4
 //4
 ```
-### Event Loop
+### Dom渲染与Event Loop
 
-js的同步任务放在**执行栈**中，而异步任务放在**任务队列**中。
+当浏览器在解析一段代码的时候，会一行一行的把代码放到浏览器的调用栈中。
 
-js引擎会先执行执行栈中的同步任务，如果栈空了就去任务队列里看看有没有任务可以执行了，有的话就把任务队列中的任务扔到执行栈中，这个过程是循环的，也就是所谓的**Event Loop**。
+如果遇到了定时器，浏览器就会根据先把定时器中的回调暂存到`宏任务队列`，而不去执行，继续执行同步代码。
+如果遇到Promise,浏览器就会把Promise推到`微任务队列`中，而不去执行，继续执行同步代码。
+
+当同步代码执行完(调用栈清空)，会先去执行微任务。
+
+如果代码中有dom操作，**会先尝试DOM渲染**，最后才去触发`event loop`（任务队列）。
+
+`Dom渲染`是一个非常重要的时间结点，在此之前触发的任务都是`微任务`,而之后的任务都是`宏任务`，如定时器，网络请求，dom事件的回调。
+
+## 一道跳舞公司的面试题
+``` js
+async function async1() {
+    console.log("async1 start");
+    await async2()
+    // promise
+    console.log("async1 end");
+}
+
+async function async2() {
+    console.log("async2");
+}
+
+console.log("script start");
+
+setTimeout(function () {
+    console.log('setTimeout');
+}, 0)
+
+async1()
+
+new Promise(function (resolve, reject) {
+    console.log('promise1');
+    reject()
+}).then(function () {
+    // promise
+    console.log('promise2');
+})
+
+console.log('script end');
+
+// script start
+// async1 start
+// async2
+// promise1
+// script end
+// async1 end
+// 报错
+// setTimeout
+```
