@@ -100,7 +100,7 @@ _给中间的盒子添加了下列样式_
 
 ![](./css/03.png)
 
-总结: absoulte相对于里他最近的relitive和absoulte元素进行定位
+总结: absoulte 相对于里他最近的 relitive 和 absoulte 元素进行定位
 
 ## display 属性
 
@@ -114,34 +114,98 @@ display 属性设置一个元素如何显示
 ### inline
 
 内联元素，只会占领自身的宽度和高度所在的空间。宽度和高度取决于内容本身，高度没法改，要改宽度只能设置 padding 值。
-常见内联元素:`span`,`img`,`input`
+常见内联元素:`span`,`img`,`input`,`button`
 
 ### inline-block
 
 行内块元素，顾名思义，不会单独占一行的块元素。宽，高，margin，padding 都可以设置。
 
+## margin 的负值问题
+
+- 如果给`margin-top`和`margin-left`设置负值，元素本身以及后面的元素会被整体拖拽到相反的方向。
+- 如果给`margin-bottom`和`margin-right`设置负值，元素本身无变化，但后面的元素会被拖拽到相反的方向，同时元素*相对于外界的宽度和高度*变小。
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>margin 负值</title>
+    <style type="text/css">
+      body {
+        margin: 20px;
+      }
+
+      .float-left {
+        float: left;
+      }
+      .clearfix:after {
+        content: '';
+        display: table;
+        clear: both;
+      }
+
+      .container {
+        border: 1px solid #ccc;
+        padding: 10px;
+      }
+      .container .item {
+        width: 100px;
+        height: 100px;
+      }
+      .container .border-blue {
+        border: 1px solid blue;
+        margin-bottom: -20px;
+      }
+      .container .border-red {
+        border: 1px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <p>用于测试 margin top bottom 的负数情况</p>
+    <div class="container">
+      <div class="item border-blue">
+        this is item 1
+      </div>
+      <div class="item border-red">
+        this is item 2
+      </div>
+    </div>
+
+    <p>用于测试 margin left right 的负数情况</p>
+    <div class="container clearfix">
+      <div class="item border-blue float-left">
+        this is item 3
+      </div>
+      <div class="item border-red float-left">
+        this is item 4
+      </div>
+    </div>
+  </body>
+</html>
+```
+
 ## 元素居中
 
 ### 水平居中
 
-设置宽度，`margin:0 auto`或者父盒子设置`text-align:center`
+- inline 元素： `text-align:center`
+- block 元素： `margin:auto`
+- absolute: `left:50%`+`margin-left:-元素宽度/2`或者`transformX(-50%)`(假设不知道宽度)
 
 ### 垂直居中
 
+- inline 元素： 高度等于行高即可。
+
 - 绝对定位的情况下
 
-```css
-#mydiv {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  /* width: 50px;
-    height: 50px;
-    border: 1px solid red; */
-}
-```
+1. `top:50%` + `margin-top: -元素高度/2`或者`transformY(-50%)`（假设不知道高度）
+2. `margin:auto` + `top,left,bottom,right = 0` //终极方案
 
-然后利用`margin`或者`transform: translate();`来调整元素位置
+(PS: 下面的两种方式不需要知道元素高度也能实现)
 
 - flex 布局的情况下
   只需要为需要居中的子元素设置`margin:auto`。
@@ -151,17 +215,27 @@ display 属性设置一个元素如何显示
 加了 float 的元素会“飘“起来，脱离当前的文档流。
 注意：文字对于 float 起来的元素依然是敏感的，因此可以利用这个属性做一些图文环绕的效果。
 
-### 清除浮动
+### 手写清除浮动
 
 添加浮动后，后续元素的排列方式会受到影响，此时清除浮动就可以消除这种影响(也就是让受影响的元素回到原来的位置)
 
 最简单的方法是添加**clear 属性**。clear 会强制指定左侧或者右侧的元素不为浮动元素。
+
+```css
+.clearfix:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+```
 
 ## 常用布局
 
 ### 双飞翼布局
 
 实现原理是将主体部分放前面，left，right 放后面，然后让这三个元素都浮起来，最后利用 margin 为负值的特性将 left，right 调整到合适的位置。
+
+和圣杯布局很类似，差别只是在右元素的负值应该设置到`margin-left`上而不是`margin-right`上。
 
 ```html
 <div class="head"></div>
@@ -213,6 +287,18 @@ display 属性设置一个元素如何显示
 
 ![效果](./css/04.png)
 
+### 圣杯布局
+
+1. 第一步，画出头部和底部，中间的位置将 center 放最前面并设置宽度为 100%，left 和 right 固定宽度。
+   ![效果](./css/p1.png)
+2. 第二步，设置中间三个元素左浮动（需要为父元素清下浮动）
+   ![效果](./css/p2.png)
+3. 第三步，在三个元素的父元素上设置左边距和右边距，腾出 left 和 right 的位置
+   ![效果](./css/p3.png)
+4. 最后一步，设置左元素的 margin-left 为-100%，右部元素的 mrgin-right 为 “-右元素宽度”。
+   ![效果](./css/p5.png)
+   （PS：当然最后还要再用 position：relative 来调整下位置。）
+
 ### Flex 布局
 
 可以很好的解决居中问题，外层父级元素设置 flex，内层居中元素直接设置 margin:auto
@@ -263,14 +349,73 @@ display 属性设置一个元素如何显示
 
 #### jusify-content
 
-定义子元素在**主轴**方向上(就是 flex-direction 的方向)的分布方式
+定义子元素在**主轴**方向上(就是 flex-direction 的方向)的对齐方式
 [具体值的效果](https://www.w3cschool.cn/cssref/css3-pr-justify-content.html)
 
 #### align-items
 
 规定主轴上子项们在**侧轴**上的对齐方式。
+[具体值的效果](https://developer.mozilla.org/zh-CN/docs/Web/CSS/align-items)
 
-#### 利用弹性盒子实现双飞翼布局
+#### flex-wrap
+
+是否换行
+
+> 以下属性作用在子元素上
+
+#### align-self
+
+自身在**侧轴**上的对齐方式，优先级高于`align-items`。
+
+### 利用 flex 画三个点的骰子
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>flex 画骰子</title>
+    <style type="text/css">
+      .box {
+        width: 200px;
+        height: 200px;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      .item {
+        display: block;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #666;
+      }
+
+      .item:nth-child(2) {
+        align-self: center;
+      }
+      .item:nth-child(3) {
+        align-self: flex-end;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <span class="item"></span>
+      <span class="item"></span>
+      <span class="item"></span>
+    </div>
+  </body>
+</html>
+```
+
+### 利用 flex 实现双飞翼布局
 
 父容器设置 flex，左右两边用 flex-basis 设定一个基本的宽高，中间的盒子用 flex-grow 瓜分父元素剩余空间
 
@@ -354,9 +499,9 @@ display 属性设置一个元素如何显示
 
 直接 flex 布局，子盒子不要设置高度，具体高度会自动对齐。
 
-## 响应式布局解决方案
+## 响应式布局
 
-**方案一：**
+### rem 单位
 
 ```css
 html {
@@ -393,11 +538,21 @@ html {
 }
 ```
 
-**然后所有单位直接上 rem，美滋滋**
+然后所有单位直接用`rem`。
 
-**方案二：**直接上 vw，现在兼容性应该都解决了。
+### vw/vh
 
-**方案三:** 媒体查询
+`1vh` = `视口高度的1%` ，即 **vh = ducument.body.clientHeight/100**
+
+::: tip
+
+```js
+window.screen.height; //屏幕高度
+window.innerHeight; //视口高度
+ducument.body.clientHeight; //body高度（长度不固定）
+```
+
+:::
 
 ## CSS 实现三角形
 
@@ -416,6 +571,31 @@ html {
 }
 ```
 
+### 利用裁剪路径实现任意简单图形
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .shape {
+        width: 100px;
+        height: 100px;
+        background-color: violet;
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%); //三角形状
+        transform: scale(0.2) rotate(90deg);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shape"></div>
+  </body>
+</html>
+```
+
 ## css 常用@规则
 
 ### @import
@@ -423,8 +603,8 @@ html {
 用来引入一个 css 文件
 
 ```css
-@import "mystyle.css";
-@import url("mystyle.css");
+@import 'mystyle.css';
+@import url('mystyle.css');
 ```
 
 ### @media
@@ -608,14 +788,14 @@ display: 是否展示。
 
 ### BFC 是什么以及触发 BFC 的条件
 
-BFC 是指的是**块级格式化上下文**，一旦某个元素触发了 BFC，那么这个元素就可以视为是一个独立的“块”，可以设置宽高，且布局不受外界影响。
+BFC 是指的是**块级格式化上下文**，一旦某个元素触发了 BFC，那么这个元素就可以视为是一个独立的“块”，可以设置宽响。高，且布局不受外界影
 
 常见触发 BFC 的条件:
 
-- 浮动元素
-- 元素绝对定位
+- 设置浮动，设置 overflow（除了 visible）
+- 元素绝对定位或固定
 - display = inline-block 或 flex
-- overflow = hidden
+
   作用:可以不被浮动元素覆盖；可以阻止外边距重叠
 
 ### 浏览器解析选择器的顺序是什么？
@@ -630,3 +810,8 @@ JS:`RAF接口`+`Canvs`
 ### 实现一个自适应的正方形盒子？
 
 vw/vh 布局直接画。
+
+### 行高的继承问题
+
+- 如果是具体的数值，和具体的比值（1.5/2）之类的，会直接继承下来。
+- 如果是百分比，则继承下来的是**计算后的比值**。
