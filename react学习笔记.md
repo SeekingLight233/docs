@@ -10,15 +10,15 @@ categories:
 ### 变量与表达式
 
 ```js
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 
 class BaseDemo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "Asher",
+      name: 'Asher',
       flag: true,
-      img: "https://seekinglight.cn/icon.png",
+      img: 'https://seekinglight.cn/icon.png',
     };
   }
   render(h) {
@@ -27,7 +27,7 @@ class BaseDemo extends React.Component {
       <div>
         <h1>{this.state.name}</h1>
         <img src={this.state.img}></img>
-        <h1>{this.state.flag === true ? "真" : "假"}</h1>
+        <h1>{this.state.flag === true ? '真' : '假'}</h1>
       </div>
     );
     return elem;
@@ -43,8 +43,8 @@ export default BaseDemo;
 设置 class 的时候需要注意，要把 class 改为`className`,因为 class 在 js 中是保留字。
 
 ```js
-import React, { PureComponent } from "react";
-import "./style.css";
+import React, { PureComponent } from 'react';
+import './style.css';
 
 class BaseDemo extends React.Component {
   constructor(props) {
@@ -55,7 +55,7 @@ class BaseDemo extends React.Component {
     const elem = (
       //class在js中是保留字
       <div>
-        <h1 className="red">设置字体为红色</h1>
+        <h1 className='red'>设置字体为红色</h1>
       </div>
     );
     return elem;
@@ -69,8 +69,8 @@ export default BaseDemo;
 #### style
 
 ```js
-import React, { PureComponent } from "react";
-import "./style.css";
+import React, { PureComponent } from 'react';
+import './style.css';
 
 class BaseDemo extends React.Component {
   constructor(props) {
@@ -79,7 +79,7 @@ class BaseDemo extends React.Component {
   }
   render(h) {
     const styleData = {
-      color: "blue",
+      color: 'blue',
     };
     const elem = (
       <div>
@@ -95,8 +95,8 @@ export default BaseDemo;
 ### JSX 渲染 innerHTML
 
 ```js
-import React, { PureComponent } from "react";
-import "./style.css";
+import React, { PureComponent } from 'react';
+import './style.css';
 
 class BaseDemo extends React.Component {
   constructor(props) {
@@ -104,7 +104,7 @@ class BaseDemo extends React.Component {
     this.state = {};
   }
   render(h) {
-    const rawHtml = "<span>富文本内容<i>斜体</i><b>加粗</b></span>";
+    const rawHtml = '<span>富文本内容<i>斜体</i><b>加粗</b></span>';
     const rawHtmlData = {
       __html: rawHtml,
     };
@@ -122,25 +122,25 @@ export default BaseDemo;
 ### 条件渲染
 
 ```js
-import React, { PureComponent } from "react";
-import "./style.css";
+import React, { PureComponent } from 'react';
+import './style.css';
 
 class BaseDemo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      theme: "black",
+      theme: 'black',
     };
   }
   render(h) {
-    const blackBtn = <button className="black">black</button>;
-    const whiteBtn = <button className="white">white</button>;
+    const blackBtn = <button className='black'>black</button>;
+    const whiteBtn = <button className='white'>white</button>;
     // if (this.state.theme === "black") {
     //   return blackBtn;
     // } else {
     //   return whiteBtn;
     // }
-    return <div>{this.state.theme === "black" ? blackBtn : whiteBtn}</div>;
+    return <div>{this.state.theme === 'black' ? blackBtn : whiteBtn}</div>;
   }
 }
 export default BaseDemo;
@@ -149,18 +149,18 @@ export default BaseDemo;
 ### 循环渲染
 
 ```js
-import React, { PureComponent } from "react";
-import "./style.css";
+import React, { PureComponent } from 'react';
+import './style.css';
 
 class BaseDemo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      theme: "black",
+      theme: 'black',
       list: [
-        { id: "id-1", item: "item1" },
-        { id: "id-2", item: "item2" },
-        { id: "id-3", item: "item3" },
+        { id: 'id-1', item: 'item1' },
+        { id: 'id-2', item: 'item2' },
+        { id: 'id-3', item: 'item3' },
       ],
     };
   }
@@ -186,14 +186,14 @@ export default BaseDemo;
 在 react 的事件中，一定要在构造函数中将其绑定 this,因为默认事件中 this 的指向不是`组件实例`，而是`undefined`。
 
 ```js
-import React, { PureComponent } from "react";
-import "./style.css";
+import React, { PureComponent } from 'react';
+import './style.css';
 
 class BaseDemo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "张三",
+      name: '张三',
     };
     //如果不绑定this那么方法中的this指向就会是undefined
     this.clickHandler1 = this.clickHandler1.bind(this);
@@ -203,7 +203,7 @@ class BaseDemo extends React.Component {
   }
   clickHandler1() {
     this.setState({
-      name: "法外狂徒",
+      name: '法外狂徒',
     });
   }
 }
@@ -213,14 +213,14 @@ export default BaseDemo;
 如果觉得这样写看着不舒服的话也可以直接用静态方法，静态方法中的 this 永远指向组件实例。
 
 ```js
-import React, { PureComponent } from "react";
-import "./style.css";
+import React, { PureComponent } from 'react';
+import './style.css';
 
 class BaseDemo extends React.Component {
   //...
   clickHandler1 = () => {
     this.setState({
-      name: "法外狂徒",
+      name: '法外狂徒',
     });
   };
 }
@@ -232,14 +232,14 @@ export default BaseDemo;
 传参的时候 event 默认是追加在最后一个参数上
 
 ```js
-import React, { PureComponent } from "react";
-import "./style.css";
+import React, { PureComponent } from 'react';
+import './style.css';
 
 class BaseDemo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "张三",
+      name: '张三',
     };
     //如果不绑定this那么方法中的this指向就会是undefined
   }
@@ -247,8 +247,8 @@ class BaseDemo extends React.Component {
     return (
       <div>
         <a
-          href="https://www.baidu.com/"
-          onClick={this.clickHandler1.bind(this, "jason", "18")}
+          href='https://www.baidu.com/'
+          onClick={this.clickHandler1.bind(this, 'jason', '18')}
         >
           {this.state.name}
         </a>
@@ -275,8 +275,8 @@ export default BaseDemo;
 而其中的`nativeEvent`才是真正的原生事件对象。
 
 ```js
-import React, { PureComponent } from "react";
-import "./style.css";
+import React, { PureComponent } from 'react';
+import './style.css';
 
 class BaseDemo extends React.Component {
   //...
@@ -293,6 +293,8 @@ export default BaseDemo;
 
 并且`currentTarget`指向的是`document`,这一点和 Vue 也不太一样。
 
+也就是说，所有的事件，都挂在了`document`上。
+
 ### 表单
 
 #### input
@@ -300,6 +302,8 @@ export default BaseDemo;
 在 react 中没有类似`v-model`这样的双向数据绑定，要实现这种效果需要我们定义`onChange`事件来手动实现。
 
 注意 label 标签中的`for`属性在 js 中是关键字，因此需要改个名。
+
+`受控组件`:组件中的值受到`state`的控制的组件。
 
 ```js
 import React from "react";
@@ -338,13 +342,13 @@ export default FormDemo;
 #### textarea
 
 ```js
-import React from "react";
+import React from 'react';
 
 class FormDemo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      info: "information",
+      info: 'information',
     };
   }
   render() {
@@ -373,22 +377,22 @@ export default FormDemo;
 #### select
 
 ```js
-import React from "react";
+import React from 'react';
 
 class FormDemo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      city: "beijing",
+      city: 'beijing',
     };
   }
   render() {
     return (
       <div>
         <select value={this.state.city} onChange={this.onSelectChange}>
-          <option value="beijing">北京</option>
-          <option value="shanghai">上海</option>
-          <option value="shenzhen">深圳</option>
+          <option value='beijing'>北京</option>
+          <option value='shanghai'>上海</option>
+          <option value='shenzhen'>深圳</option>
         </select>
         <p>{this.state.city}</p>
       </div>
@@ -409,7 +413,7 @@ export default FormDemo;
 checkBox 中绑定的是`checked`属性。
 
 ```js
-import React from "react";
+import React from 'react';
 
 class FormDemo extends React.Component {
   constructor(props) {
@@ -422,7 +426,7 @@ class FormDemo extends React.Component {
     return (
       <div>
         <input
-          type="checkbox"
+          type='checkbox'
           checked={this.state.flag}
           onChange={this.onCheckboxChange}
         />
@@ -443,31 +447,31 @@ export default FormDemo;
 #### radio
 
 ```js
-import React from "react";
+import React from 'react';
 
 class FormDemo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      gender: "male",
+      gender: 'male',
     };
   }
   render() {
     return (
       <div>
-        male{" "}
+        male{' '}
         <input
-          type="radio"
-          name="gender"
-          value="male"
-          checked={this.state.gender === "male"}
+          type='radio'
+          name='gender'
+          value='male'
+          checked={this.state.gender === 'male'}
           onChange={this.onRadioChange}
         />
         female <input
-          type="radio"
-          name="gender"
-          value="female"
-          checked={this.state.gender === "female"}
+          type='radio'
+          name='gender'
+          value='female'
+          checked={this.state.gender === 'female'}
           onChange={this.onRadioChange}
         />
         <p>{this.state.gender}</p>
@@ -500,25 +504,25 @@ class TodoListDemo extends React.Component {
     this.state = {
       list: [
         {
-          id: "id-1",
-          title: "标题1",
+          id: 'id-1',
+          title: '标题1',
         },
         {
-          id: "id-2",
-          title: "标题2",
+          id: 'id-2',
+          title: '标题2',
         },
         {
-          id: "id-3",
-          title: "标题3",
+          id: 'id-3',
+          title: '标题3',
         },
       ],
-      footerInfo: "底部文字",
+      footerInfo: '底部文字',
     };
   }
   render() {
     return (
       <div>
-        <List list={this.state.list} myprop="test" />
+        <List list={this.state.list} myprop='test' />
       </div>
     );
   }
@@ -564,19 +568,19 @@ class TodoListDemo extends React.Component {
     this.state = {
       list: [
         {
-          id: "id-1",
-          title: "标题1",
+          id: 'id-1',
+          title: '标题1',
         },
         {
-          id: "id-2",
-          title: "标题2",
+          id: 'id-2',
+          title: '标题2',
         },
         {
-          id: "id-3",
-          title: "标题3",
+          id: 'id-3',
+          title: '标题3',
         },
       ],
-      footerInfo: "底部文字",
+      footerInfo: '底部文字',
     };
   }
   render() {
@@ -606,7 +610,7 @@ class Input extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "",
+      title: '',
     };
   }
   render() {
@@ -628,7 +632,7 @@ class Input extends React.Component {
     submitTitle(this.state.title); // 'abc'
 
     this.setState({
-      title: "",
+      title: '',
     });
   };
 }
@@ -663,7 +667,7 @@ class Input extends React.Component {
 ```js
 // 不可变值（函数式编程，纯函数） - 数组
 const list5Copy = this.state.list5.slice();
-list5Copy.splice(2, 0, "a"); // 中间插入/删除
+list5Copy.splice(2, 0, 'a'); // 中间插入/删除
 this.setState({
   list1: this.state.list1.concat(100), // 追加
   list2: [...this.state.list2, 100], // 追加
@@ -691,7 +695,7 @@ this.setState({
 
 ### 异步与同步
 
-正常情况下是 setState 是异步的，只有在回调中才能拿到更新后的值。
+正常情况下是 setState 是异步的，只有在第二个参数的回调中才能拿到更新后的值。
 
 ```js
 this.setState(
@@ -700,10 +704,10 @@ this.setState(
   },
   () => {
     // 联想 Vue $nextTick - DOM
-    console.log("count by callback", this.state.count); // 回调函数中可以拿到最新的 state
+    console.log('count by callback', this.state.count); // 回调函数中可以拿到最新的 state
   }
 );
-console.log("count", this.state.count); // 异步的，拿不到最新值
+console.log('count', this.state.count); // 异步的，拿不到最新值
 ```
 
 但是在**定时器**和**自定义事件**的回调中是同步的。
@@ -716,7 +720,7 @@ setTimeout(() => {
   this.setState({
     count: this.state.count + 1,
   });
-  console.log("count in setTimeout", this.state.count);
+  console.log('count in setTimeout', this.state.count);
 }, 0);
 ```
 
@@ -744,14 +748,49 @@ setTimeout(() => {
 自定义事件与定时器要记得及时销毁。
 :::
 
-### 第一个参数 updater
+### setState 合并问题
 
-第一个参数除了传对象以外也可以传一个函数进去。
+#### setState 传入对象会被合并
 
-```js
-this.setState((state, props) => {
-  return { counter: state.counter + props.step };
-});
+```jsx
+const fn1 = () => {
+  this.setState({
+    count: this.state.count + 1,
+  });
+  this.setState({
+    count: this.state.count + 1,
+  });
+  this.setState({
+    count: this.state.count + 1,
+  });
+};
+```
+
+当执行`fn1`的时候只能给`count`+1,本质还是异步更新的原因，相当于每次都"patch"了+1 之后的 value。
+
+#### setState 传入 callback 不会被合并（解决异步问题）
+
+所以最好传递函数，因为这样`react`就能够链式调用这些函数。
+
+```jsx
+const fn2 = () => {
+  // 传入函数，不会被合并。执行结果是 +3
+  this.setState((prevState, props) => {
+    return {
+      count: prevState.count + 1,
+    };
+  });
+  this.setState((prevState, props) => {
+    return {
+      count: prevState.count + 1,
+    };
+  });
+  this.setState((prevState, props) => {
+    return {
+      count: prevState.count + 1,
+    };
+  });
+};
 ```
 
 ## 高级特性
@@ -759,9 +798,9 @@ this.setState((state, props) => {
 ### 异步组件
 
 ```js
-import React from "react";
+import React from 'react';
 
-const ContextDemo = React.lazy(() => import("./ContextDemo"));
+const ContextDemo = React.lazy(() => import('./ContextDemo'));
 
 class App extends React.Component {
   constructor(props) {
@@ -782,7 +821,6 @@ class App extends React.Component {
     // 2. 看 network 的 js 加载
   }
 }
-
 export default App;
 ```
 
@@ -803,14 +841,16 @@ function Welcome(props) {
 如果需要获取 dom 信息，可以在 jsx 上挂载 ref。
 使用的时候需要在构造函数内部先创建一个 ref 引用,然后通过引用中 current 属性便可以获取到被挂载 dom 信息。
 
-这种通过 dom 来获取节点信息的组件我们管它叫非受控组件。
+`非受控组件`:组件中的值不受到`state`的控制的组件，此时只能使用`ref`来获取表单中的数据。
+
+使用场景：必须手动操作`dom`,setState 无法实现，比如文件上传，以及某些富文本编辑器，需要传入`dom`元素。
 
 ```js
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "jason",
+      name: 'jason',
       flag: true,
     };
     this.nameInputRef = React.createRef(); // 创建 ref
@@ -838,13 +878,13 @@ class App extends React.Component {
 #### 文件上传的例子
 
 ```js
-import React from "react";
+import React from 'react';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "jason",
+      name: 'jason',
       flag: true,
     };
     this.fileInputRef = React.createRef();
@@ -853,7 +893,7 @@ class App extends React.Component {
     // file
     return (
       <div>
-        <input type="file" ref={this.fileInputRef} />
+        <input type='file' ref={this.fileInputRef} />
         <button onClick={this.alertFile}>alert file</button>
       </div>
     );
@@ -873,9 +913,9 @@ export default App;
 类似于 Vue 中的插槽，可以指定渲染的位置。
 
 ```js
-import React from "react";
-import ReactDOM from "react-dom";
-import "./style.css";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './style.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -886,7 +926,7 @@ class App extends React.Component {
     // 使用 Portals 渲染到 body 上。
     // fixed 元素要放在 body 上，有更好的浏览器兼容性。
     return ReactDOM.createPortal(
-      <div className="modal">{this.props.children}</div>,
+      <div className='modal'>{this.props.children}</div>,
       document.body // DOM 节点
     );
   }
@@ -901,9 +941,9 @@ export default App;
 首先要在外层定义 context。
 
 ```js
-import React from "react";
+import React from 'react';
 // 创建 Context 填入默认值（任何一个 js 变量）
-const ThemeContext = React.createContext("light");
+const ThemeContext = React.createContext('light');
 ```
 
 父组件上要去生产数据。
@@ -913,7 +953,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      theme: "light",
+      theme: 'light',
     };
   }
   render() {
@@ -927,7 +967,7 @@ class App extends React.Component {
   }
   changeTheme = () => {
     this.setState({
-      theme: this.state.theme === "light" ? "dark" : "light",
+      theme: this.state.theme === 'light' ? 'dark' : 'light',
     });
   };
 }
@@ -1003,76 +1043,83 @@ const MyComponent = React.memo(function MyComponent(props) {
   /* 使用 props 渲染 */
 });
 ```
-### HOC编写指南
-HOC即是“高阶组件”，这不是一个API，它是一种类似于工厂模式的设计模式，只不过输入的“原材料”是组件，输出的“产品”也是组件。
 
-组件的主要任务是把props或者state渲染成UI，而高阶组件的主要任务是把一个组件加工成另一个组件。
+### HOC 编写指南
 
-高阶组件的主要作用就是复用组件间的公共逻辑，下面是一个HOC的基本框架。
+HOC 即是“高阶组件”，这不是一个 API，它是一种类似于工厂模式的设计模式，只不过输入的“原材料”是组件，输出的“产品”也是组件。
 
-``` js
-const HOCFactory = (Component)=>{
-    class Hoc extends React.Component{
-        //在这里边可以把公共逻辑写进去
-        render() {
-            //这里需要将属性透传到组件内部
-            return <Component {...this.props}/>  
-        }
+组件的主要任务是把 props 或者 state 渲染成 UI，而高阶组件的主要任务是把一个组件加工成另一个组件。
+
+高阶组件的主要作用就是复用组件间的公共逻辑，下面是一个 HOC 的基本框架。
+
+```js
+const HOCFactory = (Component) => {
+  class Hoc extends React.Component {
+    //在这里边可以把公共逻辑写进去
+    render() {
+      //这里需要将属性透传到组件内部
+      return <Component {...this.props} />;
     }
-    return Hoc;
-}
+  }
+  return Hoc;
+};
 ```
-简单的例子:为一个组件添加显示鼠标位置的HOC。
 
-``` js
-import React from 'react'
+简单的例子:为一个组件添加显示鼠标位置的 HOC。
+
+```js
+import React from 'react';
 
 // 高阶组件
 const withMouse = (Component) => {
-    class withMouseComponent extends React.Component {
-        constructor(props) {
-            super(props)
-            this.state = { x: 0, y: 0 }
-        }
-  
-        handleMouseMove = (event) => {
-            this.setState({
-                x: event.clientX,
-                y: event.clientY
-            })
-        }
-  
-        render() {
-            return (
-                <div style={{ height: '500px' }} onMouseMove={this.handleMouseMove}>
-                    {/* 1. 透传所有 props 2. 增加 mouse 属性 */}
-                    <Component {...this.props} mouse={this.state}/>
-                </div>
-            )
-        }
+  class withMouseComponent extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = { x: 0, y: 0 };
     }
-    return withMouseComponent
-}
+
+    handleMouseMove = (event) => {
+      this.setState({
+        x: event.clientX,
+        y: event.clientY,
+      });
+    };
+
+    render() {
+      return (
+        <div style={{ height: '500px' }} onMouseMove={this.handleMouseMove}>
+          {/* 1. 透传所有 props 2. 增加 mouse 属性 */}
+          <Component {...this.props} mouse={this.state} />
+        </div>
+      );
+    }
+  }
+  return withMouseComponent;
+};
 
 const App = (props) => {
-    const a = props.a
-    const { x, y } = props.mouse // 接收 mouse 属性
-    return (
-        <div style={{ height: '500px' }}>
-            <h1>The mouse position is ({x}, {y})</h1>
-            <p>{a}</p>
-        </div>
-    )
-}
+  const a = props.a;
+  const { x, y } = props.mouse; // 接收 mouse 属性
+  return (
+    <div style={{ height: '500px' }}>
+      <h1>
+        The mouse position is ({x}, {y})
+      </h1>
+      <p>{a}</p>
+    </div>
+  );
+};
 
-export default withMouse(App) // 返回高阶函数
+export default withMouse(App); // 返回高阶函数
 ```
+
 ### Render props
-Render Props和HOC的目的一样，也是为了实现代码复用。
 
-具有render prop的组件可以在自己UI的基础上再去自定义UI，这样就能够实现组件逻辑复用。
+Render Props 和 HOC 的目的一样，也是为了实现代码复用。
 
-``` js
+具有 render prop 的组件可以在自己 UI 的基础上再去自定义 UI，这样就能够实现组件逻辑复用。
+
+```js
 function App(props) {
   return (
     <div>
@@ -1093,12 +1140,15 @@ function App(props) {
 
 export default App;
 ```
-在这个例子里，组件App的渲染函数中插入了带有渲染属性的Mouse组件
-因此只要在Mouse组件中将显示鼠标位置的逻辑定义好，组件App就拥有了“实时显示鼠标位置”的能力。
+
+在这个例子里，组件 App 的渲染函数中插入了带有渲染属性的 Mouse 组件
+因此只要在 Mouse 组件中将显示鼠标位置的逻辑定义好，组件 App 就拥有了“实时显示鼠标位置”的能力。
 
 具体怎么渲染上去，完全可以自己来进行定义。
-> Mouse组件的实现。
-``` js
+
+> Mouse 组件的实现。
+
+```js
 class Mouse extends React.Component {
   constructor(props) {
     super(props);
@@ -1114,7 +1164,7 @@ class Mouse extends React.Component {
 
   render() {
     return (
-      <div style={{ height: "500px" }} onMouseMove={this.handleMouseMove}>
+      <div style={{ height: '500px' }} onMouseMove={this.handleMouseMove}>
         {/* 将当前 state 作为 props ，传递给 render （render 是一个函数组件） */}
         {this.props.render(this.state)}
       </div>
@@ -1125,10 +1175,150 @@ Mouse.propTypes = {
   render: PropTypes.func.isRequired, // 必须接收一个 render 属性，而且是函数
 };
 ```
+
 ## Redux
+
 ### 基本概念
+
 ### 单向数据流
+
 ### react-redux
-### 异步action
+
+### 异步 action
+
 ### 中间件
-## React-router
+
+## react 原理
+
+## 函数式编程
+
+函数式编程是一种“编程范式”，其在`react`中最大的体现就是“不可变值”和“函数是一等公民”。
+
+> 不可变值在 redux 中的体现
+
+```js
+const todos = (state = [], action) => {
+  switch (action.type) {
+    // 创建一个 todo
+    case 'ADD_TODO':
+      // 注意，返回不可变数据
+      return [
+        ...state,
+        {
+          id: action.id,
+          text: action.text, // title
+          completed: false,
+        },
+      ];
+
+    // 切换一个 todo 的完成状态
+    case 'TOGGLE_TODO':
+      // 注意，返回不可变数据
+      return state.map((todo) =>
+        todo.id === action.id
+          ? { ...todo, completed: !todo.completed } // 切换完成状态
+          : todo
+      );
+    default:
+      return state;
+  }
+};
+
+export default todos;
+```
+
+### vdom 和 diff 算法
+
+在 react 中的 vdom 主要是利用`createElement()`来创建，其原理类似与`h函数`,需要接受`tagName`,`props`,`children`三个参数。
+
+#### diff 算法核心
+
+- 只比较同一层级，不跨级比较
+- tag 不同,直接删掉重建，不再深度比较。
+- tag 和 key,两者都相同，两者都相同，则认为是相同节点，不再深度比较。
+
+### 合成事件
+
+React 为了磨平 IE 和Ｗ 3C 标准的兼容问题以及更好的跨平台，自己“包装”了一套合成事件的机制。
+
+![](https://upload-images.jianshu.io/upload_images/2155778-b0834f4af03ee328.png?imageMogr2/auto-orient/strip|imageView2/2/format/webp)
+
+在 Dom 层的事件监听器上，react 将所有的事件都代理到了 document 上，当点击事件时，让事件会自己冒泡上去。
+
+在合成事件层，会把这些所有的事件统一处理成合成事件，然后会根据`event.nativeEvent.target`来判断是谁触发了事件，最后进行派发处理事件。
+
+好处：事件代理，性能优化，都挂到 document 上方便统一处理和销毁，同时方便事件的统一管理（事物机制）。
+
+### setState 流程 和 batchUpdate
+
+![](https://www.jixieclub.com/res/imgs/01.png)
+
+在 setState 时，会把新的状态存到 pending 队列中去，然后判断当前的组件*是否处于批量更新的状态*，是的话会将当前的组件放到`dirtyComponent`中，不是的话会遍历所有的`dirtyComponent`，然后去更新组件的`State`或`props`。
+
+而判断是否处于批量更新的状态，主要是依靠一个`isBatchingUpdate`的`flag`。在调用事件函数之前，这个 flag 为`true`,调用之后，flag 为`flase`。在结合一些“宏任务”的异步特性，就会使得宏任务中的`setState`之前的`flag`状态为`flase`（因为事件中的同步代码已经跑完了）。因此定时器里的内容不会被批量更新。
+
+因此决定 setState 是异步还是同步，取决于是否能够命中“批量更新”的机制，所有的**宏任务**都没办法命中这个机制。
+
+### 事务机制
+
+> “事务”这个词最开始是在数据库中见到，意思是按照一定逻辑顺序执行的任务队列，具有不可分割性。一旦操作失败，就会回滚到操作前的状态。
+
+```js
+/**
+ * <pre>
+ *                    TRANSACTION_WRAPPERS (ExecutionEnvironment.canUseDOM 为 true 的情况)
+ *                                       +                +     +
+ *                                       |                |     |
+ *                     +-----------------|----------------|-----|-------------------+
+ *                     |                 v                |     |                   |
+ *                     |      +-----------------------+   |     |                   |
+ *                     |   +--| SELECTION_RESTORATION |---|-----|---+               |
+ *                     |   |  +-----------------------+   v     |   |               |
+ *                     |   |             +-------------------+  |   |               |
+ *                     |   |     +-------| EVENT_SUPPRESSION |--|---|-----+         |
+ *                     |   |     |       +-------------------+  v   |     |         |
+ *                     |   |     |        +-----------------------+ |     |         |
+ *                     |   |     |     +--| ON_DOM_READY_QUEUEING |-|-----|-----+   |
+ *                     |   |     |     |  +-----------------------+ |     |     |   |
+ *                     |   |     |     |                            |     |     |   |
+ * perform(_mount      |   v     v     v                            v     v     v   | wrapper
+ *         Component   | +---+ +---+ +---+   +----------------+   +---+ +---+ +---+ | invariants
+ *         IntoNode)   | |   | |   | |   |   |                |   |   | |   | |   | | maintained
+ * +------------------>|-|---|-|---|-|---|-->|     _mount     |---|---|-|---|-|---|-|-------->
+ *                     | |   | |   | |   |   |    Component   |   |   | |   | |   | |
+ *                     | |   | |   | |   |   |    IntoNode    |   |   | |   | |   | |
+ *                     | |   | |   | |   |   |                |   |   | |   | |   | |
+ *                     | +---+ +---+ +---+   +----------------+   +---+ +---+ +---+ |
+ *                     |     initialize                                 close       |
+ *                     +------------------------------------------------------------+
+```
+
+这段注释来源于源码，在执行任何方法之前，都会注入一个"wrapper",执行相应的逻辑。`isBatchingUpdate`这个 flag 也是在这个时候注入的。
+
+### 组件渲染更新过程
+
+大致流程和 Vue 类似，只不过`patch`的细节和 Vue 有所不同。
+
+#### 渲染
+
+1. 执行`createElement`函数生成 vnode
+2. 执行`patch`函数，`patch(elem,vnode)`。
+
+#### 更新
+
+1. 当我们执行`setState`之后，会生成`dirtyComponents`(有可能包括子组件,因为当前的 state 有可能作为 props 传了下去)
+2. 遍历所有的`dirtyComponents`,通过`render()`方法生成新的`vnode`。
+3. patch(vnode,newVnode)
+
+### fiber 如何做到了优化性能
+
+在 React 中，`patch`被拆分成了两个阶段。
+
+1. **reconciliation**: 执行 diff 算法。
+2. **commit**: 将 diff 结果渲染到 Dom 上。
+
+其中在`reconciliation`阶段，任务被拆分成了粒度很细的“任务片段”，当遇到高优先级的事件（动画，dom渲染等）会先“暂停”掉diff,等这些事件执行完了再去进行diff,这样就会让用户觉得非常流畅。
+
+其内部的实现机制主要是在以前的树状Vnode做了一个数据结构上的升级。 宏观上看还是树，但从微观上看就是一个"fiber"(网)，实现就是给每一个vNode加了两个指针，一个指向父节点，一个只想兄弟节点，从而形成一个上下文，这样就可以随时中断Vdom的遍历，放心的执行做高优先级的事件。
+
+但是在运行环境需要依靠`window.requestIdleCallback`,如果浏览器不支持就没有办法了。
