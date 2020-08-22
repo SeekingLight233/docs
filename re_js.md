@@ -159,21 +159,21 @@ f1();
 
 这个问题在网上看了很多的博客，都写的很奇怪，反正我是没看懂。
 
-其实说简单点，**闭包就是一个函数**。
+其实 MDN 上的**英文翻译**我觉得就是描述的最贴切的。
 
-那什么时候我们管一个函数叫闭包呢？
+> A closure is the combination of a function bundled together with references to its surrounding state.
 
-两种情况：
+下面两幅图中函数声明时所在的区域就是所谓的`surrounding state`.
 
-1. “这个函数”作为参数传到了另一个函数中去，此时我们管“这个函数”叫**闭包**。
-   ![](./re_js/12.png)
+![](./re_js/12.png)
 
-2. “这个函数”作为函数的返回值，被返回。这时我们也管“这个函数”叫**闭包**。
-   ![](./re_js/11.png)
+![](./re_js/11.png)
 
 从上面两个例子我们可以看到，闭包的最大特点就是：
 
 **闭包函数被调用时，不受当前作用域的影响！**
+
+说句不好听的，闭包破坏了 js 的作用域机制。
 
 闭包最大的作用就是用来封装数据，只对外提供 API
 
@@ -407,7 +407,15 @@ _下面这块算 es6 的部分了_
 
 ## requestAnimationFrame()
 
+[你需要知道的 requestAnimationFrame](https://juejin.im/post/6844903565048152078)
+
 `requestAnimationFrame()`是一个动画相关的 api，它要求传一个回调进去，告诉浏览器用这个回调来更新动画。
+
+> RAF 会在布局前生效，利用这一点可以避免页面大量回流
+
+> React 中就是利用这个 api 模拟实现的 requestIdleCallback
+
+当然你也可以利用这玩意做节流。
 
 ```html
 <!DOCTYPE html>

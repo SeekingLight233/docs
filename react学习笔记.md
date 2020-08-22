@@ -295,6 +295,14 @@ export default BaseDemo;
 
 也就是说，所有的事件，都挂在了`document`上。
 
+::: tip
+
+### 关于`target`与`currentTarget`
+
+`currentTarget`指的是当前事件被触发时的“终极目标”。
+`target`指的是当前事件被触发时的“起始目标”。
+:::
+
 ### 表单
 
 #### input
@@ -303,7 +311,7 @@ export default BaseDemo;
 
 注意 label 标签中的`for`属性在 js 中是关键字，因此需要改个名。
 
-`受控组件`:组件中的值受到`state`的控制的组件。
+`受控组件`:组件中的值受到`state`的控制的组件，常用于表单。
 
 ```js
 import React from "react";
@@ -1178,19 +1186,44 @@ Mouse.propTypes = {
 
 ## Redux
 
-### 基本概念
-
 ### 单向数据流
 
-### react-redux
+假设现在有一个按钮，点击按钮会让 Store 中的数据+1。
 
-### 异步 action
+当用户点击视图上的按钮的时候，此时会去`dispatch`一个创建好的`action`，然后`Reducer`会去接受这个`action`,根据`action.type`将新的 store 上的数据给`patch`上去。此时`store`里的数据就发生了变化，然后在组件内用`subscribe`或者`connect`就能够监听到`store`中的变化，从而触发 re-render。
+
+如果是异步操作的话，可以引入一个`redux-thunk`中间件，`dispatch`的`action`不是一个对象，而是一个函数，在这个函数的内部可以获取`state`和进行`dispatch`。
 
 ### 中间件
 
+## react-router 配置懒加载
+
+```jsx
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import React, { Suspense, lazy } from 'react';
+
+const Home = lazy(() => import('./routers/Home'));
+const About = lazy(() => import('./routers/About'));
+
+const App = () => {
+  return (
+    <Router>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Switch>
+          <BrowserRouter path='/' component={Home}></BrowserRouter>
+          <BrowserRouter path='about' component={About}></BrowserRouter>
+        </Switch>
+      </Suspense>
+    </Router>
+  );
+};
+
+export default App;
+```
+
 ## react 原理
 
-## 函数式编程
+### 函数式编程
 
 函数式编程是一种“编程范式”，其在`react`中最大的体现就是“不可变值”和“函数是一等公民”。
 
@@ -1227,15 +1260,9 @@ const todos = (state = [], action) => {
 export default todos;
 ```
 
-### vdom 和 diff 算法
+### vdom
 
 在 react 中的 vdom 主要是利用`createElement()`来创建，其原理类似与`h函数`,需要接受`tagName`,`props`,`children`三个参数。
-
-#### diff 算法核心
-
-- 只比较同一层级，不跨级比较
-- tag 不同,直接删掉重建，不再深度比较。
-- tag 和 key,两者都相同，两者都相同，则认为是相同节点，不再深度比较。
 
 ### 合成事件
 
@@ -1317,8 +1344,41 @@ React 为了磨平 IE 和Ｗ 3C 标准的兼容问题以及更好的跨平台，
 1. **reconciliation**: 执行 diff 算法。
 2. **commit**: 将 diff 结果渲染到 Dom 上。
 
-其中在`reconciliation`阶段，任务被拆分成了粒度很细的“任务片段”，当遇到高优先级的事件（动画，dom渲染等）会先“暂停”掉diff,等这些事件执行完了再去进行diff,这样就会让用户觉得非常流畅。
+其中在`reconciliation`阶段，任务被拆分成了粒度很细的“任务片段”，当遇到高优先级的事件（动画，dom 渲染等）会先“暂停”掉 diff,等这些事件执行完了再去进行 diff,这样就会让用户觉得非常流畅。
 
-其内部的实现机制主要是在以前的树状Vnode做了一个数据结构上的升级。 宏观上看还是树，但从微观上看就是一个"fiber"(网)，实现就是给每一个vNode加了两个指针，一个指向父节点，一个只想兄弟节点，从而形成一个上下文，这样就可以随时中断Vdom的遍历，放心的执行做高优先级的事件。
+其内部的实现机制主要是在以前的树状 Vnode 做了一个数据结构上的升级。 宏观上看还是树，但从微观上看就是一个"fiber"(网)，实现就是给每一个 vNode 加了两个指针，一个指向父节点，一个只想兄弟节点，从而形成一个上下文，这样就可以随时中断 Vdom 的遍历，放心的执行做高优先级的事件。
 
 但是在运行环境需要依靠`window.requestIdleCallback`,如果浏览器不支持就没有办法了。
+
+### 影响 React 性能的细节
+
+- 渲染列表不加 key
+- 不及时销毁自定义事件
+- 大组件不做懒加载
+- 组件不做缓存处理(memo)
+
+## 对 React 和 Vue 的理解
+
+### 相同点
+
+组件化、数据驱动视图、vdom
+
+### 不同点
+
+1. 函数式编程/声明式编程
+2. 灵活/api 多
+
+## diff 算法核心
+
+### 根据 key 和 type 来判断是否是相同的 vnode。
+
+::: tip
+因此尽量不要用`index`来作为`key`,除非能够确定元素的顺序是固定的，不会被重新排序。
+:::
+
+### 如果不同：则直接将 newVnode 删掉重建，不管底下有没有相同结点。
+
+### 如果相同：则需要根据`dom`和`组件`来进行判断。
+
+- dom: 直接更新差异属性
+- 组件：继续递归比较子组件，递归到 dom 为止。
