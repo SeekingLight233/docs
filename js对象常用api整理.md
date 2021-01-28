@@ -12,7 +12,7 @@ tags:
   - String对象
   - Array对象
 sidebarDepth: 5
-sidebar: "auto"
+sidebar: 'auto'
 ---
 
 ## js 中常用的 bom 方法
@@ -28,16 +28,16 @@ sidebar: "auto"
 - `history.go(-3)`
   加载 history 列表中的某个具体页面,这个例子中是后退三页(作用等效于按三次返回键)
 
-### localStorage 全局对象
+### localStorage
 
 > localStorage 对象用于在浏览器中存储键值对数据
 
 ```js
-localStorage.setItem("name", "jason")
-var name = localStorage.getItem("name")
+localStorage.setItem('name', 'jason');
+var name = localStorage.getItem('name');
 ```
 
-### location 全局对象
+### location url 信息
 
 > location 对象中会包含当前的 url 信息
 
@@ -65,16 +65,16 @@ var name = localStorage.getItem("name")
 这是一个获取参数的一个很好用的 api
 
 ```js
-console.log(location.search)
+console.log(location.search);
 //?a=1&b=2
-const p = new URLSearchParams(location.search)
-console.log(p) //{ 'a' => '1', 'b' => '2' }
-console.log(p.get("b")) //2
+const p = new URLSearchParams(location.search);
+console.log(p); //{ 'a' => '1', 'b' => '2' }
+console.log(p.get('b')); //2
 ```
 
 这个 api 的返回值是一个对象数组。
 
-### navigator 全局对象
+### navigator：浏览器信息
 
 > navigator 对象中会保存当前正在使用的浏览器中的一些属性
 
@@ -87,7 +87,7 @@ console.log(p.get("b")) //2
 - `navigator.userAgent`
   返回 http 中用户代理头的值，通常用来判断操作系统平台
 
-### screen 全局对象
+### screen：屏幕信息
 
 - `screen.availHeight`
   返回当前屏幕的可用高度(单位:px)
@@ -120,9 +120,9 @@ console.log(p.get("b")) //2
 获取指定对象的全部的 key
 
 ```js
-let obj = { a: 1, b: 2, c: 3 }
-let res = Object.keys(obj)
-console.log(res)
+let obj = { a: 1, b: 2, c: 3 };
+let res = Object.keys(obj);
+console.log(res);
 //[ 'a', 'b', 'c' ]
 ```
 
@@ -131,9 +131,9 @@ console.log(res)
 获取指定对象的全部的 value
 
 ```js
-let obj = { a: 1, b: 2, c: 3 }
-let res = Object.values(obj)
-console.log(res)
+let obj = { a: 1, b: 2, c: 3 };
+let res = Object.values(obj);
+console.log(res);
 //[ 1, 2, 3 ]
 ```
 
@@ -142,17 +142,17 @@ console.log(res)
 把一个对象中的属性值从一个对象拷贝到另一个对象。
 
 ```js
-let target = { a: "1", b: "2" }
-let source = { d: "4", b: "3" }
-Object.assign(target, source)
-console.log(target)
+let target = { a: '1', b: '2' };
+let source = { d: '4', b: '3' };
+Object.assign(target, source);
+console.log(target);
 //{ a: '1', b: '3', d: '4' }
 ```
 
 ## String 对象的常用方法
 
 ```js
-var str = "abcde"
+var str = 'abcde';
 ```
 
 - `str.length`
@@ -165,27 +165,27 @@ var str = "abcde"
   concat()方法用来拼接字符串
 
 ```js
-var str1 = "Hello "
-var str2 = "world!"
-var n = str1.concat(str2) //Hello world!
+var str1 = 'Hello ';
+var str2 = 'world!';
+var n = str1.concat(str2); //Hello world!
 ```
 
 - `substring()`
   截取字符串中[start,end)的连续字符(从 0 数，左闭右开)
 
 ```js
-var str = "abcdefg"
-str.substring(1, 4) //"bcd"
-str.substring(1) // "bcdefg"
+var str = 'abcdefg';
+str.substring(1, 4); //"bcd"
+str.substring(1); // "bcdefg"
 ```
 
 - `slice()`
   用法同上，不过更为灵活，当第二个参数为负数时，则该参数规定的是从字符串的尾部开始算起的位置。
 
 ```js
-var str = "abcdefg"
-str.slice(-1) //g
-str.slice(1, -2) //bcde
+var str = 'abcdefg';
+str.slice(-1); //g
+str.slice(1, -2); //bcde
 ```
 
 ::: warning
@@ -196,28 +196,28 @@ slice 方法并不会更改原变量！
   从第 m 个数开始，往后截取 n 个字符
 
 ```js
-var str = "Just give me a reason"
-str.substr(5, 10) // "give me a "
+var str = 'Just give me a reason';
+str.substr(5, 10); // "give me a "
 ```
 
 - `replace()`
   查找"love"，并将其替换成"hate"
 
 ```js
-var str = "do you love me"
-str.replace("love", "hate") // "do you hate me"
+var str = 'do you love me';
+str.replace('love', 'hate'); // "do you hate me"
 ```
 
 - `split()`
   将字符串用指定的规则分割为字符数组
 
 ```js
-var str = "How are you doing today?"
-str.split("") //H,o,w, ,a,r,e, ,y,o,u, ,d,o,i,n,g, ,t,o,d,a,y,?
+var str = 'How are you doing today?';
+str.split(''); //H,o,w, ,a,r,e, ,y,o,u, ,d,o,i,n,g, ,t,o,d,a,y,?
 // 使用limit参数
-str.split(" ", 3) //How,are,you
+str.split(' ', 3); //How,are,you
 // 自定义分隔规则
-str.split("o") //H,w are y,u d,ing t,day?
+str.split('o'); //H,w are y,u d,ing t,day?
 ```
 
 ::: tip
@@ -228,35 +228,35 @@ str.split("o") //H,w are y,u d,ing t,day?
   去除字符串两边的空白
 
 ```js
-var str = " abc "
-str.trim() // 'abc'
+var str = ' abc ';
+str.trim(); // 'abc'
 ```
 
 - `toLowerCase()`
   将字符串转成小写
 
 ```js
-var str = "JavaScript"
-str.toLowerCase() // 'javascript'
+var str = 'JavaScript';
+str.toLowerCase(); // 'javascript'
 ```
 
 - `toUpperCase()`
   将字符串转成大写
 
 ```js
-var str = "JavaScript"
-str.toUpperCase() // 'JAVASCRIPT'
+var str = 'JavaScript';
+str.toUpperCase(); // 'JAVASCRIPT'
 ```
 
 - `str.search(regexp)`
   用于搜索指定匹配的字符串,返回该匹配字符串第一次出现的位置
 
 ```js
-var str = "Visit Runoob!"
-var n = str.search("Runoob") //6
+var str = 'Visit Runoob!';
+var n = str.search('Runoob'); //6
 //忽略大小写
-var str = "Mr. Blue has a blue house"
-str.search(/blue/i) //4
+var str = 'Mr. Blue has a blue house';
+str.search(/blue/i); //4
 ```
 
 - `str.match(regexp)`
@@ -264,8 +264,8 @@ str.search(/blue/i) //4
 
 ```js
 // 全局匹配"ain",且不分大小写
-var str = "The rain in SPAIN stays mainly in the plain"
-var n = str.match(/ain/gi) //[ain,AIN,ain,ain]
+var str = 'The rain in SPAIN stays mainly in the plain';
+var n = str.match(/ain/gi); //[ain,AIN,ain,ain]
 ```
 
 ## Array 对象的常用方法
@@ -276,11 +276,11 @@ var n = str.match(/ain/gi) //[ain,AIN,ain,ain]
   concat()方法可用来拼接数组
 
 ```js
-let a = [1, 2]
-let b = [3, 4, 5]
-let c = [6, 7]
-let sum = a.concat(b, c)
-console.log(sum) // [ 1, 2, 3, 4, 5, 6, 7 ]
+let a = [1, 2];
+let b = [3, 4, 5];
+let c = [6, 7];
+let sum = a.concat(b, c);
+console.log(sum); // [ 1, 2, 3, 4, 5, 6, 7 ]
 ```
 
 - `foreach()`
@@ -289,16 +289,16 @@ console.log(sum) // [ 1, 2, 3, 4, 5, 6, 7 ]
 ```js
 // 将土豆的重量都加20
 var potatos = [
-  { id: "1001", weight: 50 },
-  { id: "1002", weight: 80 },
-  { id: "1003", weight: 120 },
-  { id: "1004", weight: 40 },
-  { id: "1005", weight: 110 },
-  { id: "1006", weight: 60 },
-]
+  { id: '1001', weight: 50 },
+  { id: '1002', weight: 80 },
+  { id: '1003', weight: 120 },
+  { id: '1004', weight: 40 },
+  { id: '1005', weight: 110 },
+  { id: '1006', weight: 60 },
+];
 
-potatos.forEach((potato) => (potato.weight += 20))
-console.log(potatos)
+potatos.forEach((potato) => (potato.weight += 20));
+console.log(potatos);
 ```
 
 ::: tip
@@ -311,109 +311,109 @@ console.log(potatos)
 ```js
 //返回potatos数组中每个土豆的重量
 let w = potatos.map((potato) => {
-  return potato.weight
-})
-console.log(w) //[ 50, 80, 120, 40, 110, 60 ]
+  return potato.weight;
+});
+console.log(w); //[ 50, 80, 120, 40, 110, 60 ]
 //将nums中的元素批量加10并返回
-let nums = [1, 2, 3, 4, 5]
+let nums = [1, 2, 3, 4, 5];
 let y = nums.map((num) => {
-  return num + 10
-})
-console.log(y) //[ 11, 12, 13, 14, 15 ]
+  return num + 10;
+});
+console.log(y); //[ 11, 12, 13, 14, 15 ]
 ```
 
 - `filter()`
   filter()函数主要用来筛选过滤信息
 
 ```js
-let nums = [1, 2, 3, 4, 5]
+let nums = [1, 2, 3, 4, 5];
 let y = nums.filter((num) => {
-  return num > 3
-})
-console.log(y) //[ 4, 5 ]
+  return num > 3;
+});
+console.log(y); //[ 4, 5 ]
 ```
 
 - `some()`
   some()函数主要用来判断数组中是否有符合某个条件的(一个就行)
 
 ```js
-let nums = [1, 2, 3, 4, 5]
+let nums = [1, 2, 3, 4, 5];
 let res = nums.some((num) => {
-  return num > 3
-})
-console.log(res) // true
+  return num > 3;
+});
+console.log(res); // true
 let res2 = nums.some((num) => {
-  return num > 6
-})
-console.log(res2) // false
+  return num > 6;
+});
+console.log(res2); // false
 ```
 
 - `every()`
   对应 some(),全符合条件最终才为 true
 
 ```js
-let nums = [1, 2, 3, 4, 5]
+let nums = [1, 2, 3, 4, 5];
 
 let res = nums.every((num) => {
-  return num > 0
-})
-console.log(res) // true
+  return num > 0;
+});
+console.log(res); // true
 let res2 = nums.every((num) => {
-  return num > 2
-})
-console.log(res2) // false
+  return num > 2;
+});
+console.log(res2); // false
 ```
 
 - `find()`
   find()函数会去查找符合条件的第一个元素，并将其 value 返回
 
 ```js
-let nums = [1, 2, 3, 4, 5]
+let nums = [1, 2, 3, 4, 5];
 let res = nums.find((num) => {
-  return num > 3
-})
-console.log(res) //4
+  return num > 3;
+});
+console.log(res); //4
 ```
 
 - `findIndex()`
   对应 find(),不过返回的是 index
 
 ```js
-let nums = [11, 12, 13, 14, 15]
+let nums = [11, 12, 13, 14, 15];
 let res = nums.findIndex((num) => {
-  return num > 13
-})
-console.log(res) //3
+  return num > 13;
+});
+console.log(res); //3
 ```
 
 - `from()`
   将拥有 length 属性的对象转化为一个新的数组
 
 ```js
-let obj = "abcdef"
-arr = Array.from(obj)
-console.log(arr) //[ 'a', 'b', 'c', 'd', 'e', 'f' ]
-let set = new Set([1, 2, 3])
-arr2 = Array.from(set)
-console.log(arr2) //[ 1, 2, 3 ]
+let obj = 'abcdef';
+arr = Array.from(obj);
+console.log(arr); //[ 'a', 'b', 'c', 'd', 'e', 'f' ]
+let set = new Set([1, 2, 3]);
+arr2 = Array.from(set);
+console.log(arr2); //[ 1, 2, 3 ]
 ```
 
 - `join()`
   将数组中的所有元素拼接为一个字符串
 
 ```js
-let arr = [1, "hello", 3]
-let str = arr.join("|")
-console.log(str) // 1|hello|3
+let arr = [1, 'hello', 3];
+let str = arr.join('|');
+console.log(str); // 1|hello|3
 ```
 
 - `reverse()`
   反转数组中所有的元素
 
 ```js
-let nums = [1, 2, 3, 4]
-let nums_rev = nums.reverse()
-console.log(nums_rev) // [ 4, 3, 2, 1 ]
+let nums = [1, 2, 3, 4];
+let nums_rev = nums.reverse();
+console.log(nums_rev); // [ 4, 3, 2, 1 ]
 ```
 
 - `slice(m,n)`
@@ -426,11 +426,11 @@ console.log(nums_rev) // [ 4, 3, 2, 1 ]
 
 ```js
 //升序
-let nums = [1, 5, 4, 2, 6]
+let nums = [1, 5, 4, 2, 6];
 let sort_nums = nums.sort((a, b) => {
-  return a - b
-})
-console.log(sort_nums) //[ 1, 2, 4, 5, 6 ]
+  return a - b;
+});
+console.log(sort_nums); //[ 1, 2, 4, 5, 6 ]
 ```
 
 - `splice(index,amount,item1,item2,...)` (移接)
@@ -439,14 +439,14 @@ console.log(sort_nums) //[ 1, 2, 4, 5, 6 ]
   :::
 
 ```js
-let nums = [1, 2, 3, 4, 5]
+let nums = [1, 2, 3, 4, 5];
 //从第二个位置开始，删除两个元素
-let res = nums.splice(2, 2)
-console.log(res) // [ 3, 4 ]
-console.log(nums) // [ 1, 2, 5 ]
+let res = nums.splice(2, 2);
+console.log(res); // [ 3, 4 ]
+console.log(nums); // [ 1, 2, 5 ]
 //从第二个位置开始，增加"a","b"
-nums.splice(2, 0, "a", "b")
-console.log(nums) // [ 1, 2, 'a', 'b', 5 ]
+nums.splice(2, 0, 'a', 'b');
+console.log(nums); // [ 1, 2, 'a', 'b', 5 ]
 ```
 
 ### 数组降维(扁平化)
@@ -457,11 +457,11 @@ console.log(nums) // [ 1, 2, 'a', 'b', 5 ]
 
 ```js
 function flat(arr) {
-  let res = [].concat(...arr)
-  return res
+  let res = [].concat(...arr);
+  return res;
 }
-let res = flat([1, 2, 3, 4, [5, 6], 7])
-console.log(res) //[ 1, 2, 3, 4, 5, 6, 7 ]
+let res = flat([1, 2, 3, 4, [5, 6], 7]);
+console.log(res); //[ 1, 2, 3, 4, 5, 6, 7 ]
 ```
 
 #### 高维数组降维
@@ -470,16 +470,16 @@ console.log(res) //[ 1, 2, 3, 4, 5, 6, 7 ]
 function flat(arr = []) {
   //递归的终止条件:降维到一维,如果isDeep为false，则说明降维到了一维
   const isDeep = arr.some((val) => {
-    return val instanceof Array
-  })
-  if (!isDeep) return arr
+    return val instanceof Array;
+  });
+  if (!isDeep) return arr;
 
   //高维处理,每调一次这个方法，便会对原数组降一维
-  let res = [].concat(...arr)
-  return flat(res)
+  let res = [].concat(...arr);
+  return flat(res);
 }
-let res = flat([1, 2, 3, 4, [5, 6, [8, 8]], 7])
-console.log(res) //[ 1, 2, 3, 4, 5, 6, 7 ]
+let res = flat([1, 2, 3, 4, [5, 6, [8, 8]], 7]);
+console.log(res); //[ 1, 2, 3, 4, 5, 6, 7 ]
 ```
 
 ### 数组去重
@@ -488,11 +488,11 @@ console.log(res) //[ 1, 2, 3, 4, 5, 6, 7 ]
 
 ```js
 function unique(arr) {
-  let set = new Set(arr)
-  return [...set]
+  let set = new Set(arr);
+  return [...set];
 }
-let res = unique([1, 2, 3, 3, 4, 4])
-console.log(res) //[ 1, 2, 3, 4 ]
+let res = unique([1, 2, 3, 3, 4, 4]);
+console.log(res); //[ 1, 2, 3, 4 ]
 ```
 
 ### Array 对象中的纯函数
@@ -503,13 +503,14 @@ console.log(res) //[ 1, 2, 3, 4 ]
 典型的纯函数有`concat()`,`map()`,`filter()`,`slice()`。
 
 ### Array.prototype.reduce()
-像map,filter，find等方法其本质都是将一个array转成另一个特定的array，只不过功能比较具体。
 
-而reduce方法则是以上功能的“super version”，它允许你去自定义以自己的方式操作迭代数组，并返回特定的数组。
+像 map,filter，find 等方法其本质都是将一个 array 转成另一个特定的 array，只不过功能比较具体。
 
-这个方法用起来很像redux中的reducer，其实他们之间确实是有一些关联的。
+而 reduce 方法则是以上功能的“super version”，它允许你去自定义以自己的方式操作迭代数组，并返回特定的数组。
 
-具体使用也很简单，只不过callback第一个参数可以指定一个`initState`。这个`initState`也可以通过reduce方法的第二个参数手动指定。
+这个方法用起来很像 redux 中的 reducer，其实他们之间确实是有一些关联的。
+
+具体使用也很简单，只不过 callback 第一个参数可以指定一个`initState`。这个`initState`也可以通过 reduce 方法的第二个参数手动指定。
 
 ```js
 //涨价50！
@@ -535,8 +536,8 @@ let priceUp = orders.reduce((preState, item) => {
 }, []);
 
 console.log(priceUp);
-
 ```
+
 ## Function 对象
 
 > 每一个 javascript 的函数其实都是一个函数对象
@@ -546,23 +547,23 @@ console.log(priceUp);
 
 ```js
 let obj = {
-  name: "jason",
+  name: 'jason',
   age: 18,
-}
+};
 function f1() {
-  console.log(this.name)
+  console.log(this.name);
 }
-f1() //undefined
-f1.apply(obj) //jason
+f1(); //undefined
+f1.apply(obj); //jason
 ```
 
 在来看一个 MDN 上的一个经典的例子：将一个数组整体 push 到另一个数组中。
 
 ```js
-var array = ["a", "b"]
-var elements = [0, 1, 2]
-array.push.apply(array, elements)
-console.info(array) // ["a", "b", 0, 1, 2]
+var array = ['a', 'b'];
+var elements = [0, 1, 2];
+array.push.apply(array, elements);
+console.info(array); // ["a", "b", 0, 1, 2]
 ```
 
 - `call()`
@@ -573,14 +574,14 @@ console.info(array) // ["a", "b", 0, 1, 2]
 
 ```js
 let obj = {
-  name: "jason",
+  name: 'jason',
   age: 18,
-}
+};
 function f1() {
-  console.log(this.name)
+  console.log(this.name);
 }
-let copy = f1.bind(obj)
-copy() //jason
+let copy = f1.bind(obj);
+copy(); //jason
 ```
 
 ### 手写 bind 函数
@@ -588,18 +589,18 @@ copy() //jason
 ```js
 Function.prototype.bind1 = function() {
   //讲参数拆解为数组
-  const args = Array.from(arguments)
+  const args = Array.from(arguments);
   //获取要绑定的对象
-  const obj = args.shift()
+  const obj = args.shift();
 
   //获取调用bind的函数对象
-  const fn = this
+  const fn = this;
 
   //返回一个闭包函数
   return function() {
-    return fn.apply(obj, args)
-  }
-}
+    return fn.apply(obj, args);
+  };
+};
 ```
 
 ### arguments 对象实例

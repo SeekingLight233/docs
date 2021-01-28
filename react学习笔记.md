@@ -1324,38 +1324,22 @@ React 为了磨平 IE 和Ｗ 3C 标准的兼容问题以及更好的跨平台，
 
 ### 组件渲染更新过程
 
-大致流程和 Vue 类似，只不过`patch`的细节和 Vue 有所不同。
+当用户调用`render`方法后，此时就会进入`render`阶段。
 
-#### 渲染
+在`render`的时候，会对所以的 fiber 进行 dfs，在递进去的时候会执行`beginWork(current,workInProcess)`,在归出来的时候执行`completeWork`。
 
-1. 执行`createElement`函数生成 vnode
-2. 执行`patch`函数，`patch(elem,vnode)`。
+在`beginWork`的时候，会根据参数`current`是否为空来判断是注册还是更新。
 
-#### 更新
+#### mount
 
-1. 当我们执行`setState`之后，会生成`dirtyComponents`(有可能包括子组件,因为当前的 state 有可能作为 props 传了下去)
-2. 遍历所有的`dirtyComponents`,通过`render()`方法生成新的`vnode`。
-3. patch(vnode,newVnode)
+注册阶段很简单，会根据`workInProcess`上的`tag`属性创建出对应的 fiber 节点。
 
-### fiber 如何做到了优化性能
+#### update
 
-在 React 中，`patch`被拆分成了两个阶段。
+1. 首先上来会根据前后的属性和 type 判断能否复用，如果不能复用会调用`reconcileChildFibers`进行**diff**，最终会返回带上`effectTag`的`Fiber`节点。
+2. 如果能复用的话会根据优先级判断是否需要更新，如果更新的话就直接拷贝一份。
 
-1. **reconciliation**: 执行 diff 算法。
-2. **commit**: 将 diff 结果渲染到 Dom 上。
-
-其中在`reconciliation`阶段，任务被拆分成了粒度很细的“任务片段”，当遇到高优先级的事件（动画，dom 渲染等）会先“暂停”掉 diff,等这些事件执行完了再去进行 diff,这样就会让用户觉得非常流畅。
-
-其内部的实现机制主要是在以前的树状 Vnode 做了一个数据结构上的升级。 宏观上看还是树，但从微观上看就是一个"fiber"(网)，实现就是给每一个 vNode 加了两个指针，一个指向父节点，一个只想兄弟节点，从而形成一个上下文，这样就可以随时中断 Vdom 的遍历，放心的执行做高优先级的事件。
-
-但是在运行环境需要依靠`window.requestIdleCallback`,如果浏览器不支持就没有办法了。
-
-### 影响 React 性能的细节
-
-- 渲染列表不加 key
-- 不及时销毁自定义事件
-- 大组件不做懒加载
-- 组件不做缓存处理(memo)
+当`beginWork`执行完毕后，页面上就会存在许多打上“tag”的 fiber，在归出来的时候，并且执行`completeWork`的时候，会将所有存在`effectTag`的`fiber`存到`effectList`这个单向链表里，在`commit`阶段会遍历`effectList`并去执行所有的`effect`。
 
 ## 对 React 和 Vue 的理解
 
@@ -1382,3 +1366,13 @@ React 为了磨平 IE 和Ｗ 3C 标准的兼容问题以及更好的跨平台，
 
 - dom: 直接更新差异属性
 - 组件：继续递归比较子组件，递归到 dom 为止。
+
+## Hooks
+
+### 为什么不能在条件和循环中使用 hooks?
+
+可以举一个具体的例子，比如`useState`的实现。
+
+当一个组件中使用了多个 state，每次初始化时都会有一个索引记录当前 state 所对应的位置。
+
+如果写在 if 条件中，那么在下一次渲染的时候可能不执行(假设为 false),那么索引对应的 state 就全乱了。
