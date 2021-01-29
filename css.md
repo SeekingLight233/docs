@@ -361,7 +361,16 @@ display 属性设置一个元素如何显示
 
 是否换行
 
+#### align-content
+
+在多行的情况下交叉轴的对齐方式.
+
 > 以下属性作用在子元素上
+
+#### flex-basic
+
+元素在主轴上的基本尺寸,优先级大于元素本身的宽度
+(但是没有最大/最小宽高的优先级高!)
 
 #### align-self
 
@@ -371,9 +380,25 @@ display 属性设置一个元素如何显示
 
 规定自身在项目中的顺序，数值越小，位置越靠前。
 
-#### flex-grow 和 flex-shrink
+#### flex-grow
 
-放缩当前元素。
+指定单个元素如何分配剩余空间
+
+#### flex-shrink
+
+如果元素在主轴上放不下会默认缩放. 此时指定 flex-shrink 可以指定缩放比例(0 为不缩放)
+
+::: warning
+值越大缩小比例越小!
+:::
+
+#### flex
+
+flex:flex-grow flex-shrink flex-basic
+
+#### 如何控制单个弹性元素的位置,但不影响其他元素?
+
+A: 在弹性元素上设置 relative 即可
 
 ### 利用 flex 画三个点的骰子
 
@@ -823,3 +848,40 @@ vw/vh 布局直接画。
 
 - 如果是具体的数值，和具体的比值（1.5/2）之类的，会直接继承下来。
 - 如果是百分比，则继承下来的是**计算后的比值**。
+
+### 屏幕里面内容未占满的时候 footer 固定在屏幕可视区域的底部。占满的时候显示在网页的最底端。
+
+父元素上设置高度 100%和弹性布局,内容区用 flex-grow:1 瓜分剩余高度
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    html,
+    body {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .content {
+      flex-grow: 1;
+    }
+  </style>
+  <body>
+    <div class="content">
+      <h1>Sticky Footer with Flexbox</h1>
+      <h1>Sticky Footer with Flexbox</h1>
+      <h1>Sticky Footer with Flexbox</h1>
+      <h1>Sticky Footer with Flexbox</h1>
+
+      <p><button id="add">Add Content</button></p>
+    </div>
+    <footer class="footer">Footer</footer>
+  </body>
+</html>
+```

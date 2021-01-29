@@ -71,7 +71,7 @@ xhr.send(null);
 #### Restful API
 
 - 传统 api: 把每个 url 当作一个功能
-- Restful: 把每个 url 但做一个唯一的资源（不传参数，明确 method）
+- Restful: 把每个 url 当做一个唯一的资源（不传参数，明确 method）
 
 ### header
 
