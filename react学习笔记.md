@@ -293,14 +293,14 @@ export default BaseDemo;
 
 并且`currentTarget`指向的是`document`,这一点和 Vue 也不太一样。
 
-也就是说，所有的事件，都挂在了`document`上。
+也就是说，所有的事件，都在`document`上被触发.
 
 ::: tip
 
 ### 关于`target`与`currentTarget`
 
-`currentTarget`指的是当前事件被触发时的“终极目标”。
-`target`指的是当前事件被触发时的“起始目标”。
+`currentTarget`指的是当前事件触发时的 dom
+`target`指的是当前事件注册时的 dom
 :::
 
 ### 表单
@@ -1121,13 +1121,17 @@ const App = (props) => {
 export default withMouse(App); // 返回高阶函数
 ```
 
+### HOC 缺点
+
+组件层级嵌套,调试起来麻烦.而且容易忘了去透传 props
+
 ### Render props
 
 Render Props 和 HOC 的目的一样，也是为了实现代码复用。
 
 具有 render prop 的组件可以在自己 UI 的基础上再去自定义 UI，这样就能够实现组件逻辑复用。
 
-```js
+```jsx
 function App(props) {
   return (
     <div>
@@ -1357,7 +1361,7 @@ React 为了磨平 IE 和Ｗ 3C 标准的兼容问题以及更好的跨平台，
 ### 根据 key 和 type 来判断是否是相同的 vnode。
 
 ::: tip
-因此尽量不要用`index`来作为`key`,除非能够确定元素的顺序是固定的，不会被重新排序。
+如果用 index 做 key 的话,假如要在头部插入一个 item,你会发现前面的数据根本没有发生变化,因为他们根据 index 复用了之前的 node,这肯定是不行的
 :::
 
 ### 如果不同：则直接将 newVnode 删掉重建，不管底下有没有相同结点。
@@ -1376,3 +1380,180 @@ React 为了磨平 IE 和Ｗ 3C 标准的兼容问题以及更好的跨平台，
 当一个组件中使用了多个 state，每次初始化时都会有一个索引记录当前 state 所对应的位置。
 
 如果写在 if 条件中，那么在下一次渲染的时候可能不执行(假设为 false),那么索引对应的 state 就全乱了。
+
+包括其他的 hook,全都按照一个严格的顺序的一一对应.
+
+### 使用 useEffect 模拟生命周期
+
+#### componentDidMount
+
+使用`useEffect,依赖为空数组`.
+
+#### componentDidUpdate
+
+使用`useEffect,并添加依赖`
+
+#### componentWillUnMount
+
+使用 `useEffect,并return销毁逻辑`
+
+::: warning
+useEffect 中 return 的`fn`并不完全等于 `ComponentWillUnMount`
+只有当其为空依赖的时候才是.
+如果无依赖或依赖了变化的状态,那么在组件更新时仍然会执行 `fn`
+
+换句话说,当依赖为空时,不会触发更新逻辑,也就无法恢复 state 中之前的状态!
+
+在下面的例子中,你会发现控制台打印的永远都是 0,因为 useEffect 中触发的是首次更新的逻辑
+
+而首次更新时 count 的值由于受到初始值影响还是 0.
+:::
+
+```tsx
+function App() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      console.log('the count is:', count);
+      setCount(count + 1);
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  });
+
+  return <div>{count}</div>;
+}
+```
+
+### useReducer
+
+用于管理单组件内的状态,要实现全局的状态管理还要靠 redux
+
+```tsx
+import React, { useEffect, useLayoutEffect, useReducer, useState } from 'react';
+import logo from './logo.svg';
+import './App.css';
+
+const initState = { count: 0 };
+
+const reducer = (
+  state: { count: number },
+  action: { type: 'increment' | 'decrement' }
+) => {
+  switch (action.type) {
+    case 'increment':
+      return { count: state.count + 1 };
+    case 'decrement':
+      return { count: state.count - 1 };
+    default:
+      return state;
+  }
+};
+
+function App() {
+  const [state, dispatch] = useReducer(reducer, initState);
+
+  return (
+    <div>
+      count:{state.count};
+      <button
+        onClick={() => {
+          dispatch({ type: 'increment' });
+        }}
+      >
+        增加
+      </button>
+      <button
+        onClick={() => {
+          dispatch({ type: 'decrement' });
+        }}
+      >
+        减少
+      </button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+### hook 中的注意点
+
+#### state 初始化传递问题
+
+::: warning
+子组件中的 state 在组件被更新时,并不会因为初始化值的变化而变化,这点一定要注意!
+:::
+
+```tsx
+import React, { useEffect, useLayoutEffect, useReducer, useState } from 'react';
+import logo from './logo.svg';
+import './App.css';
+
+// @ts-ignore
+const Child = ({ userInfo }) => {
+  const [name, setName] = useState(userInfo.name);
+
+  return (
+    <div>
+      <p>Child,props name:{userInfo.name}</p>
+      <p>Child,state name:{name}</p>
+    </div>
+  );
+};
+
+function App() {
+  const [name, setName] = useState('jason');
+
+  const userInfo = { name };
+
+  return (
+    <div>
+      Parent
+      <button onClick={() => setName('SeekingLight')}>Change name</button>
+      <Child userInfo={userInfo}></Child>
+    </div>
+  );
+}
+
+export default App;
+```
+
+#### 依赖比较的内部逻辑
+
+useEffect 中的依赖比较的是"值"的变化.
+
+这也就意味着尽量不要把引用作为依赖,否则很容易引起`useEffect`的死循环.
+
+#### useRef 的更改是同步的
+
+利用这个特性,我们可以同步化 setState 以及解决上面遇到的问题.
+
+```tsx
+function App() {
+  const [count, setCount] = useState(0);
+  const countRef = useRef(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCount(++countRef.current);
+      console.log('the count is:', countRef.current);
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  return <div>{count}</div>;
+}
+```
+
+### 为什么要用 hooks?
+
+1. 更方便进行组件逻辑复用
+2. 函数更符合 React 的设计 View = f(props)
+3. class 组件的一些弊端:逻辑复用要写 HOC,有的逻辑要写两边(ajax 请求等)
