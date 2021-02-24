@@ -41,6 +41,10 @@ console.log(Object.getOwnPropertySymbols(obj).map((sym) => obj[sym]));
 
 最终如果要拿对象中**symbol 作为键的值**的话可以用`Object.getOwnPropertySymbols(obj).map(sym => obj[sym])`。
 
+symbol 最大的作用可以用来定义字符串常量,即便写错了也没关系,因为它生成的标志永远是唯一的,还可以防止命名冲突.
+
+除此之外还可以用来封装类上的私有属性(用 ts 的话感觉用不上)
+
 ### 对象类型(引用类型)
 
 - 对象类型定义的变量里面放的不是对象，而是对象的**引用**，因为对象太大了如果放到栈内存里会造成很大的性能损耗！
@@ -98,6 +102,12 @@ function myinstantof(ins, origin_obj) {
   }
   return false;
 }
+```
+
+## 通用的类型判断方法
+
+```js
+Object.prototype.toString.call(foo);
 ```
 
 ## 类型转换
@@ -200,7 +210,7 @@ console.log(Name.getName());
 
 `this`取什么样的值，实在函数**调用**的时候被确认的，而不是在定义的时候被确认。
 
-通过一个对象来**调用**(注意是调用,不是赋值!)这个对象上的方法时,方法中的this会指向该对象.
+通过一个对象来**调用**(注意是调用,不是赋值!)这个对象上的方法时,方法中的 this 会指向该对象.
 
 除非遇到一些特殊情况，像箭头函数（会把上层作用域中的 this 传进来）,bind 等等。
 
@@ -406,7 +416,7 @@ _下面这块算 es6 的部分了_
 
 > RAF 会在布局前生效，利用这一点可以避免页面大量回流
 
-> React 中就是利用这个 api 模拟实现的 requestIdleCallback
+> React 中就是参考这个 api 模拟实现的 requestIdleCallback
 
 当然你也可以利用这玩意做节流。
 

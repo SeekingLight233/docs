@@ -228,6 +228,28 @@ pAll.then(
 
 如果存在一个失败了就会将失败的`reason`传出来。
 
+### `Promise.allSettled()`
+
+不管 promise 是否成功,只要处理完最终都可以取到 promise 的结果
+
+```js
+const p1 = new Promise((resolve, reject) => {
+  resolve(1);
+});
+
+const p2 = new Promise((resolve, reject) => {
+  resolve(1);
+});
+
+const p3 = new Promise((resolve, reject) => {
+  reject('error');
+});
+
+Promise.allSettled([p1, p2, p3]).then((value) => {
+  console.log(value);
+});
+```
+
 ### Promise 核心源码手动实现
 
 ## async 和 await

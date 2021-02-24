@@ -683,7 +683,6 @@ var buildTree = function(preorder, inorder) {
 var levelOrder = function(root) {
   let quque = [];
   let res = [];
-  //妈的竟然有个样例是个空数组
   if (root) {
     quque.push(root);
   }
@@ -709,35 +708,21 @@ var levelOrder = function(root) {
 这道题唯一的麻烦点在于不清楚如何去获取每一层的长度，其实我们只需要在**元素第一次出队之前**记录一下就能获取每一层的长度了<hide txt="为什么我就想不到嘤嘤嘤"></hide>，知道长度后我们就明白接下来该进行几次操作。
 
 ```js
-/**
- * Definition for a binary tree node.
- * function TreeNode(val) {
- *     this.val = val;
- *     this.left = this.right = null;
- * }
- */
-/**
- * @param {TreeNode} root
- * @return {number[][]}
- */
 var levelOrder = function(root) {
-  let res = []; //存放最终的结果
-  let queue = [];
   if (!root) return [];
-  queue.push(root);
-  let level = 0; //设置一个变量，用来记录层数
+  const res = [];
+  const queue = [root];
+  while (queue.length) {
+    const preLength = queue.length;
 
-  while (queue.length > 0) {
-    //接下来就开始对队列进行层次遍历操作
-    res[level] = []; //第level层的遍历结果放到这里
-    let level_length = queue.length; //获取到当前层节点树
-    for (let i = 0; i < level_length; i++) {
-      let node = queue.shift();
-      res[level].push(node.val);
-      if (node.left != null) queue.push(node.left);
-      if (node.right != null) queue.push(node.right);
+    const layer = [];
+    for (let i = 0; i < preLength; i++) {
+      const curNode = queue.shift();
+      curNode.left && queue.push(curNode.left);
+      curNode.right && queue.push(curNode.right);
+      layer.push(curNode.val);
     }
-    level++;
+    res.push(layer);
   }
   return res;
 };
@@ -752,8 +737,7 @@ var levelOrder = function(root) {
 
 ![](./leetcode/05.png)
 
-上道题如果弄明白这道题就很简单了，只需要分一下情况，将奇数行`reverse()`一下就 OK。
-
+上道题如果弄明白这道题就很简单了，只需要记录一下层数，将偶数行`reverse()`一下就 OK。
 ```js
 /**
  * Definition for a binary tree node.
@@ -767,38 +751,24 @@ var levelOrder = function(root) {
  * @return {number[][]}
  */
 var levelOrder = function(root) {
-  let res = []; //存放最终的结果
-  let queue = [];
-  if (!root) return [];
-  queue.push(root);
-  let level = 0; //设置一个变量，用来记录层数
-
-  while (queue.length > 0) {
-    //接下来就开始对队列进行层次遍历操作
-    res[level] = []; //第level层的遍历结果放到这里
-    let level_length = queue.length; //获取到当前层节点树
-    //偶数行  PS：从0开始
-    if (level % 2 == 0) {
-      for (let i = 0; i < level_length; i++) {
-        let node = queue.shift();
-        res[level].push(node.val);
-        if (node.left != null) queue.push(node.left);
-        if (node.right != null) queue.push(node.right);
-      }
+    if(!root) return [];
+    const res = [];
+    const queue = [root];
+    let count = 1;
+    while(queue.length){
+        const preLength = queue.length;
+        const layer = [];
+        for(let i = 0;i<preLength;i++){        
+            const curNode = queue.shift();
+            curNode.left && queue.push(curNode.left);
+            curNode.right && queue.push(curNode.right);
+            layer.push(curNode.val);
+        }
+        (count % 2 === 0)&&layer.reverse();
+        res.push(layer);
+        count++;
     }
-    if (level % 2 != 0) {
-      for (let i = 0; i < level_length; i++) {
-        let node = queue.shift();
-        res[level].push(node.val);
-        if (node.left != null) queue.push(node.left);
-        if (node.right != null) queue.push(node.right);
-      }
-      //人家想要之字形，那咱就reverse()一下喽
-      res[level].reverse();
-    }
-    level++;
-  }
-  return res;
+    return res
 };
 ```
 
@@ -983,6 +953,23 @@ function dfs(root, array = []) {
 ```
 
 ## 递归
+
+> 模板
+
+```js
+function recursive(level, ...args) {
+  if (level >= max_level) {
+    //记录结果
+    return;
+  }
+  // 处理当前层逻辑
+  // 递归到下一层
+  recursive(level + 1, ...args);
+  // 恢复到之前的状态
+}
+```
+
+递归终结条件 => 处理当前层逻辑 => 递归到下一层 => 恢复当前层外部状态
 
 - 斐波那契
   记忆化的题目可以利用一个 map 来缓存下中间计算的结果，如果 map 中有的话就不用重复计算
@@ -1396,7 +1383,6 @@ var reverseList = function(head) {
     } else {
       cur.next = pre;
     }
-
     //步进两个指针
     pre = cur;
     cur = curNext;
@@ -1575,7 +1561,7 @@ var getKthFromEnd = function(head, k) {
 
 ## 回溯
 
-- 字符串的排列
+### 字符串的排列
 
 ```js
 /**
@@ -1611,4 +1597,30 @@ function dfs(queue = [], result, temp = '', current = '') {
 
 let res = permutation('abc');
 console.log(res);
+```
+
+### 回溯二叉树的所有路径
+
+```ts
+function hasPathSum(root: TreeNode | null, targetSum: number): boolean {
+  if (!root) return false;
+  const path = [];
+  const res: number[][] = [];
+
+  function dfs(node: TreeNode) {
+    if (!node) return;
+    path.push(node.val);
+
+    if (!node.left && !node.right) {
+      res.push([...path]);
+    } else {
+      node.left && dfs(node.left);
+      node.right && dfs(node.right);
+    }
+    path.pop();
+  }
+  dfs(root);
+  console.log(res);
+  return false;
+}
 ```

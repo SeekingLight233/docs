@@ -90,6 +90,26 @@ Function.prototype.mybind = function() {
 };
 ```
 
+## 手写 call 函数
+
+```js
+Function.prototype.myCall = function(thisArg, ...args) {
+  const fn = Symbol('fn');
+  const _this = thisArg || window;
+  _this[fn] = this;
+  const result = _this[fn](...args);
+  delete _this[fn];
+  return result;
+};
+
+const obj = { a: 1111 };
+function foo() {
+  console.log(this.a);
+}
+
+foo.myCall(obj);
+```
+
 ## 手写一个通用的事件绑定函数，考虑事件委托
 
 ```js
@@ -178,6 +198,131 @@ function flat(arr) {
   const res = [].concat(...arr);
   return flat(res);
 }
+```
+
+## 单例模式
+
+```ts
+class Singleton {
+  private static instance: Singleton;
+  private constructor() {
+    console.log('init!!!');
+  }
+  public static getInstance() {
+    if (!Singleton.instance) {
+      Singleton.instance = new Singleton();
+    }
+
+    return Singleton.instance;
+  }
+
+  otherMethods() {}
+}
+// usage
+const ins = new Singleton(); //error
+const ins2 = Singleton.getInstance();
+```
+
+## 数组去重
+
+```js
+[...new Set(sourceArr)];
+```
+
+## Promise.all & Promise.race
+
+```js
+class MyPromise {
+  static PENDING = 'pending';
+  static FULFILLED = 'fulfilled';
+  static REJECTED = 'rejected';
+
+  constructor(executor) {
+    this.status = MyPromise.PENDING;
+    this.value = null;
+    try {
+      executor(this.resolve.bind(this), this.resolve.bind(this));
+    } catch (error) {
+      this.reject(error);
+    }
+  }
+
+  resolve(value) {
+    if (this.status === MyPromise.PENDING) {
+      this.value = value;
+      this.status = MyPromise.FULFILLED;
+    }
+  }
+
+  reject(value) {
+    if (this.status === MyPromise.PENDING) {
+      this.value = value;
+      this.status = MyPromise.REJECTED;
+    }
+  }
+  // 模拟实现all方法
+  static all(promises) {
+    return new Promise((resolve, reject) => {
+      const values = [];
+
+      promises.foreach((promise) => {
+        promise.then(
+          (value) => {
+            values.push(value);
+            if (promises.length === values.length) {
+              resolve(values);
+            }
+          },
+          (reason) => {
+            // 有任何一个失败都会出发reject
+            reject(reason);
+          }
+        );
+      });
+    });
+  }
+
+  // 模拟实现race
+  static race(promises) {
+    return new Promise((resolve, reject) => {
+      promises.foreach((promise) => {
+        promise.then(
+          (value) => {
+            resolve(value);
+          },
+          (reason) => {
+            reject(reason);
+          }
+        );
+      });
+    });
+  }
+}
+```
+
+## 手写千分位分隔符
+
+```js
+function numFormat(num) {
+  num = num.toString().split('.'); // 分隔小数点
+  let arr = num[0].split(''); // 转换成字符数组
+  let res = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (i % 3 === 0 && i !== 0) {
+      res.push(','); // 添加分隔符
+    }
+    res.push(arr[i]);
+  }
+  if (num[1]) {
+    res = res.join('').concat('.' + num[1]);
+  } else {
+    res = res.join('');
+  }
+  return res;
+}
+
+let b = 673439.45421515;
+console.log(numFormat(b)); // "673,439.4542"
 ```
 
 ## split 和 join 的区别

@@ -538,6 +538,32 @@ let priceUp = orders.reduce((preState, item) => {
 console.log(priceUp);
 ```
 
+#### 一行代码数组求和
+
+```javascript
+arr.reduce((pre, cur) => pre + cur);
+```
+
+#### 一行代码获取数组最大值
+```javascript
+arr.reduce((pre, cur) => Math.max(pre, cur));
+```
+
+#### 统计数组中元素出现的次数
+
+```javascript
+const arr = [1, 2, 1, 1, 1, 3, 1];
+
+function getCount(arr = [], item) {
+  const count = arr.reduce((pre, cur) => {
+    const addCount = cur === item ? 1 : 0;
+    pre += addCount;
+    return pre;
+  }, 0);
+  return count;
+}
+```
+
 ## Function 对象
 
 > 每一个 javascript 的函数其实都是一个函数对象

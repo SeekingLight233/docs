@@ -9,7 +9,7 @@ categories:
 
 ### 插值表达式
 
-```vue
+``` vue
 <template>
   <div>
     <p>文本插值{{ message }}</p>
@@ -185,6 +185,8 @@ export default {
 
 对于一些稍微复杂一些的转换逻辑，我们可以考虑使用**计算属性**。
 
+`computed`主要用来定义基于**数据之上的数据**.
+
 ```vue
 <template>
   <div>
@@ -217,6 +219,8 @@ export default {
 ### 监听器属性
 
 监听器可以对`data`里的数据进行监听，如果发生变化则触发。
+
+`watch`是你想在**某个数据变化时去做一些事情**.这是和`computed`的主要区别.
 
 ```vue
 <template>
@@ -456,7 +460,7 @@ export default {
 ```vue
 <template>
   <div>
-    <p>多行文本：{{ gender }}</p>
+    <p>多行文本：{{ checkedNames }}</p>
     <input type="checkbox" value="jason" v-model="checkedNames" />
     <input type="checkbox" value="asher" v-model="checkedNames" />
     <input type="checkbox" value="lee" v-model="checkedNames" />

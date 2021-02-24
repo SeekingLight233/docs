@@ -291,7 +291,7 @@ class BaseDemo extends React.Component {
 export default BaseDemo;
 ```
 
-并且`currentTarget`指向的是`document`,这一点和 Vue 也不太一样。
+并且`Target`指向的是`reactDom.render`对应的 dom,这一点和 Vue 也不太一样。
 
 也就是说，所有的事件，都在`document`上被触发.
 
@@ -299,9 +299,11 @@ export default BaseDemo;
 
 ### 关于`target`与`currentTarget`
 
-`currentTarget`指的是当前事件触发时的 dom
-`target`指的是当前事件注册时的 dom
+`currentTarget`指的是触发事件的 dom
+`target`指的是生产事件的 dom
 :::
+
+经典的例子,ul 下面有一万个 li,使用事件委托.此时父元素上就要使用`e.target`来判断具体是那个 dom 生产了事件
 
 ### 表单
 
@@ -646,6 +648,10 @@ class Input extends React.Component {
 }
 ```
 
+### 兄弟间通信
+
+利用父组件上的状态进行中转
+
 ### 组件生命周期
 
 和 Vue 组件生命周期类似，主要还是那几个过程。
@@ -758,7 +764,7 @@ setTimeout(() => {
 
 ### setState 合并问题
 
-#### setState 传入对象会被合并
+#### setState 传入对象后面的会把前面的覆盖
 
 ```jsx
 const fn1 = () => {
@@ -769,12 +775,12 @@ const fn1 = () => {
     count: this.state.count + 1,
   });
   this.setState({
-    count: this.state.count + 1,
+    count: this.state.count + 3,
   });
 };
 ```
 
-当执行`fn1`的时候只能给`count`+1,本质还是异步更新的原因，相当于每次都"patch"了+1 之后的 value。
+执行时会发现每次都是+3
 
 #### setState 传入 callback 不会被合并（解决异步问题）
 
@@ -1286,7 +1292,7 @@ React 为了磨平 IE 和Ｗ 3C 标准的兼容问题以及更好的跨平台，
 
 在 setState 时，会把新的状态存到 pending 队列中去，然后判断当前的组件*是否处于批量更新的状态*，是的话会将当前的组件放到`dirtyComponent`中，不是的话会遍历所有的`dirtyComponent`，然后去更新组件的`State`或`props`。
 
-而判断是否处于批量更新的状态，主要是依靠一个`isBatchingUpdate`的`flag`。在调用事件函数之前，这个 flag 为`true`,调用之后，flag 为`flase`。在结合一些“宏任务”的异步特性，就会使得宏任务中的`setState`之前的`flag`状态为`flase`（因为事件中的同步代码已经跑完了）。因此定时器里的内容不会被批量更新。
+而判断是否处于批量更新的状态，主要是依靠一个`isBatchingUpdate`的`flag`。在调用事件函数之前，这个 flag 为`true`,调用 之后，flag 为`flase`。在结合一些“宏任务”的异步特性，就会使得宏任务中的`setState`之前的`flag`状态为`flase`（因为事件中的同步代码已经跑完了）。因此定时器里的内容不会被批量更新。
 
 因此决定 setState 是异步还是同步，取决于是否能够命中“批量更新”的机制，所有的**宏任务**都没办法命中这个机制。
 
@@ -1557,3 +1563,7 @@ function App() {
 1. 更方便进行组件逻辑复用
 2. 函数更符合 React 的设计 View = f(props)
 3. class 组件的一些弊端:逻辑复用要写 HOC,有的逻辑要写两边(ajax 请求等)
+
+### 虚拟 dom 一定比直接操作慢吗?
+
+分场景. 如果是首次渲染或者微量操作 dom,那肯定是比 vdom 快的
