@@ -149,6 +149,14 @@ console.log(target);
 //{ a: '1', b: '3', d: '4' }
 ```
 
+### `Object.entries()`
+
+将 obj 转成二维 array
+
+```js
+Object.entries({ a: 1, b: 2, c: 3 }); // [["a", 1], ["b", 2], ["c", 3]]
+```
+
 ## String 对象的常用方法
 
 ```js
@@ -545,6 +553,7 @@ arr.reduce((pre, cur) => pre + cur);
 ```
 
 #### 一行代码获取数组最大值
+
 ```javascript
 arr.reduce((pre, cur) => Math.max(pre, cur));
 ```

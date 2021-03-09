@@ -102,12 +102,14 @@ xhr.send(null);
 - Cache-Control:max-age/no-cache/no-store
   ::: tip
   no-cache 和 no-store 的区别
-- no-cache：不使用强制缓存，缓存的事情交给服务端处理
-- no-store: 不使用强制缓存，同时也不让服务器做缓存，直接从服务器上返回最新的资源(比较彻底)
+- no-cache：不使用强制缓存，直接使用协商缓存
+- no-store: 不使用强制缓存，也不用协商缓存
   :::
 - expires 已被 cache-control 代替
 
 #### 协商缓存
+
+协商缓存是服务器端校验缓存的策略.
 
 - max-age 过期就会触发协商缓存
 

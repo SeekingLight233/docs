@@ -1,9 +1,32 @@
 ---
-title: React源码学习笔记
+title: React理念与核心流程
 date: 2021-1-29
 categories:
   - 前端
 ---
+
+## 代数效应
+
+代数效应是 FP 中的理念,算是一种处理 side effect 的一种机制吧.
+
+假如有一种叫`try...handle`的语法,(可以理解为是一个不报错的`try...catch`),执行完 hanle 之后仍然会回到之前的状态,于是就能够实现`中断-恢复`这一重要机制.
+
+假如说 es2025 能有个这语法,他们实现`异步可中断的更新`应该会容易许多.
+
+## 为啥不用`generate`实现异步可中断?
+
+优先级.因为 generate 只能实现中断,不能实现优先级.
+
+## 老的 React 架构
+
+![](./react/old.png)
+
+只有协调器和渲染器
+
+协调器管 diff,渲染器进行渲染,并且不支持**异步可中断的更新**.
+
+以前的协调器也叫 stack reconciler
+16 以后的协调器叫 fiber reconciler
 
 ## JSX
 

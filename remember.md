@@ -25,8 +25,10 @@ function deepClone(obj) {
   }
 
   for (let key in obj) {
-    let item = obj[key];
-    result[key] = deepClone(item);
+    // 保证key不是原型上的属性
+    if (obj.hasOwnProperty(key)) {
+      result[key] = deepClone(obj[key]);
+    }
   }
   return result;
 }
