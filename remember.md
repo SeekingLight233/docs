@@ -9,6 +9,44 @@ sidebarDepth: 5
 sidebar: 'auto'
 ---
 
+## 函数柯里化
+
+```js
+function getSum(a, b, c) {
+  return a + b + c;
+}
+
+const toSum = curry(getSum);
+const res1 = toSum(1, 2)(3);
+
+function curry(func) {
+  return function curried(...args) {
+    if (args.length < func.length) {
+      return function() {
+        return curried(...args.concat(Array.from(arguments)));
+      };
+    }
+    return func(...args);
+  };
+}
+```
+
+## 手写 new 操作符
+
+```js
+function newOperate(func, ...args) {
+  if (typeof func !== 'function') {
+    throw new Error('not function');
+  }
+
+  const newObj = Object.create(func.prototype);
+  // 将构造函数里的this指向这个对象，并执行构造函数
+  const result = func.apply(newObj, args);
+  // 注意  如果构造函数里面返回了一个对象，那么就优先返回这个对象
+  return result instanceof Object ? result : newObj;
+}
+```
+
 ## 深拷贝
 
 ```js
@@ -80,6 +118,60 @@ function myinstanceof(ins, obj) {
 }
 ```
 
+## 手写继承
+
+```js
+function Animal(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+Animal.prototype.run = function() {
+  console.log('running!!!');
+};
+
+function Cat(name, age, weight) {
+  Animal.call(this, name, age);
+  this.weight = weight;
+
+  //@override
+  Cat.prototype.run = function() {
+    console.log('cat running!!!');
+  };
+}
+
+// core code
+
+Cat.prototype = Object.create(Animal.prototype);
+Cat.prototype.constructor = Cat;
+```
+
+## 手写 call 函数
+
+```js
+Function.prototype.myCall = function(thisArg = window, ...args) {
+  // 防止覆盖原有属性
+  const fn = Symbol('fn');
+  // core code
+  thisArg[fn] = this; // 把真正的this对象存到穿进来的对象的函数上
+  // 执行并返回结果
+  const result = thisArg[fn](...args);
+  delete thisArg[fn];
+  return result;
+};
+
+const obj = { a: 1111 };
+function foo() {
+  console.log(this.a);
+}
+
+foo.myCall(obj);
+```
+
+## 手写 apply 函数
+
+一模一样 只不过传参的形式不一样（没有那三个点了）
+
 ## 手写 bind 函数
 
 ```js
@@ -90,26 +182,6 @@ Function.prototype.mybind = function() {
     return this.apply(obj, args);
   };
 };
-```
-
-## 手写 call 函数
-
-```js
-Function.prototype.myCall = function(thisArg, ...args) {
-  const fn = Symbol('fn');
-  const _this = thisArg || window;
-  _this[fn] = this;
-  const result = _this[fn](...args);
-  delete _this[fn];
-  return result;
-};
-
-const obj = { a: 1111 };
-function foo() {
-  console.log(this.a);
-}
-
-foo.myCall(obj);
 ```
 
 ## 手写一个通用的事件绑定函数，考虑事件委托
@@ -190,6 +262,8 @@ function debounce(fn, delay) {
 
 ## 数组扁平化
 
+### 递归
+
 ```js
 function flat(arr) {
   const isDeep = arr.some((item, index) => {
@@ -200,6 +274,85 @@ function flat(arr) {
   const res = [].concat(...arr);
   return flat(res);
 }
+```
+
+### reduce
+
+```js
+function flat(arr = []) {
+  return arr.reduce((pre, cur) => {
+    return pre.concat(Array.isArray(cur) ? flat(cur) : cur);
+  }, []);
+}
+```
+
+## 数组中的各种方法
+
+### filter
+
+```js
+Array.prototype.myFilter = function(cb) {
+  if (!Array.isArray(this)) {
+    throw new Error('This method only be used on Array!');
+  }
+  const res = [];
+  for (let index = 0; index < this.length; index++) {
+    if (cb(this[index], index)) {
+      res.push(this[index]);
+    }
+  }
+  return res;
+};
+```
+
+### map
+
+```js
+Array.prototype.myMap = function(cb) {
+  if (!Array.isArray(this)) {
+    throw new Error('This method only be used on Array!');
+  }
+  const res = [];
+  for (let index = 0; index < this.length; index++) {
+    const item = cb(this[index], index);
+    res.push(item);
+  }
+  return res;
+};
+```
+
+### foreach
+
+比 map 还简单 连返回值都没有
+
+```js
+Array.prototype.myForeach = function(cb) {
+  if (!Array.isArray(this)) {
+    throw new Error('This method only be used on Array!');
+  }
+  for (let index = 0; index < this.length; index++) {
+    cb(this[index], index);
+  }
+};
+```
+
+### reduce
+
+```js
+Array.prototype.myReduce = function(cb, pre) {
+  if (!Array.isArray(this)) {
+    throw new Error('This method only be used on Array!');
+  }
+  for (let index = 0; index < this.length; index++) {
+    if (pre == null) {
+      // 如果没有初始值，就把第一项作为pre
+      pre = cb(this[index], this[index + 1], index + 1);
+    } else {
+      pre = cb(pre, this[index], index);
+    }
+  }
+  return pre;
+};
 ```
 
 ## 单例模式
@@ -302,6 +455,56 @@ class MyPromise {
 }
 ```
 
+## Promise 并发控制
+
+```js
+class Scheduler {
+  constructor(limit) {
+    this.list = [];
+    this.limit = limit;
+    this.workingNums = 0;
+  }
+
+  add(promiseCreater) {
+    this.list.push(promiseCreater);
+  }
+
+  start() {
+    for (let i = 0; i < this.limit; i++) {
+      this.doNext();
+    }
+  }
+
+  doNext() {
+    if (this.list.length && this.workingNums < this.limit) {
+      this.workingNums++;
+      this.list
+        .shift()()
+        .then(() => {
+          this.workingNums--;
+          // 只要空出了就递归调用
+          this.doNext();
+        });
+    }
+  }
+}
+
+const timeout = (time) => new Promise((resolve) => setTimeout(resolve, time));
+
+const scheduler = new Scheduler(2);
+
+const addTask = (time, order) => {
+  scheduler.add(() => timeout(time).then(() => console.log(order)));
+};
+
+addTask(1000, 1);
+addTask(500, 2);
+addTask(300, 3);
+addTask(400, 4);
+
+scheduler.start();
+```
+
 ## 手写千分位分隔符
 
 ```js
@@ -327,6 +530,126 @@ let b = 673439.45421515;
 console.log(numFormat(b)); // "673,439.4542"
 ```
 
+## 观察者模式
+
+```ts
+// 发布者
+class Subject {
+  state: number;
+  observers: Array<Observer>;
+  constructor() {
+    this.state = 0;
+    this.observers = []; //订阅人列表
+  }
+  getState() {
+    return this.state;
+  }
+  setState(state) {
+    this.state = state;
+    this.notifyAllObservers();
+  }
+  /**
+   * @description 更新状态后  需要通知所有订阅人
+   */
+  notifyAllObservers() {
+    this.observers.forEach((observer) => {
+      observer.update();
+    });
+  }
+
+  /**
+   * @description 添加新的订阅人(观察者)
+   */
+  addObserver(observer) {
+    this.observers.push(observer);
+  }
+}
+
+// 订阅人
+class Observer {
+  name: string;
+  subject: Subject;
+  constructor(name, subject) {
+    this.name = name;
+    this.subject = subject;
+    // 在构造器中将当前的订阅人推入订阅列表中
+    this.subject.addObserver(this);
+  }
+  update() {
+    console.log(`${this.name} update,state is ${this.subject.getState()}`);
+  }
+}
+
+// Test
+let subject = new Subject();
+
+let observer1 = new Observer('订阅人1', subject);
+let observer2 = new Observer('订阅人2', subject);
+
+subject.setState(0); // 会通知所有订阅人
+// 订阅人1 update,state is 0
+// 订阅人2 update,state is 0
+setTimeout(() => {
+  // 订阅人1 update,state is 1
+  // 订阅人2 update,state is 1
+  subject.setState(1);
+}, 2000);
+```
+
+## eventEmitter
+
+```js
+class EventEmitter {
+  constructor() {
+    // 维护所有的监听者
+    this.listeners = {};
+  }
+  // 注册事件,并添加监听者，每一个监听者就是一个cb
+  on(type, cb) {
+    if (!this.listeners[type]) {
+      this.listeners[type] = [];
+    }
+    this.listeners[type].push(cb);
+  }
+
+  // 发布事件
+  emit(type, ...args) {
+    if (this.listeners[type]) {
+      // 执行每一个监听者
+      this.listeners[type].forEach((cb) => cb(...args));
+    }
+  }
+
+  // 解绑事件中的某个监听者
+  off(type, cb) {
+    if (this.listeners[type]) {
+      const targetIndex = this.listeners[type].findIndex((item) => item === cb);
+      // 如果这个事件的监听者存在
+      if (targetIndex !== -1) {
+        this.listeners[type].splice(targetIndex, 1);
+      }
+      if (this.listeners[type].length === 0) {
+        delete this.listeners[type];
+      }
+    }
+  }
+
+  // 移除某个事件的所有监听者
+  offAll(type) {
+    if (this.listeners[type]) {
+      delete this.listeners[type];
+    }
+  }
+}
+
+const event = new EventEmitter();
+event.on('event1', () => {
+  console.log('This is event 1');
+});
+
+event.emit('event1');
+```
+
 ## split 和 join 的区别
 
 可以实现数组和字符串的互换。
@@ -340,3 +663,35 @@ console.log(numFormat(b)); // "673,439.4542"
 ## Object.create()
 
 可以创建一个对象，并且指定原型
+
+## 滚动加载的实现
+
+```js
+window.addEventListener('scroll', function() {
+  // 视口高度
+  const clientheight = document.documentElement.clientHeight;
+  // 视口顶部距离最上层的高度
+  const scrollTop = document.documentElement.scrollTop;
+  // 整个body的滚动高度
+  const scrollHeight = document.documentElement.scrollHeight;
+
+  if (clientheight + scrollTop >= scrollTop) {
+    // 触发相应操作
+  }
+});
+```
+
+## 图片懒加载
+
+思路一：`img`标签上设置`loading="lazy"`.
+思路二：图片设置一个默认的 url，判断图片出现在可视区域内，替换为真实的 url
+
+利用`element.getBoundingClientRect()`可以获取元素相对于 body 的位置。
+
+## 打印当前网站用了多少种 HTML 元素
+
+```js
+const allTag = [...document.querySelectorAll('*')].map((el) => el.tagName);
+const res = [...new Set(allTag)].length;
+console.log(res);
+```
