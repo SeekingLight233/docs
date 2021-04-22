@@ -4,7 +4,9 @@
   "author": "reco_luan",
   "scripts": {
     "dev": "vuepress dev . --open --host \"localhost\"",
-    "build": "vuepress build ."
+    "build": "vuepress build",
+    "push":"git add . & git commit -m 'update' & git push -u origin master",
+    "deploy": "cloudbase framework deploy"
   },
   "devDependencies": {
     "vuepress": "1.8.2",
