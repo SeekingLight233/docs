@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<!-- saved from url=(0153)https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e4%ba%a4%e6%8d%a2%e6%9c%ba -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>CS-Notes</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="Description">
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0">
+    <link rel="icon" href="https://cyc-1256109796.cos.ap-guangzhou.myqcloud.com/LogoMakr_1J56bI.png">
+    <link rel="stylesheet" href="./CS-Notes_files/vue.css">
+
+    <!-- 将自定义样式放在 Github 上会导致加载速度变得非常慢，所以采取直接内嵌的方式 -->
+    <style type="text/css">
+    	
+    /* 隐藏头部的目录 */
+    #main>ul:nth-child(1) {
+        display: none;
+    }
+
+    #main>ul:nth-child(2) {
+        display: none;
+    }
+
+    h1+ul {
+        display: block !important;
+    }
+
+    .markdown-section h1 {
+        margin: 3rem 0 2rem 0;
+    }
+
+    .markdown-section h2 {
+        margin: 2rem 0 1rem;
+    }
+
+    img,
+    pre {
+        border-radius: 5px;
+    }
+
+    .markdown-section p.tip,
+    .markdown-section tr:nth-child(1n) {
+    	background-color: #f8f8f8 !important;
+	}
+
+    .content,
+    .sidebar,
+    .markdown-section,
+    body,
+    .search input {
+        background-color: rgba(243, 242, 238, 1) !important;
+    }
+
+    @media (min-width:600px) {
+        .sidebar-toggle {
+            background-color: #f3f2ee;
+        }
+    }
+
+    .docsify-copy-code-button {
+        background: #f8f8f8 !important;
+        color: #7a7a7a !important;
+    }
+
+    body {
+        /*font-family: Microsoft YaHei, Source Sans Pro, Helvetica Neue, Arial, sans-serif !important;*/
+    }
+
+    .markdown-section pre>code {
+    	font-size: 13px;
+	}
+
+	code,
+	pre {
+    	background-color: #fff !important;
+	}
+
+    .markdown-section>p {
+        font-size: 16px !important;
+    }
+
+    .markdown-section pre>code {
+        font-family: Consolas, Roboto Mono, Monaco, courier, monospace !important;
+    }
+
+    p, h1, h2, h3, h4, ol, ul {
+    	letter-spacing: 2px !important;
+	}
+
+	p, ol, ul {
+    	line-height: 30px !important;
+	}
+
+    @media (min-width:600px) {
+        .markdown-section pre>code {
+            font-size: .9rem !important;
+            letter-spacing: 1.1px !important;
+        }
+    }
+
+    @media (max-width:600px) {
+        .markdown-section pre>code {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 15px !important;
+        }
+
+        pre:after {
+            content: "" !important;
+        }
+    }
+
+
+    /*.anchor span {
+    color: rgb(66, 185, 131);
+    }*/
+
+    section.cover h1 {
+        margin: 0;
+    }
+
+    body>section>div.cover-main>ul>li>a {
+        color: #42b983;
+    }
+
+    .markdown-section > div > img,
+    .markdown-section pre {
+        box-shadow: 0px 0px 20px 11px #eaeaea;
+    }
+
+    pre {
+        background-color: #f3f2ee !important;
+    }
+
+    @media (min-width:600px) {
+        pre code {
+            /*box-shadow: 2px 1px 20px 2px #aaa;*/
+            /*border-radius: 10px !important;*/
+            padding-left: 20px !important;
+        }
+    }
+
+    @media (max-width:600px) {
+        pre {
+        	padding-left: 3px !important;
+    		padding-right: 3px !important;
+    		margin-left: -20px !important;
+    		margin-right: -20px !important;
+    		box-shadow: 0px 0px 20px 0px #eee !important;
+        }
+
+
+        .docsify-copy-code-button {
+            display: none;
+        }
+    }
+
+    .markdown-section pre {
+        padding-left: 0 !important;
+        padding-right: 0px !important;
+    }
+    </style>
+    <style type="text/css">
+    /**
+ * prism.js Coy theme for JavaScript, CoffeeScript, CSS and HTML
+ * Based on https://github.com/tshedor/workshop-wp-theme (Example: http://workshop.kansan.com/category/sessions/basics or http://workshop.timshedor.com/category/sessions/basics);
+ * @author Tim  Shedor
+ */
+
+    code[class*="language-"],
+    pre[class*="language-"] {
+        color: black;
+        background: none;
+        font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        text-align: left;
+        white-space: pre;
+        word-spacing: normal;
+        word-break: normal;
+        word-wrap: normal;
+        line-height: 1.5;
+
+        -moz-tab-size: 4;
+        -o-tab-size: 4;
+        tab-size: 4;
+
+        -webkit-hyphens: none;
+        -moz-hyphens: none;
+        -ms-hyphens: none;
+        hyphens: none;
+    }
+
+    /* Code blocks */
+    pre[class*="language-"] {
+        position: relative;
+        margin: .5em 0;
+        overflow: visible;
+        padding: 0;
+    }
+
+    pre[class*="language-"]>code {
+        position: relative;
+        border-left: 10px solid #358ccb;
+        box-shadow: -1px 0px 0px 0px #358ccb, 0px 0px 0px 1px #dfdfdf;
+        background-color: #fdfdfd;
+        background-image: linear-gradient(transparent 50%, rgba(69, 142, 209, 0.04) 50%);
+        background-size: 3em 3em;
+        background-origin: content-box;
+        background-attachment: local;
+    }
+
+    code[class*="language"] {
+        max-height: inherit;
+        height: inherit;
+        padding: 0 1em;
+        display: block;
+        overflow: auto;
+    }
+
+    /* Margin bottom to accommodate shadow */
+    :not(pre)>code[class*="language-"],
+    pre[class*="language-"] {
+        background-color: #fdfdfd;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        margin-bottom: 1em;
+    }
+
+    /* Inline code */
+    :not(pre)>code[class*="language-"] {
+        position: relative;
+        padding: .2em;
+        border-radius: 0.3em;
+        color: #c92c2c;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        display: inline;
+        white-space: normal;
+    }
+
+    pre[class*="language-"]:before,
+    pre[class*="language-"]:after {
+        content: '';
+        z-index: -2;
+        display: block;
+        position: absolute;
+        bottom: 0.75em;
+        left: 0.18em;
+        width: 40%;
+        height: 20%;
+        max-height: 13em;
+        box-shadow: 0px 13px 8px #979797;
+        -webkit-transform: rotate(-2deg);
+        -moz-transform: rotate(-2deg);
+        -ms-transform: rotate(-2deg);
+        -o-transform: rotate(-2deg);
+        transform: rotate(-2deg);
+    }
+
+    :not(pre)>code[class*="language-"]:after,
+    pre[class*="language-"]:after {
+        right: 0.75em;
+        left: auto;
+        -webkit-transform: rotate(2deg);
+        -moz-transform: rotate(2deg);
+        -ms-transform: rotate(2deg);
+        -o-transform: rotate(2deg);
+        transform: rotate(2deg);
+    }
+
+    /*黑色*/
+    .token.function,
+    .token.operator,
+    .token.class-name {
+        color: #2C3E50;
+    }
+
+    /*深蓝加粗*/
+    .token.keyword {
+    	color: #333;
+    	font-weight: 700;
+    }
+
+
+    /*浅蓝*/
+    .token.property,
+    .token.tag,
+    .token.boolean,
+    .token.number,
+    .token.function-name,
+    .token.constant,
+    .token.symbol,
+    .token.deleted {
+        color: #2980B9;
+    }
+
+    .token.comment,
+    .token.block-comment,
+    .token.prolog,
+    .token.doctype,
+    .token.cdata {
+        color: #7D8B99;
+    }
+
+    .token.punctuation {
+        color: #5F6364;
+    }
+
+
+    .token.selector,
+    .token.attr-name,
+    .token.string,
+    .token.char,
+    .token.builtin,
+    .token.inserted {
+        color: #1ABC9C;
+        font-weight: bold;   
+    }
+
+    .token.entity,
+    .token.url,
+    .token.variable {
+        color: #a67f59;
+        /*background: rgba(255, 255, 255, 0.5);*/
+    }
+
+    .token.atrule,
+    .token.attr-value {
+        color: #1990b8;
+    }
+
+    .token.regex,
+    .token.important {
+        color: #e90;
+    }
+
+    .language-css .token.string,
+    .style .token.string {
+        color: #a67f59;
+        background: rgba(255, 255, 255, 0.5);
+    }
+
+    .token.important {
+        font-weight: normal;
+    }
+
+    .token.bold {
+        font-weight: bold;
+    }
+
+    .token.italic {
+        font-style: italic;
+    }
+
+    .token.entity {
+        cursor: help;
+    }
+
+    .namespace {
+        opacity: .7;
+    }
+
+    @media screen and (max-width: 767px) {
+
+        pre[class*="language-"]:before,
+        pre[class*="language-"]:after {
+            bottom: 14px;
+            box-shadow: none;
+        }
+
+    }
+
+    /* Plugin styles */
+    .token.tab:not(:empty):before,
+    .token.cr:before,
+    .token.lf:before {
+        color: #e0d7d1;
+    }
+
+    /* Plugin styles: Line Numbers */
+    pre[class*="language-"].line-numbers.line-numbers {
+        padding-left: 0;
+    }
+
+    pre[class*="language-"].line-numbers.line-numbers code {
+        padding-left: 3.8em;
+    }
+
+    pre[class*="language-"].line-numbers.line-numbers .line-numbers-rows {
+        left: 0;
+    }
+
+    /* Plugin styles: Line Highlight */
+    pre[class*="language-"][data-line] {
+        padding-top: 0;
+        padding-bottom: 0;
+        padding-left: 0;
+    }
+
+    pre[data-line] code {
+        position: relative;
+        padding-left: 4em;
+    }
+
+    pre .line-highlight {
+        margin-top: 0;
+    }
+    </style>
+<style type="text/css">.docsify-copy-code-button,.docsify-copy-code-button span{cursor:pointer;transition:all .25s ease}.docsify-copy-code-button{position:absolute;z-index:1;top:0;right:0;overflow:visible;padding:.65em .8em;border:0;border-radius:0;outline:0;font-size:1em;background:grey;background:var(--theme-color,grey);color:#fff;opacity:0}.docsify-copy-code-button span{border-radius:3px;background:inherit;pointer-events:none}.docsify-copy-code-button .error,.docsify-copy-code-button .success{position:absolute;z-index:-100;top:50%;left:0;padding:.5em .65em;font-size:.825em;opacity:0;-webkit-transform:translateY(-50%);transform:translateY(-50%)}.docsify-copy-code-button.error .error,.docsify-copy-code-button.success .success{opacity:1;-webkit-transform:translate(-115%,-50%);transform:translate(-115%,-50%)}.docsify-copy-code-button:focus,pre:hover .docsify-copy-code-button{opacity:1}</style><style type="text/css">.medium-zoom-overlay{position:fixed;top:0;right:0;bottom:0;left:0;opacity:0;transition:opacity .3s;will-change:opacity}.medium-zoom--open .medium-zoom-overlay{cursor:pointer;cursor:zoom-out;opacity:1}.medium-zoom-image{cursor:pointer;cursor:zoom-in;transition:transform .3s}.medium-zoom-image--open{position:relative;cursor:pointer;cursor:zoom-out;will-change:transform}</style><style>
+.sidebar {
+  padding-top: 0;
+}
+
+.search {
+  margin-bottom: 20px;
+  padding: 6px;
+  border-bottom: 1px solid #eee;
+}
+
+.search .results-panel {
+  display: none;
+}
+
+.search .results-panel.show {
+  display: block;
+}
+
+.search input {
+  outline: none;
+  border: none;
+  width: 100%;
+  padding: 7px;
+  line-height: 22px;
+  font-size: 14px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.search h2 {
+  font-size: 17px;
+  margin: 10px 0;
+}
+
+.search a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.search .matching-post {
+  border-bottom: 1px solid #eee;
+}
+
+.search .matching-post:last-child {
+  border-bottom: 0;
+}
+
+.search p {
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.search p.empty {
+  text-align: center;
+}</style><style type="text/css">
+#myinput[data-v-7c16a5d0] {
+  height: 25px;
+  margin-top: 10px;
+}
+
+/*默认状态*/
+.input-text[data-v-7c16a5d0],
+.textarea[data-v-7c16a5d0] {
+  box-sizing: border-box;
+  border: solid 1px #ddd;
+  width: 100%;
+  -webkit-transition: all 0.2s linear 0s;
+  -moz-transition: all 0.2s linear 0s;
+  -o-transition: all 0.2s linear 0s;
+  transition: all 0.2s linear 0s;
+}
+.textarea[data-v-7c16a5d0] {
+  height: auto;
+  font-size: 14px;
+  padding: 4px;
+}
+.input-text[data-v-7c16a5d0]:hover,
+.textarea[data-v-7c16a5d0]:hover {
+  border: solid 1px #3bb4f2;
+}
+/*得到焦点后*/
+.input-text.focus[data-v-7c16a5d0],
+textarea.focus[data-v-7c16a5d0] {
+  border: solid 1px #0f9ae0 \9;
+  border-color: rgba(82, 168, 236, 0.8);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset,
+    0 0 8px rgba(102, 175, 233, 0.6);
+  border-radius: 10px;
+}
+/*不可点击*/
+.input-text.disabled[data-v-7c16a5d0],
+.textarea.disabled[data-v-7c16a5d0],
+.input-text.disabled.focus[data-v-7c16a5d0],
+.textarea.disabled.focus[data-v-7c16a5d0] {
+  background-color: #ededed;
+  cursor: default;
+  border-color: #ddd;
+  -webkit-box-shadow: inset 0 2px 2px #e8e7e7;
+  -moz-box-shadow: inset 0 2px 2px #e8e7e7;
+  box-shadow: inset 0 2px 2px #e8e7e7;
+}
+/*只读状态*/
+.input-text.disabled[data-v-7c16a5d0],
+.textarea.disabled[data-v-7c16a5d0] {
+  background-color: #e6e6e6;
+  cursor: default;
+}
+/*阴影*/
+.input-text.box-shadow[data-v-7c16a5d0],
+.textarea.box-shadow[data-v-7c16a5d0] {
+  -ms-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+</style></head>
+
+<body data-page="notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82.md" class="ready sticky">
+    <a href="https://github.com/CyC2018/CS-Notes" class="github-corner" aria-label="View source on Github"><svg viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><section class="cover" style="background: linear-gradient(to left bottom, hsl(130, 100%, 85%) 0%,hsl(195, 100%, 85%) 100%)"><div class="cover-main"><img width="220px" src="./CS-Notes_files/LogoMakr_0zpEzN.png">
+
+
+<ul><li>本项目包含了技术面试必备的基础知识，内容浅显易懂，你不需要花很长的时间去阅读和理解成堆的技术书籍就可以快速掌握这些知识，从而节省宝贵的面试复习时间。</li></ul><!--<span id="busuanzi_container_site_pv">Site View : <span id="busuanzi_value_site_pv">-->
+
+<p><a href="https://github.com/CyC2018/CS-Notes" target="_blank"><img src="./CS-Notes_files/CS-Notes" data-origin="https://badgen.net/github/stars/CyC2018/CS-Notes?icon=github&amp;color=4ab8a1" alt="stars"></a> <a href="https://github.com/CyC2018/CS-Notes" target="_blank"><img src="./CS-Notes_files/CS-Notes(1)" data-origin="https://badgen.net/github/forks/CyC2018/CS-Notes?icon=github&amp;color=4ab8a1" alt="forks"></a></p><p><a href="https://cyc2018.github.io/CS-Notes/#/README">开始阅读</a></p></div><div class="mask"></div></section><main><button class="sidebar-toggle"><div class="sidebar-toggle-button"><span></span><span></span><span></span></div></button><aside class="sidebar"><div class="search"><input type="search" value="" placeholder="🔍 Type to search "><div class="results-panel"></div></div><h1 class="app-name"><a class="app-name-link" data-nosearch="" href="https://cyc2018.github.io/CS-Notes/">CS-Notes</a></h1><div class="sidebar-nav"><ul><li class=""><a class="section-link" href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e5%9f%ba%e6%9c%ac%e9%97%ae%e9%a2%98">基本问题</a></li><ul><li class=""><a class="section-link" href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=_1-%e5%b0%81%e8%a3%85%e6%88%90%e5%b8%a7">1. 封装成帧</a></li><li class=""><a class="section-link" href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=_2-%e9%80%8f%e6%98%8e%e4%bc%a0%e8%be%93">2. 透明传输</a></li><li class=""><a class="section-link" href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=_3-%e5%b7%ae%e9%94%99%e6%a3%80%e6%b5%8b">3. 差错检测</a></li></ul><li class=""><a class="section-link" href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e4%bf%a1%e9%81%93%e5%88%86%e7%b1%bb">信道分类</a></li><ul><li class=""><a class="section-link" href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=_1-%e5%b9%bf%e6%92%ad%e4%bf%a1%e9%81%93">1. 广播信道</a></li><li class=""><a class="section-link" href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=_2-%e7%82%b9%e5%af%b9%e7%82%b9%e4%bf%a1%e9%81%93">2. 点对点信道</a></li></ul><li><a class="section-link" href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e4%bf%a1%e9%81%93%e5%a4%8d%e7%94%a8%e6%8a%80%e6%9c%af">信道复用技术</a></li><ul><li><a class="section-link" href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=_1-%e9%a2%91%e5%88%86%e5%a4%8d%e7%94%a8">1. 频分复用</a></li><li><a class="section-link" href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=_2-%e6%97%b6%e5%88%86%e5%a4%8d%e7%94%a8">2. 时分复用</a></li><li><a class="section-link" href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=_3-%e7%bb%9f%e8%ae%a1%e6%97%b6%e5%88%86%e5%a4%8d%e7%94%a8">3. 统计时分复用</a></li><li><a class="section-link" href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=_4-%e6%b3%a2%e5%88%86%e5%a4%8d%e7%94%a8">4. 波分复用</a></li><li class=""><a class="section-link" href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=_5-%e7%a0%81%e5%88%86%e5%a4%8d%e7%94%a8">5. 码分复用</a></li></ul><li class=""><a class="section-link" href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=csmacd-%e5%8d%8f%e8%ae%ae">CSMA/CD 协议</a></li><li class=""><a class="section-link" href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=ppp-%e5%8d%8f%e8%ae%ae">PPP 协议</a></li><li class="active"><a class="section-link" href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=mac-%e5%9c%b0%e5%9d%80">MAC 地址</a></li><li class=""><a class="section-link" href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e5%b1%80%e5%9f%9f%e7%bd%91">局域网</a></li><li class=""><a class="section-link" href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e4%bb%a5%e5%a4%aa%e7%bd%91">以太网</a></li><li class=""><a class="section-link" href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e4%ba%a4%e6%8d%a2%e6%9c%ba">交换机</a></li><li class=""><a class="section-link" href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e8%99%9a%e6%8b%9f%e5%b1%80%e5%9f%9f%e7%bd%91">虚拟局域网</a></li></ul></div></aside><section class="content"><article class="markdown-section" id="main"><!-- GFM-TOC -->
+<ul><li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e5%9f%ba%e6%9c%ac%e9%97%ae%e9%a2%98">基本问题</a><ul><li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=1-%e5%b0%81%e8%a3%85%e6%88%90%e5%b8%a7">1. 封装成帧</a></li><li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=2-%e9%80%8f%e6%98%8e%e4%bc%a0%e8%be%93">2. 透明传输</a></li><li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=3-%e5%b7%ae%e9%94%99%e6%a3%80%e6%b5%8b">3. 差错检测</a></li></ul></li><li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e4%bf%a1%e9%81%93%e5%88%86%e7%b1%bb">信道分类</a><ul><li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=1-%e5%b9%bf%e6%92%ad%e4%bf%a1%e9%81%93">1. 广播信道</a></li><li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=2-%e7%82%b9%e5%af%b9%e7%82%b9%e4%bf%a1%e9%81%93">2. 点对点信道</a></li></ul></li><li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e4%bf%a1%e9%81%93%e5%a4%8d%e7%94%a8%e6%8a%80%e6%9c%af">信道复用技术</a><ul><li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=1-%e9%a2%91%e5%88%86%e5%a4%8d%e7%94%a8">1. 频分复用</a></li><li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=2-%e6%97%b6%e5%88%86%e5%a4%8d%e7%94%a8">2. 时分复用</a></li><li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=3-%e7%bb%9f%e8%ae%a1%e6%97%b6%e5%88%86%e5%a4%8d%e7%94%a8">3. 统计时分复用</a></li><li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=4-%e6%b3%a2%e5%88%86%e5%a4%8d%e7%94%a8">4. 波分复用</a></li><li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=5-%e7%a0%81%e5%88%86%e5%a4%8d%e7%94%a8">5. 码分复用</a></li></ul></li><li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=csmacd-%e5%8d%8f%e8%ae%ae">CSMA/CD 协议</a></li><li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=ppp-%e5%8d%8f%e8%ae%ae">PPP 协议</a></li><li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=mac-%e5%9c%b0%e5%9d%80">MAC 地址</a></li><li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e5%b1%80%e5%9f%9f%e7%bd%91">局域网</a></li><li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e4%bb%a5%e5%a4%aa%e7%bd%91">以太网</a></li><li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e4%ba%a4%e6%8d%a2%e6%9c%ba">交换机</a></li><li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e8%99%9a%e6%8b%9f%e5%b1%80%e5%9f%9f%e7%bd%91">虚拟局域网</a><!-- GFM-TOC -->
+
+
+</li></ul><h1 id="基本问题"><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e5%9f%ba%e6%9c%ac%e9%97%ae%e9%a2%98" data-id="基本问题" class="anchor"><span>基本问题</span></a></h1><h2 id="_1-封装成帧"><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=_1-%e5%b0%81%e8%a3%85%e6%88%90%e5%b8%a7" data-id="_1-封装成帧" class="anchor"><span>1. 封装成帧</span></a></h2><p>将网络层传下来的分组添加首部和尾部，用于标记帧的开始和结束。</p><div align="center"> <img src="./CS-Notes_files/29a14735-e154-4f60-9a04-c9628e5d09f4.png" width="300" class="medium-zoom-image"> </div><br>
+
+<h2 id="_2-透明传输"><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=_2-%e9%80%8f%e6%98%8e%e4%bc%a0%e8%be%93" data-id="_2-透明传输" class="anchor"><span>2. 透明传输</span></a></h2><p>透明表示一个实际存在的事物看起来好像不存在一样。</p><p>帧使用首部和尾部进行定界，如果帧的数据部分含有和首部尾部相同的内容，那么帧的开始和结束位置就会被错误的判定。需要在数据部分出现首部尾部相同的内容前面插入转义字符。如果数据部分出现转义字符，那么就在转义字符前面再加个转义字符。在接收端进行处理之后可以还原出原始数据。这个过程透明传输的内容是转义字符，用户察觉不到转义字符的存在。</p><div align="center"> <img src="./CS-Notes_files/e738a3d2-f42e-4755-ae13-ca23497e7a97.png" width="500" class="medium-zoom-image"> </div><br>
+
+<h2 id="_3-差错检测"><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=_3-%e5%b7%ae%e9%94%99%e6%a3%80%e6%b5%8b" data-id="_3-差错检测" class="anchor"><span>3. 差错检测</span></a></h2><p>目前数据链路层广泛使用了循环冗余检验（CRC）来检查比特差错。</p><h1 id="信道分类"><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e4%bf%a1%e9%81%93%e5%88%86%e7%b1%bb" data-id="信道分类" class="anchor"><span>信道分类</span></a></h1><h2 id="_1-广播信道"><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=_1-%e5%b9%bf%e6%92%ad%e4%bf%a1%e9%81%93" data-id="_1-广播信道" class="anchor"><span>1. 广播信道</span></a></h2><p>一对多通信，一个节点发送的数据能够被广播信道上所有的节点接收到。</p><p>所有的节点都在同一个广播信道上发送数据，因此需要有专门的控制方法进行协调，避免发生冲突（冲突也叫碰撞）。</p><p>主要有两种控制方法进行协调，一个是使用信道复用技术，一是使用 CSMA/CD 协议。</p><h2 id="_2-点对点信道"><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=_2-%e7%82%b9%e5%af%b9%e7%82%b9%e4%bf%a1%e9%81%93" data-id="_2-点对点信道" class="anchor"><span>2. 点对点信道</span></a></h2><p>一对一通信。</p><p>因为不会发生碰撞，因此也比较简单，使用 PPP 协议进行控制。</p><h1 id="信道复用技术"><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e4%bf%a1%e9%81%93%e5%a4%8d%e7%94%a8%e6%8a%80%e6%9c%af" data-id="信道复用技术" class="anchor"><span>信道复用技术</span></a></h1><h2 id="_1-频分复用"><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=_1-%e9%a2%91%e5%88%86%e5%a4%8d%e7%94%a8" data-id="_1-频分复用" class="anchor"><span>1. 频分复用</span></a></h2><p>频分复用的所有主机在相同的时间占用不同的频率带宽资源。</p><div align="center"> <img src="./CS-Notes_files/4aa5e057-bc57-4719-ab57-c6fbc861c505.png" width="350" class="medium-zoom-image"> </div><br>
+
+<h2 id="_2-时分复用"><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=_2-%e6%97%b6%e5%88%86%e5%a4%8d%e7%94%a8" data-id="_2-时分复用" class="anchor"><span>2. 时分复用</span></a></h2><p>时分复用的所有主机在不同的时间占用相同的频率带宽资源。</p><div align="center"> <img src="./CS-Notes_files/67582ade-d44a-46a6-8757-3c1296cc1ef9.png" width="350" class="medium-zoom-image"> </div><br>
+
+<p>使用频分复用和时分复用进行通信，在通信的过程中主机会一直占用一部分信道资源。但是由于计算机数据的突发性质，通信过程没必要一直占用信道资源而不让出给其它用户使用，因此这两种方式对信道的利用率都不高。</p><h2 id="_3-统计时分复用"><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=_3-%e7%bb%9f%e8%ae%a1%e6%97%b6%e5%88%86%e5%a4%8d%e7%94%a8" data-id="_3-统计时分复用" class="anchor"><span>3. 统计时分复用</span></a></h2><p>是对时分复用的一种改进，不固定每个用户在时分复用帧中的位置，只要有数据就集中起来组成统计时分复用帧然后发送。</p><div align="center"> <img src="./CS-Notes_files/6283be2a-814a-4a10-84bf-9592533fe6bc.png" width="350" class="medium-zoom-image"> </div><br>
+
+<h2 id="_4-波分复用"><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=_4-%e6%b3%a2%e5%88%86%e5%a4%8d%e7%94%a8" data-id="_4-波分复用" class="anchor"><span>4. 波分复用</span></a></h2><p>光的频分复用。由于光的频率很高，因此习惯上用波长而不是频率来表示所使用的光载波。</p><h2 id="_5-码分复用"><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=_5-%e7%a0%81%e5%88%86%e5%a4%8d%e7%94%a8" data-id="_5-码分复用" class="anchor"><span>5. 码分复用</span></a></h2><p>为每个用户分配 m bit 的码片，并且所有的码片正交，对于任意两个码片 <img src="./CS-Notes_files/gif.latex" class="mathjax-pic medium-zoom-image"> 和 <img src="./CS-Notes_files/gif(1).latex" class="mathjax-pic medium-zoom-image"> 有</p><!-- <div align="center"><img src="https://latex.codecogs.com/gif.latex?\frac{1}{m}\vec{S}\cdot\vec{T}=0" class="mathjax-pic"/></div> <br> -->
+
+<div align="center"> <img src="./CS-Notes_files/308a02e9-3346-4251-8c41-bd5536dab491.png" width="100px" class="medium-zoom-image"> </div><br>
+
+<p>为了讨论方便，取 m=8，设码片 <img src="./CS-Notes_files/gif.latex" class="mathjax-pic medium-zoom-image"> 为 00011011。在拥有该码片的用户发送比特 1 时就发送该码片，发送比特 0 时就发送该码片的反码 11100100。</p><p>在计算时将 00011011 记作 (-1 -1 -1 +1 +1 -1 +1 +1)，可以得到</p><!-- <div align="center"><img src="https://latex.codecogs.com/gif.latex?\frac{1}{m}\vec{S}\cdot\vec{S}=1" class="mathjax-pic"/></div> <br> -->
+
+<!-- <div align="center"><img src="https://latex.codecogs.com/gif.latex?\frac{1}{m}\vec{S}\cdot\vec{S'}=-1" class="mathjax-pic"/></div> <br> -->
+
+<div align="center"> <img src="./CS-Notes_files/6fda1dc7-5c74-49c1-bb79-237a77e43a43.png" width="100px" class="medium-zoom-image"> </div><br>
+
+<div align="center"> <img src="./CS-Notes_files/e325a903-f0b1-4fbd-82bf-88913dc2f290.png" width="125px" class="medium-zoom-image"> </div><br>
+
+<p>其中 <img src="./CS-Notes_files/gif(2).latex" class="mathjax-pic medium-zoom-image"> 为 <img src="./CS-Notes_files/gif.latex" class="mathjax-pic medium-zoom-image"> 的反码。</p><p>利用上面的式子我们知道，当接收端使用码片 <img src="./CS-Notes_files/gif.latex" class="mathjax-pic medium-zoom-image"> 对接收到的数据进行内积运算时，结果为 0 的是其它用户发送的数据，结果为 1 的是用户发送的比特 1，结果为 -1 的是用户发送的比特 0。</p><p>码分复用需要发送的数据量为原先的 m 倍。</p><div align="center"> <img src="./CS-Notes_files/99b6060e-099d-4201-8e86-f8ab3768a7cf.png" width="500px" class="medium-zoom-image"> </div><br>
+
+
+<h1 id="csmacd-协议"><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=csmacd-%e5%8d%8f%e8%ae%ae" data-id="csmacd-协议" class="anchor"><span>CSMA/CD 协议</span></a></h1><p>CSMA/CD 表示载波监听多点接入 / 碰撞检测。</p><ul><li><strong>多点接入</strong>  ：说明这是总线型网络，许多主机以多点的方式连接到总线上。</li><li><strong>载波监听</strong>  ：每个主机都必须不停地监听信道。在发送前，如果监听到信道正在使用，就必须等待。</li><li><strong>碰撞检测</strong>  ：在发送中，如果监听到信道已有其它主机正在发送数据，就表示发生了碰撞。虽然每个主机在发送数据之前都已经监听到信道为空闲，但是由于电磁波的传播时延的存在，还是有可能会发生碰撞。</li></ul><p>记端到端的传播时延为 τ，最先发送的站点最多经过 2τ 就可以知道是否发生了碰撞，称 2τ 为   <strong>争用期</strong>  。只有经过争用期之后还没有检测到碰撞，才能肯定这次发送不会发生碰撞。</p><p>当发生碰撞时，站点要停止发送，等待一段时间再发送。这个时间采用   <strong>截断二进制指数退避算法</strong>   来确定。从离散的整数集合 {0, 1, .., (2<sup>k</sup>-1)} 中随机取出一个数，记作 r，然后取 r 倍的争用期作为重传等待时间。</p><div align="center"> <img src="./CS-Notes_files/19d423e9-74f7-4c2b-9b97-55890e0d5193.png" width="400" class="medium-zoom-image"> </div><br>
+
+<h1 id="ppp-协议"><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=ppp-%e5%8d%8f%e8%ae%ae" data-id="ppp-协议" class="anchor"><span>PPP 协议</span></a></h1><p>互联网用户通常需要连接到某个 ISP 之后才能接入到互联网，PPP 协议是用户计算机和 ISP 进行通信时所使用的数据链路层协议。</p><div align="center"> <img src="./CS-Notes_files/e1ab9f28-cb15-4178-84b2-98aad87f9bc8.jpg" width="300" class="medium-zoom-image"> </div><br>
+
+<p>PPP 的帧格式：</p><ul><li>F 字段为帧的定界符</li><li>A 和 C 字段暂时没有意义</li><li>FCS 字段是使用 CRC 的检验序列</li><li>信息部分的长度不超过 1500</li></ul><div align="center"> <img src="./CS-Notes_files/759013d7-61d8-4509-897a-d75af598a236.png" width="400" class="medium-zoom-image"> </div><br>
+
+<h1 id="mac-地址"><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=mac-%e5%9c%b0%e5%9d%80" data-id="mac-地址" class="anchor"><span>MAC 地址</span></a></h1><p>MAC 地址是链路层地址，长度为 6 字节（48 位），用于唯一标识网络适配器（网卡）。</p><p>一台主机拥有多少个网络适配器就有多少个 MAC 地址。例如笔记本电脑普遍存在无线网络适配器和有线网络适配器，因此就有两个 MAC 地址。</p><h1 id="局域网"><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e5%b1%80%e5%9f%9f%e7%bd%91" data-id="局域网" class="anchor"><span>局域网</span></a></h1><p>局域网是一种典型的广播信道，主要特点是网络为一个单位所拥有，且地理范围和站点数目均有限。</p><p>主要有以太网、令牌环网、FDDI 和 ATM 等局域网技术，目前以太网占领着有线局域网市场。</p><p>可以按照网络拓扑结构对局域网进行分类：</p><div align="center"> <img src="./CS-Notes_files/807f4258-dba8-4c54-9c3c-a707c7ccffa2.jpg" width="800" class="medium-zoom-image"> </div><br>
+
+<h1 id="以太网"><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e4%bb%a5%e5%a4%aa%e7%bd%91" data-id="以太网" class="anchor"><span>以太网</span></a></h1><p>以太网是一种星型拓扑结构局域网。</p><p>早期使用集线器进行连接，集线器是一种物理层设备， 作用于比特而不是帧，当一个比特到达接口时，集线器重新生成这个比特，并将其能量强度放大，从而扩大网络的传输距离，之后再将这个比特发送到其它所有接口。如果集线器同时收到两个不同接口的帧，那么就发生了碰撞。</p><p>目前以太网使用交换机替代了集线器，交换机是一种链路层设备，它不会发生碰撞，能根据 MAC 地址进行存储转发。</p><p>以太网帧格式：</p><ul><li><strong>类型</strong>  ：标记上层使用的协议；</li><li><strong>数据</strong>  ：长度在 46-1500 之间，如果太小则需要填充；</li><li><strong>FCS</strong>  ：帧检验序列，使用的是 CRC 检验方法；</li></ul><div align="center"> <img src="./CS-Notes_files/164944d3-bbd2-4bb2-924b-e62199c51b90.png" width="500" class="medium-zoom-image"> </div><br>
+
+<h1 id="交换机"><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e4%ba%a4%e6%8d%a2%e6%9c%ba" data-id="交换机" class="anchor"><span>交换机</span></a></h1><p>交换机具有自学习能力，学习的是交换表的内容，交换表中存储着 MAC 地址到接口的映射。</p><p>正是由于这种自学习能力，因此交换机是一种即插即用设备，不需要网络管理员手动配置交换表内容。</p><p>下图中，交换机有 4 个接口，主机 A 向主机 B 发送数据帧时，交换机把主机 A 到接口 1 的映射写入交换表中。为了发送数据帧到 B，先查交换表，此时没有主机 B 的表项，那么主机 A 就发送广播帧，主机 C 和主机 D 会丢弃该帧，主机 B 回应该帧向主机 A 发送数据包时，交换机查找交换表得到主机 A 映射的接口为 1，就发送数据帧到接口 1，同时交换机添加主机 B 到接口 2 的映射。</p><div align="center"> <img src="./CS-Notes_files/a4444545-0d68-4015-9a3d-19209dc436b3.png" width="800" class="medium-zoom-image"> </div><br>
+
+<h1 id="虚拟局域网"><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%20-%20%E9%93%BE%E8%B7%AF%E5%B1%82?id=%e8%99%9a%e6%8b%9f%e5%b1%80%e5%9f%9f%e7%bd%91" data-id="虚拟局域网" class="anchor"><span>虚拟局域网</span></a></h1><p>虚拟局域网可以建立与物理位置无关的逻辑组，只有在同一个虚拟局域网中的成员才会收到链路层广播信息。</p><p>例如下图中 (A1, A2, A3, A4) 属于一个虚拟局域网，A1 发送的广播会被 A2、A3、A4 收到，而其它站点收不到。</p><p>使用 VLAN 干线连接来建立虚拟局域网，每台交换机上的一个特殊接口被设置为干线接口，以互连 VLAN 交换机。IEEE 定义了一种扩展的以太网帧格式 802.1Q，它在标准以太网帧上加进了 4 字节首部 VLAN 标签，用于表示该帧属于哪一个虚拟局域网。</p><div align="center"> <img src="./CS-Notes_files/e98e9d20-206b-4533-bacf-3448d0096f38.png" width="500" class="medium-zoom-image"> </div><br>
+
+
+
+
+
+
+
+<div align="center"><img width="320px" src="./CS-Notes_files/公众号二维码-2.png" class="medium-zoom-image"></div>
+</article></section></main>
+    <script>
+    window.$docsify = {
+        maxAge: 100,
+        name: 'CS-Notes',
+        repo: 'https://github.com/CyC2018/CS-Notes',
+        search: {
+            paths: 'auto',
+            placeholder: '🔍 Type to search ',
+            noData: '😞 No Results! ',
+            depth: 6
+        },
+        // subMaxLevel: 2,
+        coverpage: true
+    }
+    </script>
+    <script src="./CS-Notes_files/docsify.min.js"></script>
+    <script src="./CS-Notes_files/search.min.js"></script>
+    <script src="./CS-Notes_files/docsify-copy-code.min.js"></script>
+    <script src="./CS-Notes_files/prism-java.min.js"></script>
+    <script src="./CS-Notes_files/prism-c.min.js"></script>
+    <script src="./CS-Notes_files/prism-bash.min.js"></script>
+    <script src="./CS-Notes_files/prism-sql.min.js"></script>
+    <script src="./CS-Notes_files/zoom-image.min.js"></script>
+    <!-- <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> -->
+
+
+<div class="__transltor"><img src="data:image/svg+xml;base64,bW9kdWxlLmV4cG9ydHMgPSAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQRDk0Yld3Z2RtVnljMmx2YmowaU1TNHdJaUJsYm1OdlpHbHVaejBpVlZSR0xUZ2lQejRLUEhOMlp5QjNhV1IwYUQwaU16VTRjSGdpSUdobGFXZG9kRDBpTXpVMmNIZ2lJSFpwWlhkQ2IzZzlJakFnTUNBek5UZ2dNelUySWlCMlpYSnphVzl1UFNJeExqRWlJSGh0Ykc1elBTSm9kSFJ3T2k4dmQzZDNMbmN6TG05eVp5OHlNREF3TDNOMlp5SWdlRzFzYm5NNmVHeHBibXM5SW1oMGRIQTZMeTkzZDNjdWR6TXViM0puTHpFNU9Ua3ZlR3hwYm1zaVBnb2dJQ0FnUENFdExTQkhaVzVsY21GMGIzSTZJRk5yWlhSamFDQTBPQzR4SUNnME56STFNQ2tnTFNCb2RIUndPaTh2ZDNkM0xtSnZhR1Z0YVdGdVkyOWthVzVuTG1OdmJTOXphMlYwWTJnZ0xTMCtDaUFnSUNBOGRHbDBiR1UrVEc5bmJ5MHlQQzkwYVhSc1pUNEtJQ0FnSUR4a1pYTmpQa055WldGMFpXUWdkMmwwYUNCVGEyVjBZMmd1UEM5a1pYTmpQZ29nSUNBZ1BHUmxabk0rQ2lBZ0lDQWdJQ0FnUEdOcGNtTnNaU0JwWkQwaWNHRjBhQzB4SWlCamVEMGlNVGM1SWlCamVUMGlNVGM1SWlCeVBTSXhOemtpUGp3dlkybHlZMnhsUGdvZ0lDQWdQQzlrWldaelBnb2dJQ0FnUEdjZ2FXUTlJbE41YldKdmJITWlJSE4wY205clpUMGlibTl1WlNJZ2MzUnliMnRsTFhkcFpIUm9QU0l4SWlCbWFXeHNQU0p1YjI1bElpQm1hV3hzTFhKMWJHVTlJbVYyWlc1dlpHUWlQZ29nSUNBZ0lDQWdJRHhuSUdsa1BTSk1iMmR2TFRJaVBnb2dJQ0FnSUNBZ0lDQWdJQ0E4WnlCcFpEMGlSM0p2ZFhBaVBnb2dJQ0FnSUNBZ0lDQWdJQ0FnSUNBZ1BHMWhjMnNnYVdROUltMWhjMnN0TWlJZ1ptbHNiRDBpZDJocGRHVWlQZ29nSUNBZ0lDQWdJQ0FnSUNBZ0lDQWdJQ0FnSUR4MWMyVWdlR3hwYm1zNmFISmxaajBpSTNCaGRHZ3RNU0krUEM5MWMyVStDaUFnSUNBZ0lDQWdJQ0FnSUNBZ0lDQThMMjFoYzJzK0NpQWdJQ0FnSUNBZ0lDQWdJQ0FnSUNBOGRYTmxJR2xrUFNKUGRtRnNMVE1pSUdacGJHdzlJaU14UVRNd1JEY2lJSGhzYVc1ck9taHlaV1k5SWlOd1lYUm9MVEVpUGp3dmRYTmxQZ29nSUNBZ0lDQWdJQ0FnSUNBZ0lDQWdQSEJoZEdnZ1pEMGlUVEl3TWk0MU1USTBORGtzTkRNd0xqY3lOell6TmlCRE1Ua3hMalF5TWpRMk55d3pPREV1TmpNNU1qTTFJREl4T0M0eE1ERTBNVEVzTXpBMUxqRTROVEUzT1NBeU16UXVPRE0xTmpFekxESTVOQzQzTXprNU1Ea2dRekkyTXk0eU9UVTNPRE1zTWpreExqZ3lNRGMzTVNBek1EZ3VNamN6T1RZM0xESTBOQzQzTWpVMU5Ua2dNekE0TGpJM016azJOeXd4T1RZdU5EazJOakVnUXpNd09DNHlOek01Tmpjc01URXpMakU1TWpNeU5DQXlOall1TVRVMU1qVXhMRFl6TGpJM01EUXlNVFFnTWpRd0xqUXpORFE1TXl3ME5pNDJNalk0T1RneUlFTXlNekF1TmpjNE9UY3NOREF1TXpFME1qUXpJREl4T1M0M09UTTVNVEVzT0RNdU16QXdNRGMxTVNBeU1qSXVOVGd3TkRjNUxERXdNaTQyTkRRMU9Ea2dRekUxTmk0M056azRPVGNzT1RRdU1UY3hORFUwTnlBeE1qY3VNRFUzTXpnekxERXpNQzR6TURJMUlERXhOUzQ1TmpJeU9EZ3NNVE0yTGpZd01qSTROU0JETVRFd0xqRTRPVFl3TkN3eE16SXVNRE0wTVRJM0lEWTFMakU1TnpNd09UZ3NPREl1TVRRME5EUXlOQ0ExTVM0ME1UTXdOamN4TERrMExqWXdORFV3TkRRZ1F6UXpMalkxTkRFeE1qWXNNVEkyTGpBM05qTTVPQ0ExT0M0Mk5ESXlPQ3d5TWpVdU1UYzRPREEzSURnM0xqYzRORGc1TWl3eU5URXVNVEE1TXpVZ1F6YzVMakEwTlRFNU5UTXNNamd4TGpFeU5qWTFPQ0F4TXk0ek5EZ3pNelExTERNeE15NHpNVEF3TURZZ05pd3pNVGN1Tmprek5EWTBJaUJwWkQwaVVHRjBhQzB4TVNJZ1ptbHNiRDBpSTBaR1JrWkdSaUlnYldGemF6MGlkWEpzS0NOdFlYTnJMVElwSWo0OEwzQmhkR2crQ2lBZ0lDQWdJQ0FnSUNBZ0lDQWdJQ0E4Y0dGMGFDQmtQU0pOTWpRekxqYzFNREU1T1N3eE9EQXVNRGt4TnpneklFTXlORGd1TlRNMU1UWXNNVGd3TGpJME1qWXhNeUF5TlRNdU1EWXpNalkyTERFM05TNDJOekEzSURJMU15NHdOak15TmpZc01UY3dMakEzTWpNeE9TQkRNalV6TGpBMk16STJOaXd4TmpRdU5EY3pPVE00SURJME9DNDJPRGcyTlN3eE5Ua3VNakV6TXpVNUlESTBNeTR4TkRJeE56RXNNVFU1TGpBME1UazBNeUJETWpNM0xqVTVOVFk1TXl3eE5UZ3VPRGN3TlRJM0lESXpNeTQ1TmpNME5qSXNNVFkwTGpjNU1ETTVPU0F5TXpNdU56WTVNelkzTERFMk9TNDFNalEyTURjZ1F6SXpNeTQxTnpVeU56RXNNVGMwTGpJMU9EZ3hOU0F5TXpndU9UWTFNak00TERFM09TNDVOREE1TlRJZ01qUXpMamMxTURFNU9Td3hPREF1TURreE56Z3pJRm9pSUdsa1BTSlBkbUZzTFRRaUlHWnBiR3c5SWlNeFFUTXdSRGNpSUcxaGMyczlJblZ5YkNnamJXRnpheTB5S1NJZ2RISmhibk5tYjNKdFBTSjBjbUZ1YzJ4aGRHVW9NalF6TGpReE16YzNNQ3dnTVRZNUxqVTJOamcxTnlrZ2NtOTBZWFJsS0MweU5DNHdNREF3TURBcElIUnlZVzV6YkdGMFpTZ3RNalF6TGpReE16YzNNQ3dnTFRFMk9TNDFOalk0TlRjcElDSStQQzl3WVhSb1Bnb2dJQ0FnSUNBZ0lDQWdJQ0FnSUNBZ1BIQmhkR2dnWkQwaVRURTRPUzQxTXpReE16TXNNakE0TGpBek9ERXhOeUJETVRrMUxqTXpNekV5TXl3eU1EZ3VNRE00TVRFM0lESXdNQzQ0T0RJM01EZ3NNakF6TGprek5EazFPU0F5TURBdU9EZ3lOekE0TERFNU9DNHhNelU1TmprZ1F6SXdNQzQ0T0RJM01EZ3NNVGt5TGpNek5qazNPU0F4T1RRdU9EZ3hNVFUyTERFNE5pNDNNREEwTVRVZ01UZzVMakE0TWpFMk5pd3hPRFl1TnpBd05ERTFJRU14T0RNdU1qZ3pNVGMyTERFNE5pNDNNREEwTVRVZ01UYzRMalE0TlRrM09Dd3hPVEV1TlRRd05qZzNJREUzT0M0ME9EVTVOemdzTVRrM0xqTXpPVFkzTnlCRE1UYzRMalE0TlRrM09Dd3lNRE11TVRNNE5qWTNJREU0TXk0M016VXhORFFzTWpBNExqQXpPREV4TnlBeE9Ea3VOVE0wTVRNekxESXdPQzR3TXpneE1UY2dXaUlnYVdROUlrOTJZV3d0TkMxRGIzQjVJaUJtYVd4c1BTSWpNVUV6TUVRM0lpQnRZWE5yUFNKMWNtd29JMjFoYzJzdE1pa2lJSFJ5WVc1elptOXliVDBpZEhKaGJuTnNZWFJsS0RFNE9TNDJPRFF6TkRNc0lERTVOeTR6TmpreU5qWXBJSEp2ZEdGMFpTZ3hNeTR3TURBd01EQXBJSFJ5WVc1emJHRjBaU2d0TVRnNUxqWTRORE0wTXl3Z0xURTVOeTR6TmpreU5qWXBJQ0krUEM5d1lYUm9QZ29nSUNBZ0lDQWdJQ0FnSUNBZ0lDQWdQSEJoZEdnZ1pEMGlUVEl6T1M0d05qTXhOVFVzTWpFM0xqTTFOREk1TlNCRE1qUXpMalk1T1RFMExESXhNeTQ0TlRjME9UY2dNalEwTGpVNE5EazROQ3d5TURZdU5ETXdNekV4SURJME1pNDNOalU0TURnc01qQXpMamsyTnpjNElFTXlNemN1T0RVNU5URTRMREl3TVM0NU1qWXhPQ0F5TWpjdU9EVTVNRGt6TERJd05DNDVOVEF4TkRJZ01qSTJMakE0T0RBM05pd3lNVE11TkRReE56TTFJRU15TWpndU5UYzVORGc0TERJeE5pNHpPVFUzTWpNZ01qTXlMamd5T0RZNUxESXhOeTR5T0RrME1Ea2dNak01TGpBMk16RTFOU3d5TVRjdU16VTBNamsxSUZvaUlHbGtQU0pQZG1Gc0xUUXRRMjl3ZVMweUlpQm1hV3hzUFNJak1VRXpNRVEzSWlCdFlYTnJQU0oxY213b0kyMWhjMnN0TWlraUlIUnlZVzV6Wm05eWJUMGlkSEpoYm5Oc1lYUmxLREl6TkM0NE5qYzFOemNzSURJeE1DNHpOVFF3T1RrcElISnZkR0YwWlNndE15NHdNREF3TURBcElIUnlZVzV6YkdGMFpTZ3RNak0wTGpnMk56VTNOeXdnTFRJeE1DNHpOVFF3T1RrcElDSStQQzl3WVhSb1Bnb2dJQ0FnSUNBZ0lDQWdJQ0FnSUNBZ1BIQmhkR2dnWkQwaVRUSXpPQ3d5TVRRZ1RESTBNU3d5TWpFaUlHbGtQU0pRWVhSb0xUTWlJSE4wY205clpUMGlJekZCTXpCRU55SWdjM1J5YjJ0bExYZHBaSFJvUFNJMElpQnpkSEp2YTJVdGJHbHVaV05oY0QwaWNtOTFibVFpSUhOMGNtOXJaUzFzYVc1bGFtOXBiajBpY205MWJtUWlJRzFoYzJzOUluVnliQ2dqYldGemF5MHlLU0krUEM5d1lYUm9QZ29nSUNBZ0lDQWdJQ0FnSUNBZ0lDQWdQR05wY21Oc1pTQnBaRDBpVDNaaGJDMHhNU0lnWm1sc2JEMGlJekZCTXpCRU55SWdiM0JoWTJsMGVUMGlNQzR4TURFMU1EVTRPRGdpSUcxaGMyczlJblZ5YkNnamJXRnpheTB5S1NJZ1kzZzlJakkxT0NJZ1kzazlJakU1TUNJZ2NqMGlOaUkrUEM5amFYSmpiR1UrQ2lBZ0lDQWdJQ0FnSUNBZ0lDQWdJQ0E4WTJseVkyeGxJR2xrUFNKUGRtRnNMVEV4TFVOdmNIa2lJR1pwYkd3OUlpTXhRVE13UkRjaUlHOXdZV05wZEhrOUlqQXVNRGM1T1RNMk5UazBNaUlnYldGemF6MGlkWEpzS0NOdFlYTnJMVElwSWlCamVEMGlNakE0TGpVaUlHTjVQU0l5TWpJdU5TSWdjajBpTmk0MUlqNDhMMk5wY21Oc1pUNEtJQ0FnSUNBZ0lDQWdJQ0FnSUNBZ0lEeHdZWFJvSUdROUlrMHpNRFVzTWpFd0xqazNNVEV3TWlCTU16RTNMalUzTmpRMU1pd3lNRGtpSUdsa1BTSlFZWFJvTFRFMklpQnpkSEp2YTJVOUlpTkdSa1pHUmtZaUlITjBjbTlyWlMxM2FXUjBhRDBpTWlJZ2MzUnliMnRsTFd4cGJtVmpZWEE5SW5KdmRXNWtJaUJ0WVhOclBTSjFjbXdvSTIxaGMyc3RNaWtpUGp3dmNHRjBhRDRLSUNBZ0lDQWdJQ0FnSUNBZ0lDQWdJRHh3WVhSb0lHUTlJazB6TURRc01qRTBJRXd6TVRNdU9EZ3dOakk0TERJeE5TNDFOalE1TXpnaUlHbGtQU0pRWVhSb0xURTJMVU52Y0hraUlITjBjbTlyWlQwaUkwWkdSa1pHUmlJZ2MzUnliMnRsTFhkcFpIUm9QU0l5SWlCemRISnZhMlV0YkdsdVpXTmhjRDBpY205MWJtUWlJRzFoYzJzOUluVnliQ2dqYldGemF5MHlLU0krUEM5d1lYUm9QZ29nSUNBZ0lDQWdJQ0FnSUNBZ0lDQWdQSEJoZEdnZ1pEMGlUVEV6Tnk0NE56TXdORGdzTVRJNUxqY3hPRFF5TlNCTU1USTBMREV4TWlJZ2FXUTlJbEJoZEdndE1UY2lJSE4wY205clpUMGlJMFpHUmtaR1JpSWdjM1J5YjJ0bExYZHBaSFJvUFNJeUlpQnpkSEp2YTJVdGJHbHVaV05oY0QwaWNtOTFibVFpSUcxaGMyczlJblZ5YkNnamJXRnpheTB5S1NJK1BDOXdZWFJvUGdvZ0lDQWdJQ0FnSUNBZ0lDQWdJQ0FnUEhCaGRHZ2daRDBpVFRFME1pNDFPVGM0TnpZc01UTXlMalEzTXpBMU15Qk1NVE15TGpjeE1UZzFOU3d4TVRJdU1qVTNORFE1SWlCcFpEMGlVR0YwYUMweE55MURiM0I1SWlCemRISnZhMlU5SWlOR1JrWkdSa1lpSUhOMGNtOXJaUzEzYVdSMGFEMGlNaUlnYzNSeWIydGxMV3hwYm1WallYQTlJbkp2ZFc1a0lpQnRZWE5yUFNKMWNtd29JMjFoYzJzdE1pa2lQand2Y0dGMGFENEtJQ0FnSUNBZ0lDQWdJQ0FnUEM5blBnb2dJQ0FnSUNBZ0lEd3ZaejRLSUNBZ0lEd3ZaejRLUEM5emRtYysi" class="__transltor_button" style="left: 668px; top: 6054px;"> <!----> <!----></div><div class="progress" style="opacity: 0; width: 0%;"></div></body></html>

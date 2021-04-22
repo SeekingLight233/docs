@@ -1,0 +1,17 @@
+{
+  "name": "seekinglight",
+  "version": "1.0.0",
+  "author": "reco_luan",
+  "scripts": {
+    "dev": "vuepress dev . --open --host \"localhost\"",
+    "build": "vuepress build ."
+  },
+  "devDependencies": {
+    "vuepress": "1.8.2",
+    "vuepress-theme-reco": "1.4.7"
+  },
+  "description": "",
+  "dependencies": {
+    "@vuepress-reco/vuepress-plugin-bgm-player": "^1.1.3"
+  }
+}
