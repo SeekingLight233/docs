@@ -13,7 +13,7 @@ categories:
 <template>
   <div>
     <p>文本插值{{ message }}</p>
-    <p>JS表达式{{ flag ? 'yes' : 'no' }}</p>
+    <p>JS表达式{{ flag ? "yes" : "no" }}</p>
   </div>
 </template>
 
@@ -21,7 +21,7 @@ categories:
 export default {
   data() {
     return {
-      message: 'hellovue',
+      message: "hellovue",
       flag: true,
     };
   },
@@ -107,8 +107,8 @@ export default {
 export default {
   data() {
     return {
-      red: 'red',
-      bold: 'bold',
+      red: "red",
+      bold: "bold",
     };
   },
 };
@@ -140,8 +140,8 @@ export default {
   data() {
     return {
       red_bold: {
-        color: 'red',
-        fontWeight: 'bold', //小短横在js中会报错，因此要转成驼峰式
+        color: "red",
+        fontWeight: "bold", //小短横在js中会报错，因此要转成驼峰式
       },
     };
   },
@@ -170,7 +170,7 @@ v-html 指令可以**覆盖更新**dom 元素的`innerHTML`。
 export default {
   data() {
     return {
-      myHtml: '<div>原始的html:<span>helloWorld</span></div>',
+      myHtml: "<div>原始的html:<span>helloWorld</span></div>",
     };
   },
 };
@@ -236,10 +236,10 @@ export default {
 export default {
   data() {
     return {
-      name: '寻光',
+      name: "寻光",
       info: {
-        age: '18',
-        city: 'zhengZhou',
+        age: "18",
+        city: "zhengZhou",
         getOffer: false,
       },
     };
@@ -247,13 +247,13 @@ export default {
   watch: {
     //对name进行监听,当name发生变动时会触发
     name(newVal, oldVal) {
-      console.log('name', newVal, oldVal);
+      console.log("name", newVal, oldVal);
     },
     //对info对象进行监听，需要将deep字段设置为true
     info: {
       handler(newVal, oldVal) {
         //newVal和oldVal指向的是同一个对象
-        console.log('u do it!');
+        console.log("u do it!");
       },
       deep: true, //深度监听
     },
@@ -302,14 +302,14 @@ export default {
     return {
       listArr: [
         //在数据中，最好设置一个id字段
-        { id: 'a', title: '标题1' },
-        { id: 'b', title: '标题2' },
-        { id: 'c', title: '标题3' },
+        { id: "a", title: "标题1" },
+        { id: "b", title: "标题2" },
+        { id: "c", title: "标题3" },
       ],
       listObj: {
-        a: { title: '标题1' },
-        b: { title: '标题2' },
-        c: { title: '标题3' },
+        a: { title: "标题1" },
+        b: { title: "标题2" },
+        c: { title: "标题3" },
       },
     };
   },
@@ -498,7 +498,7 @@ export default {
 export default {
   data() {
     return {
-      gender: 'male',
+      gender: "male",
     };
   },
 };
@@ -535,7 +535,7 @@ export default {
 export default {
   data() {
     return {
-      selected: '',
+      selected: "",
       selectedList: [],
     };
   },
@@ -563,7 +563,7 @@ export default {
 <script>
 export default {
   //定义属性
-  props: ['msg'],
+  props: ["msg"],
   methods: {
     onClick() {
       alert(this.msg);
@@ -583,9 +583,9 @@ export default {
 </template>
 
 <script>
-import Alert from '../components/BaseUse/Alert';
+import Alert from "../components/BaseUse/Alert";
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     Alert,
   },
@@ -615,7 +615,7 @@ export default {
   methods: {
     onClick() {
       //点击按钮的时候，监听使用时的方法，并传递数据过去
-      this.$emit('show-balance', { a: 1, b: 2 });
+      this.$emit("show-balance", { a: 1, b: 2 });
     },
   },
 };
@@ -635,9 +635,9 @@ export default {
   </div>
 </template>
 <script>
-import show from '../components/BaseUse/show';
+import show from "../components/BaseUse/show";
 export default {
-  name: 'Home',
+  name: "Home",
   data() {
     return {
       show: false,
@@ -676,17 +676,17 @@ Vue 的实例中的`$emit()`方法可以用来发送数据，而`$on()`方法可
 </template>
 
 <script>
-import vm from './vm';
+import vm from "./vm";
 export default {
   data() {
     return {
-      baseUse1_data: '',
+      baseUse1_data: "",
     };
   },
   methods: {
     onChange() {
       //通过emit方法发送消息
-      vm.$emit('said', this.baseUse1_data);
+      vm.$emit("said", this.baseUse1_data);
     },
   },
 };
@@ -704,16 +704,16 @@ export default {
 </template>
 
 <script>
-import vm from './vm';
+import vm from "./vm";
 export default {
   data() {
     return {
-      baseUse2_data: '',
+      baseUse2_data: "",
     };
   },
   mounted() {
     //通过$on方法来监听消息
-    vm.$on('said', (data) => {
+    vm.$on("said", (data) => {
       this.baseUse2_data = data;
     });
   },
@@ -801,10 +801,10 @@ export default {
 export default {
   //让model去双向绑定text属性
   model: {
-    prop: 'text',
-    event: 'change',
+    prop: "text",
+    event: "change",
   },
-  props: ['text'],
+  props: ["text"],
 };
 </script>
 <style scoped>
@@ -826,15 +826,15 @@ export default {
   </div>
 </template>
 <script>
-import myVmodel from '../components/BaseUse/myVmodel';
+import myVmodel from "../components/BaseUse/myVmodel";
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     myVmodel,
   },
   data() {
     return {
-      name: 'jason',
+      name: "jason",
     };
   },
 };
@@ -856,9 +856,9 @@ export default {
   </div>
 </template>
 <script>
-import myVmodel from '../components/BaseUse/myVmodel';
+import myVmodel from "../components/BaseUse/myVmodel";
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     myVmodel,
   },
@@ -871,7 +871,7 @@ export default {
 </script>
 ```
 
-### \$nextTick
+### $nextTick
 
 在讲这个实例方法前，首先要明确一个概念。
 
@@ -893,31 +893,31 @@ Vue 更新 dom 是一个异步的过程。
   </div>
 </template>
 <script>
-import myVmodel from '../components/BaseUse/myVmodel';
+import myVmodel from "../components/BaseUse/myVmodel";
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     myVmodel,
   },
   data() {
     return {
       lists: [
-        { name: 'jason', age: '18', id: 'a' },
-        { name: 'ash', age: '18', id: 'b' },
-        { name: 'john', age: '18', id: 'c' },
+        { name: "jason", age: "18", id: "a" },
+        { name: "ash", age: "18", id: "b" },
+        { name: "john", age: "18", id: "c" },
       ],
-    };
+    }; 
   },
   methods: {
     onclick() {
-      this.lists.push({ name: 'lee', age: '18', id: 'd' });
+      this.lists.push({ name: "lee", age: "18", id: "d" });
       let mydiv = this.$refs.mydiv;
       console.log(mydiv.childNodes.length); //3
     },
   },
 };
 </script>
-```
+``` 
 
 在上述代码中，即使我们`push`进去了一项，最后发现元素长度仍然是 3。
 
@@ -935,24 +935,24 @@ export default {
   </div>
 </template>
 <script>
-import myVmodel from '../components/BaseUse/myVmodel';
+import myVmodel from "../components/BaseUse/myVmodel";
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     myVmodel,
   },
   data() {
     return {
       lists: [
-        { name: 'jason', age: '18', id: 'a' },
-        { name: 'ash', age: '18', id: 'b' },
-        { name: 'john', age: '18', id: 'c' },
+        { name: "jason", age: "18", id: "a" },
+        { name: "ash", age: "18", id: "b" },
+        { name: "john", age: "18", id: "c" },
       ],
     };
   },
   methods: {
     onclick() {
-      this.lists.push({ name: 'lee', age: '18', id: 'd' });
+      this.lists.push({ name: "lee", age: "18", id: "d" });
       let mydiv = this.$refs.mydiv;
       this.$nextTick(() => {
         console.log(mydiv.childNodes.length); //4
@@ -978,9 +978,9 @@ export default {
   </div>
 </template>
 <script>
-import baseUse1 from '../components/BaseUse/baseUse1';
+import baseUse1 from "../components/BaseUse/baseUse1";
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     baseUse1,
   },
@@ -1030,7 +1030,7 @@ export default {};
 export default {
   data() {
     return {
-      name: '子组件的数据',
+      name: "子组件的数据",
     };
   },
 };
@@ -1048,9 +1048,9 @@ export default {
   </div>
 </template>
 <script>
-import baseUse1 from '../components/BaseUse/baseUse1';
+import baseUse1 from "../components/BaseUse/baseUse1";
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     baseUse1,
   },
@@ -1080,7 +1080,7 @@ export default {
 export default {
   data() {
     return {
-      name: '子组件的数据123',
+      name: "子组件的数据123",
     };
   },
 };
@@ -1099,9 +1099,9 @@ export default {
   </div>
 </template>
 <script>
-import baseUse1 from '../components/BaseUse/baseUse1';
+import baseUse1 from "../components/BaseUse/baseUse1";
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     baseUse1,
   },
@@ -1123,10 +1123,10 @@ export default {
   </div>
 </template>
 <script>
-import baseUse1 from '../components/BaseUse/baseUse1';
-import baseUse2 from '../components/BaseUse/baseUse2';
+import baseUse1 from "../components/BaseUse/baseUse1";
+import baseUse2 from "../components/BaseUse/baseUse2";
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     baseUse1,
   },
@@ -1159,9 +1159,9 @@ export default {
 </template>
 <script>
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
-    Bigcomp: () => import('../components/BaseUse/Bigcomp'),
+    Bigcomp: () => import("../components/BaseUse/Bigcomp"),
     //将其动态的加载进来
   },
   data() {
@@ -1193,11 +1193,11 @@ export default {
   </div>
 </template>
 <script>
-import tab1 from './tab1';
-import tab2 from './tab2';
-import tab3 from './tab3';
+import tab1 from "./tab1";
+import tab2 from "./tab2";
+import tab3 from "./tab3";
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     tab1,
     tab2,
@@ -1205,7 +1205,7 @@ export default {
   },
   data() {
     return {
-      choose: 'tab1',
+      choose: "tab1",
     };
   },
   methods: {
@@ -1229,10 +1229,10 @@ export default {
 <script>
 export default {
   mounted() {
-    console.log('tab1挂载');
+    console.log("tab1挂载");
   },
   destroyed() {
-    console.log('tab1销毁');
+    console.log("tab1销毁");
   },
 };
 </script>
@@ -1260,11 +1260,11 @@ export default {
   </div>
 </template>
 <script>
-import tab1 from './tab1';
-import tab2 from './tab2';
-import tab3 from './tab3';
+import tab1 from "./tab1";
+import tab2 from "./tab2";
+import tab3 from "./tab3";
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     tab1,
     tab2,
@@ -1272,7 +1272,7 @@ export default {
   },
   data() {
     return {
-      choose: 'tab1',
+      choose: "tab1",
     };
   },
   methods: {
@@ -1298,7 +1298,7 @@ export default {
 export default {
   data() {
     return {
-      city: '北京',
+      city: "北京",
     };
   },
   methods: {
@@ -1307,7 +1307,7 @@ export default {
     },
   },
   mounted() {
-    console.log('mixin mounted', this.name);
+    console.log("mixin mounted", this.name);
   },
 };
 ```
@@ -1322,21 +1322,21 @@ export default {
   </div>
 </template>
 <script>
-import mixin from '../components/BaseUse/mixin';
+import mixin from "../components/BaseUse/mixin";
 export default {
   //将组件逻辑混入进来
   mixins: [mixin],
-  name: 'Home',
+  name: "Home",
   components: {},
   data() {
     return {
-      name: '凡凡',
-      age: '18',
+      name: "凡凡",
+      age: "18",
     };
   },
   methods: {},
   mounted() {
-    console.log('componted mounted', this.name);
+    console.log("componted mounted", this.name);
   },
 };
 </script>
@@ -1374,8 +1374,8 @@ vuex 为我们提供了很好的策略：将要传递的数据放到一个“公
 > store/index.js
 
 ```js
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from "vue";
+import Vuex from "vuex";
 
 Vue.use(Vuex);
 
@@ -1408,8 +1408,8 @@ export default new Vuex.Store({
 > store/index.js
 
 ```js
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from "vue";
+import Vuex from "vuex";
 
 Vue.use(Vuex);
 
@@ -1450,8 +1450,8 @@ export default new Vuex.Store({
 > store/index.js
 
 ```js
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from "vue";
+import Vuex from "vuex";
 
 Vue.use(Vuex);
 
@@ -1468,7 +1468,7 @@ export default new Vuex.Store({
   actions: {
     subasync(context, step) {
       setTimeout(() => {
-        context.commit('sub', step);
+        context.commit("sub", step);
       }, 1000);
     },
   },
@@ -1556,30 +1556,30 @@ getters: {
 > router/index.js
 
 ```js
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Home from "../views/Home.vue";
 
 Vue.use(VueRouter);
 //在routers中配置路由规则
 const routes = [
   {
-    path: '/',
-    name: 'Home',
+    path: "/",
+    name: "Home",
     //同步引入组件
     component: Home,
   },
   {
-    path: '/about',
-    name: 'About',
+    path: "/about",
+    name: "About",
     //异步组件按需加载
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/About.vue'),
+      import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
 ];
 
 const router = new VueRouter({
-  mode: 'hash',
+  mode: "hash",
   base: process.env.BASE_URL,
   routes,
 });
@@ -1731,7 +1731,7 @@ const routes = [{
 </template>
 <script>
 export default {
-  props: ['id'],
+  props: ["id"],
   methods: {
     show() {
       console.log(this.id);
@@ -1756,11 +1756,51 @@ export default {
 export default {
   methods: {
     jump() {
-      this.$router.push('/about');
+      this.$router.push("/about");
     },
   },
 };
 </script>
+```
+
+### 导航钩子
+
+利用导航钩子可以在路由层面做一些权限鉴定相关的操作。
+
+### 全局钩子
+
+#### beforeEach
+
+```js
+const router = new VueRouter({ ... })
+
+router.beforeEach((to, from, next) => {
+  // ...
+})
+```
+
+#### afterEach
+
+```js
+router.afterEach((to, from) => {
+  // ...
+});
+```
+
+### 路由钩子
+
+```js
+const router = new VueRouter({
+  routes: [
+    {
+      path: "/foo",
+      component: Foo,
+      beforeEnter: (to, from, next) => {
+        // ...
+      },
+    },
+  ],
+});
 ```
 
 ## Vue3
@@ -1775,11 +1815,11 @@ export default {
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { ref, computed } from 'vue';
+import { defineComponent } from "vue";
+import { ref, computed } from "vue";
 
 export default defineComponent({
-  name: 'App',
+  name: "App",
   setup() {
     const count = ref(0);
     const double = computed(() => {
@@ -1818,8 +1858,8 @@ export default defineComponent({
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { ref, computed, reactive, toRefs } from 'vue';
+import { defineComponent } from "vue";
+import { ref, computed, reactive, toRefs } from "vue";
 interface Data {
   count: number;
   double: number;
@@ -1831,7 +1871,7 @@ interface Data {
 }
 
 export default defineComponent({
-  name: 'App',
+  name: "App",
   setup() {
     const data: Data = reactive({
       count: 0,
@@ -1863,7 +1903,7 @@ export default defineComponent({
 
 ```js
 export default defineComponent({
-  name: 'App',
+  name: "App",
   setup() {
     const data: Data = reactive({
       count: 0,
@@ -1880,11 +1920,11 @@ export default defineComponent({
     const refsData = toRefs(data);
 
     onMounted(() => {
-      console.log('onMounted');
+      console.log("onMounted");
     });
 
     onUpdated(() => {
-      console.log('onUpdated');
+      console.log("onUpdated");
     });
 
     onRenderTriggered((event) => {
@@ -1944,7 +1984,7 @@ export default defineComponent({
 > useMousePosition.ts
 
 ```ts
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from "vue";
 
 export function useMousePos() {
   const x = ref(0);
@@ -1956,11 +1996,11 @@ export function useMousePos() {
   };
 
   onMounted(() => {
-    document.addEventListener('click', updateMouse);
+    document.addEventListener("click", updateMouse);
   });
 
   onUnmounted(() => {
-    document.removeEventListener('click', updateMouse);
+    document.removeEventListener("click", updateMouse);
   });
 
   return { x, y };
@@ -1969,10 +2009,10 @@ export function useMousePos() {
 
 ```vue
 <script lang="ts">
-import { useMousePos } from './hooks/useMousePosition';
+import { useMousePos } from "./hooks/useMousePosition";
 
 export default defineComponent({
-  name: 'App',
+  name: "App",
   setup() {
     const { x, y } = useMousePos();
     // ...
@@ -1988,10 +2028,10 @@ export default defineComponent({
 
 ```vue
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: 'HelloWorld',
+  name: "HelloWorld",
   props: {
     msg: {
       type: String,
