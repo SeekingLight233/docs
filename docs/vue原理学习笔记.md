@@ -60,6 +60,18 @@ export function initState(vm: Component) {
 
 ## 响应式原理
 
+### 整体流程
+
+![](https://img1.sycdn.imooc.com/5ed5ab540001992912000750.png)
+
+首先 vue 会用`Object.defineProperty()`为 data 对象中的每一个属性去定义`getter`和`setter`。
+
+然后每一个 vue 实例上都会有一个`watcher`，这个`watcher`会一直盯着`data`。
+
+当用户修改`data`时(也就是触发了`setter`)，`watcher`便会去触发渲染函数更新。
+
+渲染函数在触发时，肯定是要读取`data`里的数据的，在读取数据的时候，肯定就会触发`getter`,此时这些变化的属性就会被作为依赖被`watcher`收集。
+
 ### 核心 api
 
 `Object.defineProperty()`
@@ -69,19 +81,19 @@ export function initState(vm: Component) {
 这个 api 的作用就是你可以自定义在`get`和`set`时要进行的操作。
 
 ```js
-let name = 'jason';
+let name = "jason";
 let obj = {};
-Object.defineProperty(obj, 'name', {
+Object.defineProperty(obj, "name", {
   get() {
     return name;
   },
   set(val) {
     name = val;
-    console.log('更新视图');
+    console.log("更新视图");
   },
 });
 
-obj.name = 'Katy';
+obj.name = "Katy";
 ```
 
 响应式的核心原理就是这么简单。。
@@ -92,7 +104,7 @@ obj.name = 'Katy';
 //监听对象属性
 function observe(target) {
   //如果是基本类型就不监听
-  if (typeof target !== 'object' || target == null) {
+  if (typeof target !== "object" || target == null) {
     return target;
   }
   //对这个对象中的每一个属性都进行监听
@@ -119,24 +131,24 @@ function defineReactive(target, key, value) {
 }
 
 function updateView() {
-  console.log('视图更新');
+  console.log("视图更新");
 }
 //准备数据
 const data = {
-  name: 'jason',
-  age: '20',
+  name: "jason",
+  age: "20",
   obj: {
-    city: 'beijing',
+    city: "beijing",
   },
 };
 //监听数据
 observe(data);
 
-data.name = 'asher';
+data.name = "asher";
 //视图更新
-data.obj.city = 'Shanghai';
+data.obj.city = "Shanghai";
 //视图更新
-data.num = '314';
+data.num = "314";
 //没有触发视图更新
 delete data.name;
 //没有触发视图更新
@@ -147,7 +159,7 @@ delete data.name;
 但是注意一点，请看最后两行
 
 ```js
-data.num = '314';
+data.num = "314";
 //没有触发视图更新
 delete data.name;
 //没有触发视图更新
@@ -169,7 +181,7 @@ const arrProperty = Array.prototype;
 //把原型对象拷贝一份出来，防止污染
 let resolveArr = Object.create(arrProperty);
 //把一些常用的数组操作override了
-['push', 'pop', 'shift', 'unshift'].forEach((name) => {
+["push", "pop", "shift", "unshift"].forEach((name) => {
   resolveArr[name] = function() {
     arrProperty[name].call(this, ...arguments);
     updateView();
@@ -223,15 +235,15 @@ data.arr.push(5);
 
 ```js
 let vdom = {
-  tag: 'div',
+  tag: "div",
   props: {
-    id: 'div1',
-    className: 'container',
+    id: "div1",
+    className: "container",
   },
   children: [
     {
-      tag: 'p',
-      text: 'vdom',
+      tag: "p",
+      text: "vdom",
     },
   ],
 };
@@ -266,7 +278,7 @@ vue 的 diff 算法借鉴的是`snabbdom`这个库，这个库中在进行虚拟
 先看一个非常简单的例子。
 
 ```js
-const compiler = require('vue-template-compiler');
+const compiler = require("vue-template-compiler");
 
 const template = `<p>div</p>`;
 
@@ -439,11 +451,12 @@ action 可以整合多个 mutation 中的原子操作，同时也可以处理异
 - data 层级尽量扁平
 
 #### 缓存层面
+
 computed,keep-alive
 
 #### 性能方面
 
-data层级尽量扁平(vue2),加key
+data 层级尽量扁平(vue2),加 key
 
 #### 习惯
 
