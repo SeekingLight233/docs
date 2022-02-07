@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>操作系统之进程管理 | SeekingLight</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="description" content="赋时光以生命">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    
+    <link rel="preload" href="/assets/css/0.styles.78041c82.css" as="style"><link rel="preload" href="/assets/js/app.4d15b3ce.js" as="script"><link rel="preload" href="/assets/js/3.8b0ceda2.js" as="script"><link rel="preload" href="/assets/js/1.ecdf2037.js" as="script"><link rel="preload" href="/assets/js/14.94564b96.js" as="script"><link rel="prefetch" href="/assets/js/10.5c997883.js"><link rel="prefetch" href="/assets/js/11.9bb87ee0.js"><link rel="prefetch" href="/assets/js/12.1bd6a3da.js"><link rel="prefetch" href="/assets/js/13.bb8170cf.js"><link rel="prefetch" href="/assets/js/15.db064408.js"><link rel="prefetch" href="/assets/js/16.0c2439dc.js"><link rel="prefetch" href="/assets/js/17.7c5b96e4.js"><link rel="prefetch" href="/assets/js/18.6918828a.js"><link rel="prefetch" href="/assets/js/19.347abfc3.js"><link rel="prefetch" href="/assets/js/20.59bbd9ca.js"><link rel="prefetch" href="/assets/js/21.08b57689.js"><link rel="prefetch" href="/assets/js/22.2f773398.js"><link rel="prefetch" href="/assets/js/23.559109a9.js"><link rel="prefetch" href="/assets/js/24.96dae278.js"><link rel="prefetch" href="/assets/js/25.49026790.js"><link rel="prefetch" href="/assets/js/26.3e696b7f.js"><link rel="prefetch" href="/assets/js/27.964cdf16.js"><link rel="prefetch" href="/assets/js/28.dae74634.js"><link rel="prefetch" href="/assets/js/29.d37e9acb.js"><link rel="prefetch" href="/assets/js/30.882bd691.js"><link rel="prefetch" href="/assets/js/31.045b911d.js"><link rel="prefetch" href="/assets/js/32.42fbf541.js"><link rel="prefetch" href="/assets/js/33.000f0f72.js"><link rel="prefetch" href="/assets/js/34.b484515f.js"><link rel="prefetch" href="/assets/js/35.3dd430f5.js"><link rel="prefetch" href="/assets/js/36.303d6e5b.js"><link rel="prefetch" href="/assets/js/37.bfa9e033.js"><link rel="prefetch" href="/assets/js/38.bf80c844.js"><link rel="prefetch" href="/assets/js/39.5a128a4d.js"><link rel="prefetch" href="/assets/js/4.ff412fc0.js"><link rel="prefetch" href="/assets/js/40.d9741f71.js"><link rel="prefetch" href="/assets/js/41.7b42dd78.js"><link rel="prefetch" href="/assets/js/42.d5758950.js"><link rel="prefetch" href="/assets/js/43.fd82d19f.js"><link rel="prefetch" href="/assets/js/44.f6b0d30f.js"><link rel="prefetch" href="/assets/js/45.f8bb2eb9.js"><link rel="prefetch" href="/assets/js/46.b8b61cac.js"><link rel="prefetch" href="/assets/js/47.49abbcd5.js"><link rel="prefetch" href="/assets/js/48.d29e0d0d.js"><link rel="prefetch" href="/assets/js/49.d2c33c92.js"><link rel="prefetch" href="/assets/js/5.ed86cd32.js"><link rel="prefetch" href="/assets/js/50.7927818b.js"><link rel="prefetch" href="/assets/js/51.415c4fe8.js"><link rel="prefetch" href="/assets/js/52.758484f3.js"><link rel="prefetch" href="/assets/js/53.60c8b2d4.js"><link rel="prefetch" href="/assets/js/54.239baec0.js"><link rel="prefetch" href="/assets/js/55.ec8677c2.js"><link rel="prefetch" href="/assets/js/56.1e1752e4.js"><link rel="prefetch" href="/assets/js/57.b5f3c61e.js"><link rel="prefetch" href="/assets/js/58.9feb07bb.js"><link rel="prefetch" href="/assets/js/59.2f437726.js"><link rel="prefetch" href="/assets/js/6.da9e88e2.js"><link rel="prefetch" href="/assets/js/60.39f6575b.js"><link rel="prefetch" href="/assets/js/7.658f24fb.js"><link rel="prefetch" href="/assets/js/8.a79692de.js"><link rel="prefetch" href="/assets/js/9.ef68ce12.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.78041c82.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container" data-v-19557b78><div data-v-19557b78><div id="loader-wrapper" class="loading-wrapper" data-v-d48f4d20 data-v-19557b78 data-v-19557b78><div class="loader-main" data-v-d48f4d20><div data-v-d48f4d20></div><div data-v-d48f4d20></div><div data-v-d48f4d20></div><div data-v-d48f4d20></div></div> <!----> <!----></div> <div class="password-shadow password-wrapper-out" style="display:none;" data-v-64685f0e data-v-19557b78 data-v-19557b78><h3 class="title" style="display:none;" data-v-64685f0e data-v-64685f0e>SeekingLight</h3> <!----> <label id="box" class="inputBox" style="display:none;" data-v-64685f0e data-v-64685f0e><input type="password" value="" data-v-64685f0e> <span data-v-64685f0e>Konck! Knock!</span> <button data-v-64685f0e>OK</button></label> <div class="footer" style="display:none;" data-v-64685f0e data-v-64685f0e><span data-v-64685f0e><i class="iconfont reco-theme" data-v-64685f0e></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-64685f0e>vuePress-theme-reco</a></span> <span data-v-64685f0e><i class="iconfont reco-copyright" data-v-64685f0e></i> <a data-v-64685f0e><span data-v-64685f0e>寻光</span>
+            
+          <span data-v-64685f0e>2017 - </span>
+          2022
+        </a></span></div></div> <div class="hide" data-v-19557b78><header class="navbar" data-v-19557b78><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/icon.png" alt="SeekingLight" class="logo"> <span class="site-name">SeekingLight</span></a> <div class="links"><div class="color-picker"><a class="color-button"><i class="iconfont reco-color"></i></a> <div class="color-picker-menu" style="display:none;"><div class="mode-options"><h4 class="title">Choose mode</h4> <ul class="color-mode-options"><li class="dark">dark</li><li class="auto active">auto</li><li class="light">light</li></ul></div></div></div> <div class="search-box"><i class="iconfont reco-search"></i> <input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link"><i class="iconfont reco-home"></i>
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      分类
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/杂记/" class="nav-link"><i class="iconfont undefined"></i>
+  杂记
+</a></li><li class="dropdown-item"><!----> <a href="/categories/前端/" class="nav-link"><i class="iconfont undefined"></i>
+  前端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/计算机组成原理/" class="nav-link"><i class="iconfont undefined"></i>
+  计算机组成原理
+</a></li><li class="dropdown-item"><!----> <a href="/categories/Typescript/" class="nav-link"><i class="iconfont undefined"></i>
+  Typescript
+</a></li><li class="dropdown-item"><!----> <a href="/categories/后端/" class="nav-link"><i class="iconfont undefined"></i>
+  后端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/计算机网络/" class="nav-link"><i class="iconfont undefined"></i>
+  计算机网络
+</a></li><li class="dropdown-item"><!----> <a href="/categories/算法/" class="nav-link"><i class="iconfont undefined"></i>
+  算法
+</a></li><li class="dropdown-item"><!----> <a href="/categories/操作系统/" class="nav-link"><i class="iconfont undefined"></i>
+  操作系统
+</a></li><li class="dropdown-item"><!----> <a href="/categories/色彩空间/" class="nav-link"><i class="iconfont undefined"></i>
+  色彩空间
+</a></li></ul></div></div><div class="nav-item"><a href="/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/timeLine/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间轴
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      关于
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/SeekingLight233" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://space.bilibili.com/37019841?from=search&amp;seid=11160746842115235145" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-bilibili"></i>
+  BiliBili
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://music.163.com/#/user/home?id=355059838" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-douyin"></i>
+  网易云
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="/contact.html" class="nav-link"><i class="iconfont reco-wechat"></i>
+  联系我
+</a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask" data-v-19557b78></div> <aside class="sidebar" data-v-19557b78><div class="personal-info-wrapper" data-v-042e23d4><img src="/images/hero.png" alt="author-avatar" class="personal-img" data-v-042e23d4> <h3 class="name" data-v-042e23d4>
+    寻光
+  </h3> <div class="num" data-v-042e23d4><div data-v-042e23d4><h3 data-v-042e23d4>46</h3> <h6 data-v-042e23d4>Article</h6></div> <div data-v-042e23d4><h3 data-v-042e23d4>83</h3> <h6 data-v-042e23d4>Tag</h6></div></div> <hr data-v-042e23d4></div> <nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link"><i class="iconfont reco-home"></i>
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      分类
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/杂记/" class="nav-link"><i class="iconfont undefined"></i>
+  杂记
+</a></li><li class="dropdown-item"><!----> <a href="/categories/前端/" class="nav-link"><i class="iconfont undefined"></i>
+  前端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/计算机组成原理/" class="nav-link"><i class="iconfont undefined"></i>
+  计算机组成原理
+</a></li><li class="dropdown-item"><!----> <a href="/categories/Typescript/" class="nav-link"><i class="iconfont undefined"></i>
+  Typescript
+</a></li><li class="dropdown-item"><!----> <a href="/categories/后端/" class="nav-link"><i class="iconfont undefined"></i>
+  后端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/计算机网络/" class="nav-link"><i class="iconfont undefined"></i>
+  计算机网络
+</a></li><li class="dropdown-item"><!----> <a href="/categories/算法/" class="nav-link"><i class="iconfont undefined"></i>
+  算法
+</a></li><li class="dropdown-item"><!----> <a href="/categories/操作系统/" class="nav-link"><i class="iconfont undefined"></i>
+  操作系统
+</a></li><li class="dropdown-item"><!----> <a href="/categories/色彩空间/" class="nav-link"><i class="iconfont undefined"></i>
+  色彩空间
+</a></li></ul></div></div><div class="nav-item"><a href="/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/timeLine/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间轴
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      关于
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/SeekingLight233" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://space.bilibili.com/37019841?from=search&amp;seid=11160746842115235145" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-bilibili"></i>
+  BiliBili
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://music.163.com/#/user/home?id=355059838" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-douyin"></i>
+  网易云
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="/contact.html" class="nav-link"><i class="iconfont reco-wechat"></i>
+  联系我
+</a></li></ul></div></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>操作系统之进程管理</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/docs/os-process.html#进程实体" class="sidebar-link">进程实体</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/docs/os-process.html#主存中的进程形态" class="sidebar-link">主存中的进程形态</a></li><li class="sidebar-sub-header"><a href="/docs/os-process.html#进程与线程" class="sidebar-link">进程与线程</a></li></ul></li><li><a href="/docs/os-process.html#五状态模型" class="sidebar-link">五状态模型</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/docs/os-process.html#创建状态" class="sidebar-link">创建状态</a></li><li class="sidebar-sub-header"><a href="/docs/os-process.html#就绪状态" class="sidebar-link">就绪状态</a></li><li class="sidebar-sub-header"><a href="/docs/os-process.html#执行状态" class="sidebar-link">执行状态</a></li><li class="sidebar-sub-header"><a href="/docs/os-process.html#阻塞状态" class="sidebar-link">阻塞状态</a></li><li class="sidebar-sub-header"><a href="/docs/os-process.html#终止状态" class="sidebar-link">终止状态</a></li><li class="sidebar-sub-header"><a href="/docs/os-process.html#五状态之间的转换" class="sidebar-link">五状态之间的转换</a></li></ul></li><li><a href="/docs/os-process.html#进程同步" class="sidebar-link">进程同步</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/docs/os-process.html#为什么需要引入进程同步" class="sidebar-link">为什么需要引入进程同步</a></li><li class="sidebar-sub-header"><a href="/docs/os-process.html#进程同步的原则" class="sidebar-link">进程同步的原则</a></li><li class="sidebar-sub-header"><a href="/docs/os-process.html#进程同步的方法" class="sidebar-link">进程同步的方法</a></li><li class="sidebar-sub-header"><a href="/docs/os-process.html#线程同步" class="sidebar-link">线程同步</a></li></ul></li><li><a href="/docs/os-process.html#linux的进程管理" class="sidebar-link">Linux的进程管理</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/docs/os-process.html#相关概念" class="sidebar-link">相关概念</a></li><li class="sidebar-sub-header"><a href="/docs/os-process.html#操作linux进程的常用命令" class="sidebar-link">操作linux进程的常用命令</a></li></ul></li></ul></section></li></ul> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-64685f0e data-v-19557b78><h3 class="title" style="display:none;" data-v-64685f0e data-v-64685f0e>操作系统之进程管理</h3> <!----> <label id="box" class="inputBox" style="display:none;" data-v-64685f0e data-v-64685f0e><input type="password" value="" data-v-64685f0e> <span data-v-64685f0e>Konck! Knock!</span> <button data-v-64685f0e>OK</button></label> <div class="footer" style="display:none;" data-v-64685f0e data-v-64685f0e><span data-v-64685f0e><i class="iconfont reco-theme" data-v-64685f0e></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-64685f0e>vuePress-theme-reco</a></span> <span data-v-64685f0e><i class="iconfont reco-copyright" data-v-64685f0e></i> <a data-v-64685f0e><span data-v-64685f0e>寻光</span>
+            
+          <span data-v-64685f0e>2017 - </span>
+          2022
+        </a></span></div></div> <div data-v-19557b78><main class="page"><div class="page-title" style="display:none;"><h1>操作系统之进程管理</h1> <hr> <div data-v-34ea29db><i class="iconfont reco-account" data-v-34ea29db><span data-v-34ea29db>寻光</span></i> <i class="iconfont reco-date" data-v-34ea29db><span data-v-34ea29db>2019-12-12</span></i> <!----> <i class="iconfont reco-tag tags" data-v-34ea29db><span class="tag-item" data-v-34ea29db>进程</span><span class="tag-item" data-v-34ea29db>线程</span><span class="tag-item" data-v-34ea29db>生产者-消费者问题</span><span class="tag-item" data-v-34ea29db>哲学家进餐问题</span></i></div></div> <div class="theme-reco-content content__default" style="display:none;"><blockquote><p>现代的OS基本都是多道处理系统，也就意味着一个操作系统会<strong>并发</strong>运行多个程序，为了方便描述和控制这些“Running Application&quot;,人们引入了进程的概念。</p></blockquote> <h2 id="进程实体"><a href="#进程实体" class="header-anchor">#</a> 进程实体</h2> <h3 id="主存中的进程形态"><a href="#主存中的进程形态" class="header-anchor">#</a> 主存中的进程形态</h3> <p>主存中的进程是一段连续存储的空间，这段空间被称之为<strong>进程控制块</strong>。进程控制块是用于描述和控制进程的数据结构，同时它也是使得进程能够独立运行的基本单位。
+<img src="/assets/img/01.c012ba1b.png" alt=""></p> <ul><li>标志符:用来标记一个进程，用于区别其他进程。</li> <li>状态：用来标记进程的状态，如“阻塞态”，“运行态”等等。</li> <li>程序计数器：和计组中的计数器概念差不多，用来存储进程即将执行下一条指令的地址。</li> <li>内存指针：存储和程序指针以及进程位置相关的信息。</li> <li>上下文：上下文区域存储的是当前进程正在执行时CPU中的<strong>寄存器和高速缓存中数据</strong>。</li> <li>IO状态信息：记录当进程执行IO操作时所占用的文件列表。</li> <li>记账信息：记录进程使用CPU的时间，时钟数总和等等。</li></ul> <p>由于PCB要经常被读取，因此它会被OS置于一块常驻的区域内存中。</p> <h3 id="进程与线程"><a href="#进程与线程" class="header-anchor">#</a> 进程与线程</h3> <p>进程是进行资源分配与调度的<strong>基本单位</strong>，<strong>拥有</strong>一定的资源，通过进程IPC进行通信。
+线程是操作系统进行调度的<strong>最小单位</strong>，线程<strong>不拥有</strong>资源，但它可以<strong>共享</strong>进程的资源。线程只能通过读写同一进程的数据进行通信。</p> <h2 id="五状态模型"><a href="#五状态模型" class="header-anchor">#</a> 五状态模型</h2> <h3 id="创建状态"><a href="#创建状态" class="header-anchor">#</a> 创建状态</h3> <p>当进程<strong>拥有PCB</strong>但是其他所有资源还没就绪的状态。</p> <p>操作系统会提供fork()函数接口来让应用程序创建进程。</p> <h3 id="就绪状态"><a href="#就绪状态" class="header-anchor">#</a> 就绪状态</h3> <p>当进程所需要的所有资源都准备好，但只差<strong>CPU资源</strong>的时候，我们就可以说进程进入了<strong>就绪状态</strong>。
+<img src="/assets/img/02.ee996a85.png" alt="">
+当多个进程处于就绪状态的时候，它们会形成<strong>就绪队列</strong>。</p> <h3 id="执行状态"><a href="#执行状态" class="header-anchor">#</a> 执行状态</h3> <p>当进程获得全部资源（包括CPU资源），此时就会进入<strong>执行状态</strong>。</p> <blockquote><p>在单处理机中，某个时刻内只能有一个进程处于执行态。</p></blockquote> <h3 id="阻塞状态"><a href="#阻塞状态" class="header-anchor">#</a> 阻塞状态</h3> <p>当进程由于缺少资源（最典型的是发起IO请求）而放弃CPU的时候，我们就可以说此时进程处于阻塞状态。
+<img src="/assets/img/03.c8a5f5c8.png" alt="">
+当多个进程处于阻塞状态时，它们就会形成<strong>阻塞队列</strong>。</p> <h3 id="终止状态"><a href="#终止状态" class="header-anchor">#</a> 终止状态</h3> <p>当进程结束被<strong>系统回收</strong>(此时会归还PCB)的状态。</p> <h3 id="五状态之间的转换"><a href="#五状态之间的转换" class="header-anchor">#</a> 五状态之间的转换</h3> <p><img src="/assets/img/04.9f1990d2.png" alt="">
+当进程被创建后，并且获得了<strong>除CPU资源的所有资源</strong>，就会进入就绪状态(或进入就绪队列)。在就绪状态，一旦被<strong>调度</strong>（获得CPU资源），就会进入执行态。反之，如果不被调度（CPU资源用完），就会重新返回就绪态。当进程在执行态发起IO请求时，就会进入阻塞态。IO操作一旦完成，会回到就绪态，等待被调度。当进程在执行态运行完成后，会归还PCB，并进入终止态。</p> <h2 id="进程同步"><a href="#进程同步" class="header-anchor">#</a> 进程同步</h2> <h3 id="为什么需要引入进程同步"><a href="#为什么需要引入进程同步" class="header-anchor">#</a> 为什么需要引入进程同步</h3> <p>在解释这个问题之前，首先要引入两个著名的问题。</p> <h4 id="生产者-消费者问题"><a href="#生产者-消费者问题" class="header-anchor">#</a> 生产者-消费者问题</h4> <p><em>有一群生产者在生产产品，生产完成后会将产品放入仓库，同时有一群消费者在消费产品，它们会从仓库中拿走产品并消费。</em></p> <p>这个问题在宏观条件下并不会出现什么差错，但类比放入计算机中的时候，就会出现问题。</p> <div class="language-c++ line-numbers-mode"><pre class="language-text"><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;vector&gt;
+
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
+int num = 0;
+//生产者函数，模拟生产1000000个产品
+void *producer(void*){
+    int times = 10000000;
+    while(times --){
+        // pthread_mutex_lock(&amp;mutex);
+        num += 1;
+        // pthread_mutex_unlock(&amp;mutex);
+    }
+}
+//消费者函数，模拟消费1000000个产品
+void *comsumer(void*){
+    int times = 10000000;
+    while(times --){
+        // pthread_mutex_lock(&amp;mutex);
+        num -= 1;
+        // pthread_mutex_unlock(&amp;mutex);
+    }
+}
+
+
+int main(){
+    printf(&quot;Start in main function.&quot;);
+    //分别用线程来模拟生产者和消费者
+    pthread_t thread1, thread2;
+    pthread_create(&amp;thread1, NULL, &amp;producer, NULL);
+    pthread_create(&amp;thread2, NULL, &amp;comsumer, NULL);
+    pthread_join(thread1, NULL);
+    pthread_join(thread2, NULL);
+    printf(&quot;Print in main function: num = %d\n&quot;, num);
+    return 0;
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br></div></div><p>上述代码用C++简单模拟了一下生产者-消费者的模型，我们用生产者生产出了1000000个产品，同时又用消费者消费了1000000个产品，理论上来说，我们最终print出来的num应该是0，但结果却很诡异：
+<img src="/assets/img/06.f9e6fd15.png" alt=""></p> <p>很明显结果是不对的，问题到底出在哪？</p> <p>问题出在计算机操作“仓库”（缓冲区）的层次上。</p> <p>当计算机要操作缓冲区时，不管是生产者还是消费者，都要经历三步。</p> <ol><li>把数据从缓冲区拿出来，放到寄存器里。</li> <li>在<strong>寄存器</strong>里对数据进行操作。</li> <li>操作完成后将数据放回缓冲区。</li></ol> <p><img src="/assets/img/07.62288275.png" alt="">
+假如说count是缓冲区，register是寄存器，上述就是一个生产进程一个消费进程顺序执行的理想情况，这肯定是不会出错的。</p> <p>但如果这两个进程的执行顺序是交叉执行（别忘了现代OS都支持进程并发），最终就的不到想要的结果。
+<img src="/assets/img/08.bd3365a6.png" alt="">
+上图简单的描述了这种情况。我们很容易发现：生产者进程还没生产完毕，消费者进程的手就伸过来了。那么消费者进程拿到的只能是初始值10，最终一个生产一个消费产生的结果只能是9或11（看这俩进程谁先跑完）。</p> <p>看到这里我们应该就能想到，如果我们强制性的<strong>控制</strong>下他们的执行顺序，就不会产生这种情况。</p> <p>接下来看第二个问题。</p> <h4 id="哲学家进餐问题"><a href="#哲学家进餐问题" class="header-anchor">#</a> 哲学家进餐问题</h4> <p><img src="/assets/img/09.1112763b.png" alt="">
+假设有五个哲学家，他们每天的生活只有🍚，🤔和😪，他们五个人共用一张桌子，桌子上有五个碗，但是只有五根筷子。当他们饿的时候，会先拿起左边的筷子，再拿起右边的筷子，然后开始吃饭。吃完饭后他们会继续思考。</p> <p>忽然有一天，发生了一件非常可怕的事情。</p> <p>他们同时饿了，他们又同时拿了左手边的筷子，由于他们都拿不到右手边的筷子，于是他们就全饿死了。。。</p> <p>进程在调用资源的时候就很像这几个哲学家，一旦出现这种等待资源的情况，就只能被活活饿死，这种情况叫做<strong>死锁</strong>。</p> <hr> <p>之所以会产生上面两种情况的最本质原因是：<strong>进程彼此之间没有相互通信</strong>。</p> <p>假如生产者能够通知消费者自己没有完成生产或已经完成生产，哲学家在吃饭前能够通知邻座的哲学家，都不会出现这种问题。</p> <p>因此我们需要通过进程同步来帮助<strong>控制并发进程和协调临界区资源。</strong></p> <blockquote><p><strong>临界区资源</strong>：指的是在计算机中虽然被共享但无法被多个线程共同访问的资源。</p></blockquote> <h3 id="进程同步的原则"><a href="#进程同步的原则" class="header-anchor">#</a> 进程同步的原则</h3> <h4 id="空闲让进"><a href="#空闲让进" class="header-anchor">#</a> 空闲让进</h4> <p>当临界资源空闲时，允许进程使用。</p> <h4 id="忙则等待"><a href="#忙则等待" class="header-anchor">#</a> 忙则等待</h4> <p>当临界资源有人用，需要使用的进程就只能等着。</p> <h4 id="有限等待"><a href="#有限等待" class="header-anchor">#</a> 有限等待</h4> <p>要保证等待的进程等的时间是有限的，而不是一直在那傻等。</p> <h4 id="让权等待"><a href="#让权等待" class="header-anchor">#</a> 让权等待</h4> <p>既然进程已经在等临界资源了，那么此时把CPU给它也没啥用啊，菜都没有还怎么做饭。。。不如先把CPU资源让出来（此时就进入了阻塞态）。</p> <h3 id="进程同步的方法"><a href="#进程同步的方法" class="header-anchor">#</a> 进程同步的方法</h3> <h4 id="消息队列"><a href="#消息队列" class="header-anchor">#</a> 消息队列</h4> <h4 id="共享存储"><a href="#共享存储" class="header-anchor">#</a> 共享存储</h4> <h4 id="信号量"><a href="#信号量" class="header-anchor">#</a> 信号量</h4> <p>具体内容请参考下一篇博客，<a href="">点此跳转</a></p> <h3 id="线程同步"><a href="#线程同步" class="header-anchor">#</a> 线程同步</h3> <h4 id="互斥量"><a href="#互斥量" class="header-anchor">#</a> 互斥量</h4> <h4 id="读写锁"><a href="#读写锁" class="header-anchor">#</a> 读写锁</h4> <h4 id="自旋锁"><a href="#自旋锁" class="header-anchor">#</a> 自旋锁</h4> <h4 id="条件变量"><a href="#条件变量" class="header-anchor">#</a> 条件变量</h4> <p>具体内容请参考下一篇博客，<a href="">点此跳转</a></p> <h2 id="linux的进程管理"><a href="#linux的进程管理" class="header-anchor">#</a> Linux的进程管理</h2> <h3 id="相关概念"><a href="#相关概念" class="header-anchor">#</a> 相关概念</h3> <h4 id="进程的类型"><a href="#进程的类型" class="header-anchor">#</a> 进程的类型</h4> <ul><li>前台进程：能在终端界面和用户交互的进程。</li> <li>后台进程：相对于前台进程，不占用终端界面。执行程序的时候在后面追加一个&amp;就可以以后台进程的方式启动程序。</li> <li>守护进程：是一类特殊的后台进程，会在系统引导时启动，一直运行到系统关闭。</li></ul> <blockquote><p>在linux中，进程名字中以“d”结尾的一般都是守护进程，如cround,httpd,sshd,mysqld等等。</p></blockquote> <h4 id="进程的标记"><a href="#进程的标记" class="header-anchor">#</a> 进程的标记</h4> <h5 id="进程id"><a href="#进程id" class="header-anchor">#</a> 进程ID</h5> <p><img src="/assets/img/10.c6453489.png" alt=""></p> <p>PID这一列就是&quot;ProcessID&quot;,是一个非负整数，最大值由OS确定，用来标识每一个进程。</p> <p>ID为0的进程是<strong>idle</strong>进程，是系统创建的第一个进程。ID为1的进程是init进程，是0号进程的子进程，负责完成系统初始化，同时init也是所有用户进程的祖先进程。</p> <blockquote><p>在linux中，可以使用pstree命令来查看进程间的继承关系。</p></blockquote> <h5 id="进程的状态标记"><a href="#进程的状态标记" class="header-anchor">#</a> 进程的状态标记</h5> <p><img src="/assets/img/11.49e0e915.png" alt=""></p> <ul><li><strong>R</strong>: Running,代表进程正在跑。</li> <li><strong>S</strong>: Sleeping,代表进程正在处于睡眠状态。</li> <li><strong>D</strong>: 进程处于IO等待的睡眠状态。</li> <li><strong>T</strong>: 进程处于暂停状态。</li> <li><strong>Z</strong>: 进程处于退出状态，或僵尸进程。</li></ul> <h3 id="操作linux进程的常用命令"><a href="#操作linux进程的常用命令" class="header-anchor">#</a> 操作linux进程的常用命令</h3> <h4 id="ps命令"><a href="#ps命令" class="header-anchor">#</a> ps命令</h4> <p>ps命令可以用于查看当前进程的快照。</p> <ul><li>ps -aux:可以打印所有进程的详细信息。</li> <li>ps -u [用户名]：查看指定用户的进程。</li> <li>ps -aux | grep [“进程名”]or[进程号]：可以查看指定进程的详细信息。</li> <li>ps -aux --sort=-pcpu:根据cpu的使用频率进行排序。</li> <li>ps -aux --sort=-pmem:根据内存的使用状况进行排序。</li> <li>ps -ef --forest:打印所有进程的父子状态。</li></ul> <h4 id="top命令"><a href="#top命令" class="header-anchor">#</a> top命令</h4> <p>动态监视进程所有状态。
+<img src="/assets/img/12.e2c26b88.png" alt="">
+有几个没说的字段需要补充。</p> <ul><li>PR：进程的优先级。</li> <li>VIRT：进程的虚拟内存。</li> <li>COMMAND:启动该进程需要的命令。</li></ul> <h4 id="kill命令"><a href="#kill命令" class="header-anchor">#</a> kill命令</h4> <p>用于删除执行中的程序或工作。
+用的最多的就是kill -9 [&quot;进程名&quot;]or[进程号]</p></div> <footer class="page-edit" style="display:none;"><!----> <div class="last-updated"><span class="prefix">Last Updated: </span> <span class="time">4/22/2021, 5:42:12 PM</span></div></footer> <!----> <!----></main> <!----></div></div></div></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.4d15b3ce.js" defer></script><script src="/assets/js/3.8b0ceda2.js" defer></script><script src="/assets/js/1.ecdf2037.js" defer></script><script src="/assets/js/14.94564b96.js" defer></script>
+  </body>
+</html>
