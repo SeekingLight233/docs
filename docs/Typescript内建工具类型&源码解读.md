@@ -49,6 +49,24 @@ type Partial<T> = {
 
 ### 拓展：实现 DeepPartial
 
+Partial 可以将 Type 中的属性变为可选，但是从源码中我们可以看出，他只能对最外层的属性进行一次“浅操作”，那么对于一个嵌套的 type，如何才能将其深层所有的属性变成可选呢？
+
+```ts
+interface Type0 {
+  data: {
+    userInfo: {
+      name: string;
+      age: number;
+    };
+  };
+  message: string;
+}
+
+type PartialDeep = DeepPartial<Type0>;
+```
+
+回想一下，在 js 中我们如何遍历一个嵌套对象？我们肯定要用上递归。在 ts 中，type 允许我们进行递归定义，从而实现 type 层的计算。
+
 ```ts
 type DeepPartial<T> = T extends object
   ? {
@@ -57,7 +75,7 @@ type DeepPartial<T> = T extends object
   : T;
 ```
 
-PS: 这里的实现看不懂没关系，建议看完全文再回头看看就明白啦
+PS: 这里涉及到了 extends 关键字，可以先略过，建议全文阅读完再回头理解会更透彻。
 
 ## Required\<Type>
 
@@ -211,7 +229,11 @@ type Tmp = never | 'b' | 'c';
 type Tmp = never | never | 'c';
 ```
 
-也就是说，never 在 UnionType 上是一个空的占位符，除此之外还有 `null`和 `undefined`
+也就是说，never 在 UnionType 上是一个空的占位符，除此之外还有 `null`和 `undefined`.
+
+再接下来，type "c" 也会经历一次运算，他是不满足上述三元判断条件的，此时就会返回"c"本身。
+
+最终我们就得到了这个 type。
 
 ## Omit\<Type, Keys>
 
@@ -246,17 +268,16 @@ type Omit<Type, Keys extends keyof any> = Pick<Type, Exclude<keyof Type, Keys>>;
 
 思考一个问题，为什么源码中的 Keys extends 的是一个 any？从设计的角度 extends Type 不是更好吗，这样的话在 Omit 的时候还有类型提示多好呀！
 
-其实在早期Omit确实是这么实现的，但这样会带来一个副作用，如果一个属性是可选的，也会出现在Omit的Type中，这在类型检查的层面就属于bug了。
+其实在早期 Omit 确实是这么实现的，但这样会带来一个副作用: 如果一个属性是可选的，也会出现在 Omit 的 Type 中，这在类型检查的层面就属于 bug 了。
 
 [传送门](https://github.com/microsoft/TypeScript/issues/30825)
 
-
 ## Extract\<UnionType, ExtractMembers>
 
-Exclude 的逆运算，在Type中提取Union中的类型。
+Exclude 的逆运算，在 Type 中提取 Union 中的类型。
 
-``` ts
-type T0 = Extract<"a" | "b" | "c", "a" | "f">;
+```ts
+type T0 = Extract<'a' | 'b' | 'c', 'a' | 'f'>;
 // type T0 = "a"
 
 type T1 = Extract<string | number | (() => void), Function>;
@@ -265,10 +286,93 @@ type T1 = Extract<string | number | (() => void), Function>;
 
 ### 源码实现
 
-``` ts
-type Extract<UnionType, ExtractMembers> = UnionType extends ExtractMembers ? UnionType : never;
+```ts
+type Extract<UnionType, ExtractMembers> = UnionType extends ExtractMembers
+  ? UnionType
+  : never;
 ```
 
-很容易理解，和Exclude完全相反的类型运算逻辑。
+很容易理解，和 Exclude 完全相反的类型运算逻辑。
 
+## NonNullable\<UnionType>
 
+将传进来的 UnionType 中的 null 和 undefined 去除掉。
+
+```ts
+type T0 = NonNullable<string | number | undefined | null>;
+
+// type T0 = string | number
+```
+
+### 源码实现
+
+```ts
+type NonNullable<UnionType> = UnionType extends null | undefined
+  ? never
+  : UnionType;
+```
+
+一样的套路，如果 type 满足 null | undefined，就返回 never，否则返回自身。
+
+## Parameters\<FunctionType>
+
+取出函数类型上的参数类型，通常情况我们更倾向去利用 typeof 关键字来取出函数的类型。
+
+最终的返回类型是一个 Tuple
+
+```ts
+function foo(a: number, b: string) {
+  return a + b;
+}
+type T0 = Parameters<typeof foo>;
+// type T0 = [a: number, b: string]
+
+function bar(a: string) {
+  return a;
+}
+
+type T1 = Parameters<typeof bar>;
+// type T1 = [a: string]
+```
+
+### 源码实现
+
+```ts
+type Parameters<
+  FunctionType extends (args: any) => any
+> = FunctionType extends (...args: infer Args) => any ? Args : never;
+```
+
+从传入的参数限制我们可以得知，传入的 type 至少要是一个 Function 的 type，这个 FunctionType 如果满足 `(...args: infer Args) => any` 这个条件...
+
+打住，`infer Args`是个什么鬼？
+
+infer 诞生于[这个提案](https://github.com/Microsoft/TypeScript/pull/21496),表示在 extends 条件语句**待推断的类型变量**
+
+在`(...args: infer Args) => any` 中，我们不知道参数类型到底是什么样子的，此时便可以在 typescript 的**类型空间**上开辟一块内存，在 ts 进行编译的过程才知道 `FunctionType`上的 `参数类型` 究竟是谁，这里的参数类型会存储在这块类型空间中，等到编译结束时就会返回给我们。
+
+所以`infer x`的本质是**在 typescript 的类型空间上开辟一块标识名为 x 的内存区域**。
+
+其实任何强类型的语言都会存在两个内存区域，分别是`类型空间`和`值空间`,我们在 java/ts 中 `int a = 1`或者 `let a:number:1`,其实都是在`值空间`上的操作。
+
+## ReturnType\<FunctionType>
+
+和 Parameters 的用法很类似，只不过这个是取出函数类型上的返回值的类型。
+
+```ts
+type T0 = ReturnType<() => string>;
+// type T0 = string
+
+type T1 = ReturnType<(s: string) => void>;
+// type T1 = void
+```
+
+### 源码实现
+
+```ts
+type ReturnType<
+  FunctionType extends (args: any) => any
+> = FunctionType extends (args: any) => infer ReturnType ? ReturnType : any;
+```
+
+和 Parameters 的实现几乎一样，无非是将 infer 占位由函数参数更换到了返回值的位置。
