@@ -1,6 +1,6 @@
 ---
-title: Learning Rxjs base on Promise
-date: 2019-12-24
+title: Rxjs火速上手
+date: 2022-3-19
 categories:
   - 前端
   - 编程范式
