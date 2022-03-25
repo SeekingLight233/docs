@@ -5,7 +5,8 @@ categories:
   - 前端
   - 编程范式
 tags:
-  - 常用sql语句
+  - Observable
+  - 响应式编程
 sidebarDepth: 5
 sidebar: 'auto'
 ---
