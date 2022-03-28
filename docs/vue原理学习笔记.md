@@ -109,13 +109,14 @@ function observe(target) {
   }
   //对这个对象中的每一个属性都进行监听
   for (let key in target) {
-    defineReactive(target, key, target[key]);
+    defineReactive(target, key);
   }
 }
 
-function defineReactive(target, key, value) {
+function defineReactive(target, key) {
   //上来先对value进行一下递归监听，如果是基本类型就会被返回
-  observe(value);
+  const curValue = target[key]
+  observe(curValue);
 
   Object.defineProperty(target, key, {
     get() {

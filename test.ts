@@ -1,7 +1,19 @@
-import { of, distinctUntilChanged } from 'rxjs';
+// @ts-nocheck
 
-of(1, 1, 1, 3, 3, 5, 5)
-  .pipe(distinctUntilChanged())
-  .subscribe(console.log);
+function once(fn:Function){
+  let done = false;
+  return function(){
+    if(!done){
+      done = true;
+      fn.apply(this, arguments);
+    }
+  }
+}
 
-//1 3 5
+const pay = once((args)=>{
+  console.log('pay',args);
+})
+
+pay("1")
+pay("2")
+pay("3")

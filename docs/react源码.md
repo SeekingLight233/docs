@@ -66,9 +66,11 @@ function createElement(type, config, children) {
 
 ### 更新阶段
 
-更新时 current 已经存在了,此时要根据 current 中的 fiber 进行对比创建 workInprogress fiber.
+更新时 current 已经存在了,考虑到性能，如果我们要生成一颗新的 workInprogress fiber,最好的做法是**尽量复用**之前的 current fiber，而不是每次都去重新 dfs 我们要生成的 jsx。那怎么才能做到尽量复用呢？关键就是要看我们如何去找出**差异的地方**。
 
-在 render 的整个过程中(不管是挂载还是更新),会对要操作的 dom 打上 tag,这些 tag 会串成一根双向链表,然后放到 commit 阶段统一处理.
+这里的“找差异”，就是所谓的 diff 算法，下文中会对 react 的 diff 算法做详细的介绍。
+
+当 diff 走完以后，就会对要操作的 dom 打上 tag,这些 tag 会串成一根双向链表,然后放到 commit 阶段统一处理。
 
 ### 更新阶段中 diff 算法
 
@@ -130,6 +132,51 @@ function createElement(type, config, children) {
 否则就移动 oldFiber 中对应的节点.
 
 (说人话就是我们需要看当前遍历对象已经存在的索引位置是不是比上次 fiber 中的索引位置小,如果小的话就往右边挪)
+
+### 拓展: vue3 中的 diff 算法
+
+vue3 中的 diff 算法和 react 在处理单节点 diff 的思路一模一样，都是根据 key 和 tagname 进行判断。
+
+不同的是 vue 在处理多节点 diff 时用了一些很有趣的思路，这和 react 是完全不同的。
+
+首先 vue 会先用"双端比较"，处理头尾的节点，vue2 也是用的该思路。
+
+对于中间的部分，在 vue3 中用了一个非常聪明的小算法。
+
+假设现在处理后的新旧节点如下所示。
+
+```ts
+// null 是经过双端比较已经处理过的元素
+const oldChildren = [null,null,"c","d","e","f",null]
+//                    0    1    2   3   4   5   6
+const newChildren = [null,null,"f","c","d","e","h",null]
+
+
+function getOriPosition(oldChildren,newChildren){
+  // ...
+  return [......]
+}
+
+```
+
+首先获取 newChildren 中每一个元素**原来**的位置。
+
+当我们调用完 `getOriPosition()`后，会得到 [5,2,3,4,-1] 这份原来的位置信息。
+
+```ts
+const oriPosition = getOriPosition(oldChildren, newChildren);
+
+console.log(oriPosition);
+
+// [5,2,3,4,-1]
+// 由于h是新增的节点，所以我们找不到其原来的位置信息。
+```
+
+接下来，我们要找出`oriPosition`中的[最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)。
+
+得到 [2,3,4]。
+
+至此，我们的任务就完成了，因为[2,3,4]所对应的[c,d,e]正是**能复用的最长部分**。接下来我们只需要把`f`挪到这部分的最前面，并且在这部分的最后新增一个`h`，diff 完成。
 
 ## commit 阶段
 
