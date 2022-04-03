@@ -35,7 +35,7 @@ JSX 是 `React.createElement`的语法糖.
 它接收三个参数,并且返回一个名为 ReactElement 的新函数作为返回值,该函数返回一个包含组件数据的对象
 
 ```ts
-function createElement(type, config, children) {
+function createElement(type:string|Component, config, children) {
   //...
   return ReactElement(
     type,
@@ -51,7 +51,7 @@ function createElement(type, config, children) {
 
 - 第一个参数为 type, type 为原生 html 节点字符串或者 Component (Component 有可能为 classComponent,也有可能为 functionComponent)
 
-- 第二个参数为节点上的属性,第三个参数为 jsx 上的子元素
+- 第二个参数为节点上的属性,第三个参数为 jsx 上的子元素(是解构传进去的)
 
 当调用完`React.createElement`之后,此次就有了组件的内容和结构,这为接下来创建 fiber 做了铺垫.
 
