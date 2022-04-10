@@ -6,7 +6,7 @@ categories:
 tags:
   - 面试
 sidebarDepth: 5
-sidebar: "auto"
+sidebar: 'auto'
 ---
 
 ## 函数柯里化
@@ -41,8 +41,8 @@ console.log(currySum(1)(2, 3));
 
 ```js
 function newOperate(func, ...args) {
-  if (typeof func !== "function") {
-    throw new Error("not function");
+  if (typeof func !== 'function') {
+    throw new Error('not function');
   }
 
   const newObj = Object.create(func.prototype);
@@ -57,7 +57,7 @@ function newOperate(func, ...args) {
 
 ```js
 function deepClone(obj) {
-  if (typeof obj !== "object" || obj == null) {
+  if (typeof obj !== 'object' || obj == null) {
     // 基本类型没必要深拷贝
     return obj;
   }
@@ -82,7 +82,7 @@ function deepClone(obj) {
 
 ```js
 function isObject(obj) {
-  if (obj && typeof obj === "object") {
+  if (obj && typeof obj === 'object') {
     return true;
   } else {
     return false;
@@ -133,7 +133,7 @@ function Animal(name, age) {
 }
 
 Animal.prototype.run = function() {
-  console.log("running!!!");
+  console.log('running!!!');
 };
 
 function Cat(name, age, weight) {
@@ -142,7 +142,7 @@ function Cat(name, age, weight) {
 
   //@override
   Cat.prototype.run = function() {
-    console.log("cat running!!!");
+    console.log('cat running!!!');
   };
 }
 
@@ -157,7 +157,7 @@ Cat.prototype.constructor = Cat;
 ```js
 Function.prototype.myCall = function(thisArg = window, ...args) {
   // 防止覆盖原有属性
-  const fn = Symbol("fn");
+  const fn = Symbol('fn');
   // core code
   thisArg[fn] = this; // 把真正的this对象存到穿进来的对象的函数上
   // 执行并返回结果
@@ -218,8 +218,8 @@ const bindEvent = (elem, type, selector, fn) => {
   });
 };
 
-const father = document.getElementById("#father");
-bindEvent(father, "click", ".green-btn", (e) => {
+const father = document.getElementById('#father');
+bindEvent(father, 'click', '.green-btn', (e) => {
   console.log(e.target.innerHtml);
 });
 ```
@@ -235,7 +235,7 @@ const ajax = (url, method) => {
       if (xhr.readyState === 4 && xhr.status === 200) {
         resolve(xhr.responseText);
       } else {
-        reject("网络异常");
+        reject('网络异常');
       }
     };
     xhr.send();
@@ -243,7 +243,7 @@ const ajax = (url, method) => {
 };
 
 (async () => {
-  const res = await ajax("https://www.jixieclub.com:3002/list?Pnum=1", "GET");
+  const res = await ajax('https://www.jixieclub.com:3002/list?Pnum=1', 'GET');
   console.log(res);
 })();
 ```
@@ -303,7 +303,7 @@ function flat(arr = []) {
 ```js
 Array.prototype.myFilter = function(cb) {
   if (!Array.isArray(this)) {
-    throw new Error("This method only be used on Array!");
+    throw new Error('This method only be used on Array!');
   }
   const res = [];
   for (let index = 0; index < this.length; index++) {
@@ -320,7 +320,7 @@ Array.prototype.myFilter = function(cb) {
 ```js
 Array.prototype.myMap = function(cb) {
   if (!Array.isArray(this)) {
-    throw new Error("This method only be used on Array!");
+    throw new Error('This method only be used on Array!');
   }
   const res = [];
   for (let index = 0; index < this.length; index++) {
@@ -338,7 +338,7 @@ Array.prototype.myMap = function(cb) {
 ```js
 Array.prototype.myForeach = function(cb) {
   if (!Array.isArray(this)) {
-    throw new Error("This method only be used on Array!");
+    throw new Error('This method only be used on Array!');
   }
   for (let index = 0; index < this.length; index++) {
     cb(this[index], index);
@@ -351,7 +351,7 @@ Array.prototype.myForeach = function(cb) {
 ```js
 Array.prototype.myReduce = function(cb, pre) {
   if (!Array.isArray(this)) {
-    throw new Error("This method only be used on Array!");
+    throw new Error('This method only be used on Array!');
   }
   for (let index = 0; index < this.length; index++) {
     if (pre == null) {
@@ -371,7 +371,7 @@ Array.prototype.myReduce = function(cb, pre) {
 class Singleton {
   private static instance: Singleton;
   private constructor() {
-    console.log("init!!!");
+    console.log('init!!!');
   }
   public static getInstance() {
     if (!Singleton.instance) {
@@ -398,9 +398,9 @@ const ins2 = Singleton.getInstance();
 
 ```js
 class MyPromise {
-  static PENDING = "pending";
-  static FULFILLED = "fulfilled";
-  static REJECTED = "rejected";
+  static PENDING = 'pending';
+  static FULFILLED = 'fulfilled';
+  static REJECTED = 'rejected';
 
   constructor(executor) {
     this.status = MyPromise.PENDING;
@@ -539,19 +539,19 @@ scheduler.start();
 
 ```js
 function numFormat(num) {
-  num = num.toString().split("."); // 分隔小数点
-  let arr = num[0].split(""); // 转换成字符数组
+  num = num.toString().split('.'); // 分隔小数点
+  let arr = num[0].split(''); // 转换成字符数组
   let res = [];
   for (let i = 0; i < arr.length; i++) {
     if (i % 3 === 0 && i !== 0) {
-      res.push(","); // 添加分隔符
+      res.push(','); // 添加分隔符
     }
     res.push(arr[i]);
   }
   if (num[1]) {
-    res = res.join("").concat("." + num[1]);
+    res = res.join('').concat('.' + num[1]);
   } else {
-    res = res.join("");
+    res = res.join('');
   }
   return res;
 }
@@ -613,8 +613,8 @@ class Observer {
 // Test
 let subject = new Subject();
 
-let observer1 = new Observer("订阅人1", subject);
-let observer2 = new Observer("订阅人2", subject);
+let observer1 = new Observer('订阅人1', subject);
+let observer2 = new Observer('订阅人2', subject);
 
 subject.setState(0); // 会通知所有订阅人
 // 订阅人1 update,state is 0
@@ -673,11 +673,11 @@ class EventEmitter {
 }
 
 const event = new EventEmitter();
-event.on("event1", () => {
-  console.log("This is event 1");
+event.on('event1', () => {
+  console.log('This is event 1');
 });
 
-event.emit("event1");
+event.emit('event1');
 ```
 
 ## split 和 join 的区别
@@ -697,7 +697,7 @@ event.emit("event1");
 ## 滚动加载的实现
 
 ```js
-window.addEventListener("scroll", function() {
+window.addEventListener('scroll', function() {
   // 视口高度
   const clientheight = document.documentElement.clientHeight;
   // 视口顶部距离最上层的高度
@@ -721,7 +721,7 @@ window.addEventListener("scroll", function() {
 ## 打印当前网站用了多少种 HTML 元素
 
 ```js
-const allTag = [...document.querySelectorAll("*")].map((el) => el.tagName);
+const allTag = [...document.querySelectorAll('*')].map((el) => el.tagName);
 const res = [...new Set(allTag)].length;
 console.log(res);
 ```
@@ -730,17 +730,17 @@ console.log(res);
 
 ```js
 const vdom = {
-  tag: "div",
+  tag: 'div',
   attrs: {
-    class: "red",
+    class: 'red',
   },
   children: [
     {
-      tag: "span",
+      tag: 'span',
       attrs: {
-        class: "bold",
+        class: 'bold',
       },
-      children: ["This is text node"],
+      children: ['This is text node'],
     },
     192,
   ],
@@ -753,10 +753,10 @@ function render(vdom, container) {
 
 function convert(vnode) {
   // 子节点
-  if (typeof vnode === "number") {
+  if (typeof vnode === 'number') {
     vnode = String(vnode);
   }
-  if (typeof vnode === "string") {
+  if (typeof vnode === 'string') {
     return document.createTextNode(vnode);
   }
 
@@ -774,7 +774,60 @@ function convert(vnode) {
 }
 // #######################################################
 // test
-const container = document.querySelector("#app");
+const container = document.querySelector('#app');
 
 render(vdom, container);
+```
+
+### 数组转树
+
+```ts
+const arr = [
+  { id: 1, name: '部门A', parentId: 0 }, // 0代表根节点
+  { id: 2, name: '部门B', parentId: 1 },
+  { id: 3, name: '部门C', parentId: 1 },
+  { id: 4, name: '部门D', parentId: 2 },
+  { id: 5, name: '部门E', parentId: 2 },
+  { id: 6, name: '部门F', parentId: 3 },
+];
+
+interface TreeNode {
+  id: number;
+  name: string;
+  children: TreeNode[];
+}
+
+type Item = typeof arr[0];
+
+const convert = (arr: Item[]) => {
+  const idToTreeNode = new Map<number, TreeNode>();
+
+  let root = null;
+
+  arr.forEach((item) => {
+    const pNode = idToTreeNode.get(item.parentId);
+    if (!pNode) {
+      // 说明此节点为根节点
+      root = {
+        id: item.id,
+        name: item.name,
+        children: [],
+      };
+      idToTreeNode.set(item.id, root);
+    } else {
+      const curNode = {
+        id: item.id,
+        name: item.name,
+        children: [],
+      };
+      pNode.children.push(curNode);
+      idToTreeNode.set(item.id, curNode);
+    }
+  });
+
+  return root;
+};
+
+const res = convert(arr);
+console.log(JSON.stringify(res));
 ```

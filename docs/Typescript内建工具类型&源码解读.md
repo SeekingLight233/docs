@@ -376,3 +376,80 @@ type ReturnType<
 ```
 
 和 Parameters 的实现几乎一样，无非是将 infer 占位由函数参数更换到了返回值的位置。
+
+## 类型体操练习
+
+### GetPromiseVal
+
+```ts
+type GetPromiseVal<P> = P extends Promise<infer Value> ? Value : never;
+```
+
+### Trim
+
+```ts
+type TrimLeft<Str extends string> = Str extends `${" "}${infer x}`? TrimLeft<x> : Str
+type TrimRight<Str extends string> = Str extends `${infer x}${" "}`? TrimRight<x> : Str
+
+type Trim<Str extends string> = TrimRight<TrimLeft<Str>>
+
+type res = Trim<"    abc   ">
+```
+
+### GetRefProps
+
+```ts
+interface Props {
+  ref: number | string;
+}
+type GetRefProps<Props> = Props extends { ref?: infer Value } ? Value : never;
+type RefType = GetRefProps<Props>;
+```
+
+### Push
+
+```ts
+type Push<Arr extends unknown[], Ele> = [...Arr, Ele];
+
+type PushRes = Push<[1, 2, 3], 'jason'>;
+```
+
+### Zip
+
+```ts
+type tuple1 = [1, 2, 4];
+type tuple2 = ['jason', 'lee', 'hello'];
+
+type Zip<Arr1 extends unknown[], Arr2 extends unknown[]> = Arr1 extends [
+  infer a,
+  ...(infer Rest)
+]
+  ? Arr2 extends [infer c, ...(infer Rest2)]
+    ? [[a, c], ...Zip<Rest, Rest2>]
+    : []
+  : [];
+
+type Res = Zip<tuple1, tuple2>;
+```
+
+### CapitalizeStr
+
+```ts
+type CapitalizeStr<Str extends string> = Str extends `${infer first}${infer Rest}`? `${Uppercase<first>}${Rest}` : Str;
+
+type Res = CapitalizeStr<"sendCmd">
+```
+
+### CamelCase
+
+```ts
+type Str = "send_data_by_pass"
+
+type CapitalizeStr<Str extends string> = Str extends `${infer first}${infer Rest}` ? `${Uppercase<first>}${Rest}` : Str;
+
+type CamelCase<Str extends string> =
+  Str extends `${infer head}_${infer Resolve}${infer Rest}`
+  ? `${head}${CapitalizeStr<Resolve>}${CamelCase<Rest>}` : Str
+
+type Res = CamelCase<Str>
+```
