@@ -9,7 +9,7 @@ tags:
   - async/await
   - 事件循环
 sidebarDepth: 5
-sidebar: "auto"
+sidebar: 'auto'
 ---
 
 _优秀博文参考_
@@ -27,8 +27,8 @@ _优秀博文参考_
 emmmmmmm..大概就张下面这样
 
 ```js
-app.get("/search", (req, res0) => {
-  mongoose.connect("mongodb://127.0.0.1:27017/itcast", {
+app.get('/search', (req, res0) => {
+  mongoose.connect('mongodb://127.0.0.1:27017/itcast', {
     useNewUrlParser: true,
   });
   var db = mongoose.connection;
@@ -37,7 +37,7 @@ app.get("/search", (req, res0) => {
     { title: { $regex: req.query.title } },
     (err2, res2) => {
       if (err2) {
-        console.log("查询失败");
+        console.log('查询失败');
         //查询失败只可能一种情况，分类里连15个都没有
       } else {
         console.log(res2.length);
@@ -82,13 +82,13 @@ Promise.resolve()
 ### 基本感知
 
 ```js
-const axios = require("axios");
+const axios = require('axios');
 
 function Page1() {
   return new Promise((resolve, reject) => {
     //异步操作的代码
     axios
-      .get("https://www.jixieclub.com:3002/list?Pnum=2")
+      .get('https://www.jixieclub.com:3002/list?Pnum=2')
       .then((res) => {
         //异步操作成功
         resolve(res);
@@ -105,7 +105,7 @@ Page1()
     return length;
   })
   .then((val) => {
-    console.log("获取到了数组的长度");
+    console.log('获取到了数组的长度');
     console.log(val); //15
   });
 ```
@@ -119,12 +119,12 @@ Page1()
 而`then`函数的返回值会传到下一个`then`函数中去。
 
 ```js
-const axios = require("axios");
+const axios = require('axios');
 
 function getPage(num) {
   return new Promise((resolve, reject) => {
     axios
-      .get("https://www.jixieclub.com:3002/list?Pnum=" + num)
+      .get('https://www.jixieclub.com:3002/list?Pnum=' + num)
       .then((res) => {
         //异步操作成功
         resolve(res);
@@ -141,7 +141,7 @@ getPage(1)
     return length;
   })
   .then((val) => {
-    console.log("获取到了数组的长度");
+    console.log('获取到了数组的长度');
     console.log(val); //15
     return getPage(2);
   })
@@ -159,7 +159,7 @@ getPage(1)
 Promise.resolve()
   .then(() => {
     console.log(1);
-    throw new Error("error!!!");
+    throw new Error('error!!!');
   })
   .catch(() => {
     console.log(2);
@@ -183,13 +183,13 @@ Promise.resolve()
 
 ```js
 const p1 = new Promise((resolve, reject) => {
-  resolve("p1成功了");
+  resolve('p1成功了');
 });
 const p2 = new Promise((resolve, reject) => {
-  resolve("p2成功了!!!!");
+  resolve('p2成功了!!!!');
 });
 const p3 = new Promise((resolve, reject) => {
-  resolve("p3成功了!!!!");
+  resolve('p3成功了!!!!');
 });
 const pAll = Promise.all([p1, p2, p3]);
 pAll.then(
@@ -207,13 +207,13 @@ pAll.then(
 
 ```js
 const p1 = new Promise((resolve, reject) => {
-  resolve("p1成功了");
+  resolve('p1成功了');
 });
 const p2 = new Promise((resolve, reject) => {
-  reject("p2失败了!!!!");
+  reject('p2失败了!!!!');
 });
 const p3 = new Promise((resolve, reject) => {
-  resolve("p3成功了!!!!");
+  resolve('p3成功了!!!!');
 });
 const pAll = Promise.all([p1, p2, p3]);
 pAll.then(
@@ -243,7 +243,7 @@ const p2 = new Promise((resolve, reject) => {
 });
 
 const p3 = new Promise((resolve, reject) => {
-  reject("error");
+  reject('error');
 });
 
 Promise.allSettled([p1, p2, p3]).then((value) => {
@@ -268,12 +268,12 @@ Promise.allSettled([p1, p2, p3]).then((value) => {
 而`await`后面的代码，就相当于是一个“大回调”。
 
 ```js
-const axios = require("axios");
+const axios = require('axios');
 
 function getPage(num) {
   return new Promise((resolve, reject) => {
     axios
-      .get("https://www.jixieclub.com:3002/list?Pnum=" + num)
+      .get('https://www.jixieclub.com:3002/list?Pnum=' + num)
       .then((res) => {
         //异步操作成功
         resolve(res);
@@ -297,12 +297,12 @@ await_getPage(2);
 如果`await`函数返回的 promise 失败了，此时需要通过`try...catch`进行异常处理。
 
 ```js
-const axios = require("axios");
+const axios = require('axios');
 
 function getPage(num) {
   return new Promise((resolve, reject) => {
     //简单模拟一个失败的情况
-    reject("啊！请求失败了嘤嘤嘤");
+    reject('啊！请求失败了嘤嘤嘤');
   });
 }
 // 异步转同步！！！
@@ -351,14 +351,14 @@ const nums = [1, 2, 3];
 
 ```js
 function* test() {
-  console.log("a");
-  console.log("aaa");
+  console.log('a');
+  console.log('aaa');
   yield;
-  console.log("b");
-  console.log("bbb");
+  console.log('b');
+  console.log('bbb');
   yield;
-  console.log("c");
-  console.log("ccc");
+  console.log('c');
+  console.log('ccc');
 }
 
 let genObj = test();
@@ -393,28 +393,28 @@ genObj.next();
 ```js
 function* cooking(dirty_vegetable) {
   console.log(dirty_vegetable);
-  console.log("正在洗菜中...");
-  dirty_vegetable = "洗完的菜";
+  console.log('正在洗菜中...');
+  dirty_vegetable = '洗完的菜';
 
   let clean_vegetable = yield dirty_vegetable;
 
   console.log(clean_vegetable);
-  console.log("正在切菜中...");
-  clean_vegetable = "切好的菜";
+  console.log('正在切菜中...');
+  clean_vegetable = '切好的菜';
 
   let cut_vegetable = yield clean_vegetable;
 
   console.log(cut_vegetable);
-  console.log("正在炒菜中...");
-  cut_vegetable = "炒好的菜";
+  console.log('正在炒菜中...');
+  cut_vegetable = '炒好的菜';
   return cut_vegetable;
 }
 
 //先把刚买回来的脏的菜扔进去
-let genObj = cooking("刚买回来的菜");
+let genObj = cooking('刚买回来的菜');
 let period1 = genObj.next(); //阶段1没有必要传参
-let period2 = genObj.next("干净的菜");
-let period3 = genObj.next("切好的菜");
+let period2 = genObj.next('干净的菜');
+let period3 = genObj.next('切好的菜');
 console.log(period1); // { value: '洗完的菜', done: false }
 console.log(period2); // { value: '切好的菜', done: false }
 console.log(period3); // { value: '炒好的菜', done: true }
@@ -441,14 +441,14 @@ js 的任务类型总的来说可以分为两类：**同步任务**和**异步�
 
 ```js
 setTimeout(() => {
-  console.log("宏任务区");
+  console.log('宏任务区');
 }, 0);
 
-Promise.resolve("微任务区").then((val) => {
+Promise.resolve('微任务区').then((val) => {
   console.log(val);
 });
 
-console.log("同步区");
+console.log('同步区');
 /*********** console ****************/
 // 同步区
 // 微任务区
@@ -468,18 +468,18 @@ console.log("同步区");
 
 ```js
 setTimeout(() => {
-  console.log("宏任务区");
+  console.log('宏任务区');
   //微任务如果在宏任务里的话并不会被先执行
-  Promise.resolve("宏任务区里的微任务").then((val) => {
+  Promise.resolve('宏任务区里的微任务').then((val) => {
     console.log(val);
   });
 }, 0);
 
-Promise.resolve("微任务区").then((val) => {
+Promise.resolve('微任务区').then((val) => {
   console.log(val);
 });
 
-console.log("同步区");
+console.log('同步区');
 /********* console *********/
 // 同步区
 // 微任务区
@@ -518,15 +518,22 @@ for (i = 1; i <= 3; i++) {
 
 ### Event Loop
 
-![](https://s0.lgstatic.com/i/image6/M00/13/20/CioPOWBB1rCAM7NxAAFF-n4jMtY220.png)
+nodejs 中有很多不同种类的宏任务队列，但我们只需要关心三个，他们的优先级如下，
 
-相比较与浏览器，多了一些宏任务，比如`文件IO`,`setImmediate`等等。
+- timer: 存放定时器相关的回调。
+- poll: 存放 IO 相关的回调。
+- check: 存放`setImmediate`相关的回调。
 
-::: tip
-`setImmediate`可以理解为`setTimeout(fn, 0)`的替代函数，只不过优先级更高。众所周知在 node 中如果设置定时器为 0，则会默认 1ms 后执行。
+微任务队列有两种，他们的优先级如下。
+
+- process.nextTick
+- promise
+
+::: warning
+在浏览器环境下，每一个宏任务在执行完毕后，都会去 check 一下微任务队列。
+但是在 nodejs(node10) 环境下，却不是这样的。只会在当前宏任务队列清空时，才去 check 微任务队列。
+node12以后表现和浏览器一致。
 :::
-
-微任务多了`process.nextTick`,这个可以理解为在 node 中的一个钩子。它的优先级比 promise 还要高，也就是说，同步代码执行完毕，就会立即执行`process.nextTick`中的回调。
 
 ### nodejs 不适用的场景
 
@@ -556,33 +563,33 @@ ESLint 检查代码规范的原理也是用到了 AST.
 
 ```js
 async function async1() {
-  console.log("async1 start");
+  console.log('async1 start');
   await async2();
   // promise
-  console.log("async1 end");
+  console.log('async1 end');
 }
 
 async function async2() {
-  console.log("async2");
+  console.log('async2');
 }
 
-console.log("script start");
+console.log('script start');
 
 setTimeout(function() {
-  console.log("setTimeout");
+  console.log('setTimeout');
 }, 0);
 
 async1();
 
 new Promise(function(resolve, reject) {
-  console.log("promise1");
+  console.log('promise1');
   reject();
 }).then(function() {
   // promise
-  console.log("promise2");
+  console.log('promise2');
 });
 
-console.log("script end");
+console.log('script end');
 
 // script start
 // async1 start
