@@ -1,10 +1,10 @@
 ---
-title: 【官方文档翻译】mobx-state-tree 入门教程
-date: 2022-5-15
+title: 【译】mobx-state-tree 入门教程
+date: 2022-06-01
 categories:
   - 前端
 tags:
-  - 翻译
+  - MobX
 sidebarDepth: 5
 sidebar: 'auto'
 ---
@@ -21,7 +21,6 @@ sidebar: 'auto'
 
 ### 我需要学习 Mobx 吗?
 
-MST 在很大程度上是基于 MobX 的。对 MobX 库的基本了解将有助于处理复杂的情况以及与 React 组件的数据连接。如果你没有 MobX 的经验，不要担心，使用 MST 不需要任何 MobX API 知识。
 
 MST 重度依赖于 Mobx。如果说你了解 Mobx 话，那么对于你去处理 MST 中复杂的情况，以及和 React 组件的数据连接问题是很有帮助的。但如果说你真的没有 Mobx 的经验，那也没有关系，使用 MST 不需要去了解任何的 Mobx API。
 
