@@ -2,40 +2,48 @@
 title: leetcode每日一题
 date: 2020-9-7
 sidebarDepth: 5
-categories: 
- - 算法
-sidebar: "auto"
+categories:
+  - 算法
+sidebar: 'auto'
 ---
 
 ## 栈
 
 ### 有效的括号
 
-```js
-/**
- * @param {string} s
- * @return {boolean}
- */
-var isValid = function(s) {
-  const map = new Map();
-  map.set("(", ")");
-  map.set("[", "]");
-  map.set("{", "}");
+// stack 里是右括号
 
+```ts
+/**
+
+()[]{}
+l
+
+"(]"
+[")"]
+ */
+
+function isValid(s: string): boolean {
+  const map = {
+    '(': ')',
+    '[': ']',
+    '{': '}',
+  };
   const stack = [];
 
-  for (let val of s) {
-    const right = map.get(val);
-    // 能get到  说明此时的val是左括号，把对应的右括号压进去
-    if (right) {
-      stack.push(right);
+  for (let char of s) {
+    // 如果右括号可以找到，说明当前的char是可以作为key的左括号
+    const isLeft = map[char] != null;
+    if (isLeft) {
+      stack.push(map[char]);
     } else {
-      // get不到  说明此时val是右括号，和栈顶元素判断是否相等
-      if (stack.pop() !== val) return false;
+      const right = stack.pop();
+      if (right != char) return false;
     }
   }
+
   return stack.length > 0 ? false : true;
-};
+}
 ```
 
 ### 删除字符串中的所有相邻重复项
@@ -58,7 +66,7 @@ var removeDuplicates = function(S) {
     }
   }
 
-  return stack.join("");
+  return stack.join('');
 };
 ```
 
@@ -202,24 +210,26 @@ var groupAnagrams = function(strs) {
 
 ### 两数之和
 
-```js
+```ts
 /**
- * @param {number[]} nums
- * @param {number} target
- * @return {number[]}
+{2:0}:{[subNum:string]:SubNumIdx}
+9
+[2,7,11,15]
  */
-var twoSum = function(nums, target) {
-  const map = new Map();
-  // 使用一个map来存储当前的值和其对应的位置
 
-  for (let i = 0; i < nums.length; i++) {
-    const sub = target - nums[i];
-    if (!map.has(sub)) {
-      map.set(nums[i], i);
-    } else {
-      return [map.get(sub), i];
-    }
-  }
+function twoSum(nums: number[], target: number): number[] {
+    const map = {};
+    let res = []
+    nums.forEach((num,idx)=>{
+        const subNum = target - num
+        const subNumIdx = map[subNum]
+        if(subNumIdx == null){
+            map[num] = idx
+        }else{
+            res = [idx,subNumIdx]
+        }
+    })
+    return res
 };
 ```
 
@@ -580,22 +590,57 @@ var constructMaximumBinaryTree = function(nums) {
 
 ### 从上到下打印二叉树
 
-```js
-var levelOrder = function(root) {
-  if (!root) return [];
-  const res = [];
+```ts
+/**
+ * Definition for a binary tree node.
+ * class TreeNode {
+ *     val: number
+ *     left: TreeNode | null
+ *     right: TreeNode | null
+ *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.left = (left===undefined ? null : left)
+ *         this.right = (right===undefined ? null : right)
+ *     }
+ * }
+ */
 
-  const queue = [root];
-  // 父节点出队的时候，让左子树和右子树分别入队。
-  // 当第一层出队的时候，第二层已经完全入队；当第二层出队的时候，第三层已经完全入队。
-  // 因此我们只需要在出队的时候对其进行访问便能够达到层次遍历的效果。
-  while (queue.length) {
-    const curNode = queue.shift();
-    res.push(curNode.val);
-    curNode.left && queue.push(curNode.left);
-    curNode.right && queue.push(curNode.right);
-  }
-  return res;
+ /**
+ 
+queue = [root]
+distance.put(root,0); // 1.判断是否访问过  2.记录距离根节点的距离
+while(队列里有东西){
+	// 这里可以用来收集结果
+	记录下当前这一层有多少个节点
+	for(遍历当前这一层){
+		当前对头元素出队
+		if(队头元素有子孩子){
+			for(遍历子孩子){
+				
+			}
+		}
+	}
+}
+ 
+  */
+
+
+function levelOrder(root: TreeNode | null): number[][] {
+    if(root == null) return []
+
+    const queue = [root];
+    const res = [];
+    while(queue.length){
+        res.push(queue.map(n=>n.val))
+        const len = queue.length;
+        for(let i = 0;i<len;i++){
+            const curNode = queue.shift();
+            curNode.left && queue.push(curNode.left);
+            curNode.right && queue.push(curNode.right)
+        }
+    }
+    console.log(res)
+    return res
 };
 ```
 
@@ -687,12 +732,11 @@ var inorderTraversal = function(root) {
 };
 ```
 
-
 ### 数组转树
 
-用一个map来维护id和Node之间的关系，遍历一边数组，从map中寻找他的父节点，没有的话构建，有的话push。
+用一个 map 来维护 id 和 Node 之间的关系，遍历一边数组，从 map 中寻找他的父节点，没有的话构建，有的话 push。
 
-``` ts
+```ts
 const arr = [
   { id: 1, name: '部门A', parentId: 0 }, // 0代表根节点
   { id: 2, name: '部门B', parentId: 1 },
@@ -741,10 +785,8 @@ const convert = (arr: Item[]) => {
 
 const res = convert(arr);
 console.log(JSON.stringify(res));
-
-
-
 ```
+
 ## 字符串
 
 ### 字符串转换整数 (atoi)
@@ -774,7 +816,7 @@ function myAtoi(s: string): number {
 var minWindow = function(s, t) {
   let l = 0;
   let r = 0;
-  let res = "";
+  let res = '';
   // 初始化need
   const need = new Map();
   for (let val of t) {
@@ -797,7 +839,7 @@ var minWindow = function(s, t) {
     // 在满足条件的情况下减小子串(移动左指针)
     while (needLength === 0) {
       const newRes = s.substring(l, r + 1);
-      if (newRes.length < res.length || res === "") res = newRes;
+      if (newRes.length < res.length || res === '') res = newRes;
       const c2 = s[l];
       if (need.has(c2)) {
         // 如果要“即将丢出去”的左边字符刚好是在need列表中
@@ -876,7 +918,7 @@ function longestPalindrome(s: string): string {
 
 ```ts
 function longestCommonPrefix(strs: string[]): string {
-  if (strs.length === 0) return "";
+  if (strs.length === 0) return '';
   if (strs.length === 1) return strs[0];
 
   const firstStr = strs[0]; // 每一个单词都会和第一个词进行比较
@@ -904,28 +946,42 @@ function longestCommonPrefix(strs: string[]): string {
 
 ```js
 function addStrings(num1: string, num2: string): string {
-  // 指向两个数的最后一位
-  let i = num1.length - 1;
-  let j = num2.length - 1;
-  let carry = 0;
-  const ans = [];
+  const { n1, n2 } = padNums(num1, num2);
+  console.log({ n1, n2 });
+  /** 
+[]
+      p
+    099
+    199
+      q
+ */
+  const bitNumArr = [];
+  let p = n1.length - 1;
+  let q = n2.length - 1;
+  let curry = 0;
 
-  // eg：789
-  //     697
-  // 模拟小学加法
-
-  while (i >= 0 || j >= 0 || carry != 0) {
-    // 只要所有的指针没跑完，或者有进位，就一直跑循环
-    const x = i >= 0 ? Number(num1[i]) : 0; // 如果越界了就让那位为0
-    const y = j >= 0 ? Number(num2[j]) : 0;
-    const res = x + y + carry;
-    ans.unshift(res % 10); // 把算的数从前面装进去
-    carry = res > 9 ? 1 : 0;
-    // 双指针继续往前跑
-    i--;
-    j--;
+  while (p >= 0 && q >= 0) {
+    const curSum = curry + Number(n1[p]) + Number(n2[q]);
+    const bitNum = curSum % 10;
+    bitNumArr.unshift(bitNum);
+    curry = curSum > 9 ? 1 : 0;
+    p--;
+    q--;
   }
-  return ans.join("");
+
+  if (curry === 1) bitNumArr.unshift(1);
+
+  return bitNumArr.join('');
+}
+
+function padNums(num1: string, num2: string) {
+  if (num1.length > num2.length) {
+    const padNum2 = num2.padStart(num1.length, '0');
+    return { n1: num1, n2: padNum2 };
+  } else {
+    const padNum1 = num1.padStart(num2.length, '0');
+    return { n1: padNum1, n2: num2 };
+  }
 }
 ```
 
@@ -1132,35 +1188,47 @@ var singleNumber = function(nums) {
 
 ### 合并两个有序数组
 
-```js
+```ts
 /**
- * @param {number[]} nums1
- * @param {number} m
- * @param {number[]} nums2
- * @param {number} n
- * @return {void} Do not return anything, modify nums1 in-place instead.
+          t
+1,2,3,0,0,0
+    p
+2,5,6
+q
+
+三指针
+ Do not return anything, modify nums1 in-place instead.
  */
-var merge = function(nums1, m, nums2, n) {
-  let p1 = m - 1;
-  let p2 = n - 1;
+
+function merge(nums1: number[], m: number, nums2: number[], n: number): void {
+  let p = m - 1;
+  let q = n - 1;
   let tail = nums1.length - 1;
-  // 遍历双指针  谁大把谁追加到最后
-  while (p1 >= 0 && p2 >= 0) {
-    if (nums1[p1] > nums2[p2]) {
-      nums1[tail--] = nums1[p1--];
+  while (p >= 0 && q >= 0) {
+    if (nums2[q] >= nums1[p]) {
+      nums1[tail] = nums2[q];
+      q--;
     } else {
-      nums1[tail--] = nums2[p2--];
+      nums1[tail] = nums1[p];
+      p--;
     }
-  }
-  // 如果m和n不相等，要继续追加
-  while (p1 >= 0) {
-    nums1[tail--] = nums1[p1--];
+    tail--;
   }
 
-  while (p2 >= 0) {
-    nums1[tail--] = nums2[p2--];
+  // 说明还有剩下的，把值追加过去
+
+  while (p >= 0) {
+    nums1[tail] = nums1[p];
+    tail--;
+    p--;
   }
-};
+
+  while (q >= 0) {
+    nums1[tail] = nums2[q];
+    tail--;
+    q--;
+  }
+}
 ```
 
 ### 接雨水
@@ -1288,29 +1356,25 @@ var moveZeroes = function(nums) {
 
 ### 比较版本号
 
-```js
+```ts
 /**
- * @param {string} version1
- * @param {string} version2
- * @return {number}
- */
-var compareVersion = function(version1, version2) {
-  // 强转处理前导0
-  let nums1 = version1.split(".").map((item) => Number(item));
-  let nums2 = version2.split(".").map((item) => Number(item));
-  // 补齐到相同的位数，方便双指针进行比较
-  const len = Math.max(nums1.length, nums2.length);
-  while (nums1.length < len) nums1.push(0);
-  while (nums2.length < len) nums2.push(0);
 
-  for (let i = 0; i < nums1.length; i++) {
-    if (nums1[i] < nums2[i]) {
-      return -1;
-    } else if (nums1[i] > nums2[i]) {
-      return 1;
+1.3.001
+2.1.3.02
+ */
+function compareVersion(version1: string, version2: string): number {
+    const ver1Arr = version1.split(".").map(Number); // [1,3,1,0]
+    const ver2Arr = version2.split(".").map(Number)  // [2,1,3,2]
+    
+    while(ver1Arr.length<ver2Arr.length) ver1Arr.push(0)
+    while(ver2Arr.length<ver1Arr.length) ver2Arr.push(0)
+
+    for(let i = 0;i<ver1Arr.length;i++){
+        if(ver1Arr[i]>ver2Arr[i]) return 1
+        if(ver1Arr[i]<ver2Arr[i]) return -1
     }
-  }
-  return 0;
+
+    return 0
 };
 ```
 
@@ -1347,26 +1411,37 @@ var subsets = function(nums) {
 ### 全排列
 
 ```ts
+
 function permute(nums: number[]): number[][] {
-  const res = [];
-  dfs([]);
+    const result = [];
+    const dfs = (start:number,path:number[])=>{
+        if(path.length === nums.length){
+            result.push(path);
+            return
+        }
 
-  function dfs(path: number[]) {
-    if (path.length === nums.length) {
-      res.push([...path]);
-    }
-    for (let num of nums) {
-      // 当你的选择列表中已经有1了，再递归进去的时候就不能再选了，就要跳过
-      if (path.includes(num)) {
-        continue;
-      }
-      path.push(num);
-      dfs(path);
-      path.pop();
-    }
-  }
+        const selects = getSelects(start,path,nums)
+        console.log(selects)
 
-  return res;
+        selects.forEach(({start,path})=>{
+            dfs(start,path)
+        })
+    }
+    dfs(0,[])
+    return result
+};
+
+function getSelects(start:number,path:number[],nums:number[]){
+    const res:{start:number,path:number[]}[] = []
+    // [1,2,3,4] - [1,2] => [3,4]
+    const selectNums = nums.filter(num=> !path.includes(num))
+    selectNums.forEach((selNum)=>{
+        res.push({
+            start: start + 1,
+            path: [...path,selNum]
+        })
+    })
+    return res
 }
 ```
 
@@ -1377,10 +1452,10 @@ const check = (str: string) => {
   // 检验生成的括号是否是有效的
   const stack = [];
   for (let char of str) {
-    if (char === "(") {
+    if (char === '(') {
       stack.push(char);
       // 如果上来就是左括号
-    } else if (stack.length === 0 && char === ")") {
+    } else if (stack.length === 0 && char === ')') {
       return false;
     } else {
       stack.pop();
@@ -1395,7 +1470,7 @@ const check = (str: string) => {
 
 function generateParenthesis(n: number): string[] {
   const res = [];
-  generate(0, "");
+  generate(0, '');
   function generate(level: number, curStr: string) {
     if (level === 2 * n) {
       // 因为n代表对数嘛
@@ -1407,8 +1482,8 @@ function generateParenthesis(n: number): string[] {
         return;
       }
     }
-    generate(level + 1, curStr + "(");
-    generate(level + 1, curStr + ")");
+    generate(level + 1, curStr + '(');
+    generate(level + 1, curStr + ')');
   }
 
   return res;
@@ -1421,14 +1496,14 @@ function generateParenthesis(n: number): string[] {
 function letterCombinations(digits: string): string[] {
   if (digits == null || digits.length === 0) return [];
   const map = {
-    2: "abc",
-    3: "def",
-    4: "ghi",
-    5: "jkl",
-    6: "mno",
-    7: "pqrs",
-    8: "tuv",
-    9: "wxyz",
+    2: 'abc',
+    3: 'def',
+    4: 'ghi',
+    5: 'jkl',
+    6: 'mno',
+    7: 'pqrs',
+    8: 'tuv',
+    9: 'wxyz',
   };
 
   const res = [];
@@ -1445,7 +1520,7 @@ function letterCombinations(digits: string): string[] {
       dfs(index + 1, path + letter);
     }
   }
-  dfs(0, "");
+  dfs(0, '');
 
   return res;
 }
@@ -1666,6 +1741,28 @@ function climbStairs(n: number): number {
 }
 ```
 
+
+### 最长递增子序列
+``` ts
+function lengthOfLIS(nums: number[]): number {
+    // dp[i]代表以nums[i]结尾的最长递增子序列的长度
+    const dp = new Array(nums.length).fill(1);
+    for(let i = 1;i<nums.length;i++){
+        for(let j = 0;j<i;j++){
+            if(nums[i]>nums[j]){
+                // 滚动更新
+                dp[i] = Math.max(dp[i],dp[j]+1)
+            }
+        }
+    }
+    return Math.max(...dp)
+};
+```
+
+### 最长递增子序列(返回索引)
+``` ts
+
+```
 ## 分治法
 
 ### 二分查找(有重复元素)
@@ -1817,33 +1914,33 @@ var spiralOrder = function(matrix) {
   let top = 0;
   let bottom = matrix.length - 1;
 
-  let direction = "right";
+  let direction = 'right';
   const res = [];
 
   while (left <= right && top <= bottom) {
-    if (direction === "right") {
+    if (direction === 'right') {
       for (let i = left; i <= right; i++) {
         res.push(matrix[top][i]);
       }
-      direction = "down";
+      direction = 'down';
       top++;
-    } else if (direction === "down") {
+    } else if (direction === 'down') {
       for (let i = top; i <= bottom; i++) {
         res.push(matrix[i][right]);
       }
-      direction = "left";
+      direction = 'left';
       right--;
-    } else if (direction === "left") {
+    } else if (direction === 'left') {
       for (let i = right; i >= left; i--) {
         res.push(matrix[bottom][i]);
       }
-      direction = "up";
+      direction = 'up';
       bottom--;
-    } else if (direction === "up") {
+    } else if (direction === 'up') {
       for (let i = bottom; i >= top; i--) {
         res.push(matrix[i][left]);
       }
-      direction = "right";
+      direction = 'right';
       left++;
     }
   }
@@ -1959,40 +2056,38 @@ function hasPathSum(root: TreeNode | null, targetSum: number): boolean {
 
 ## 113 路径总和 II
 
-```ts
+``` ts
 /**
  * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
+ * class TreeNode {
+ *     val: number
+ *     left: TreeNode | null
+ *     right: TreeNode | null
+ *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.left = (left===undefined ? null : left)
+ *         this.right = (right===undefined ? null : right)
+ *     }
  * }
  */
-/**
- * @param {TreeNode} root
- * @param {number} targetSum
- * @return {number[][]}
- */
-var pathSum = function(root, targetSum) {
-  const res = [];
-  const path = [];
+const isLeafNode = (node:TreeNode)=> node.left == null && node.right == null
 
-  function dfs(root, sum) {
-    if (!root) return;
-    path.push(root.val);
-    if (!root.left && !root.right && sum + root.val === targetSum) {
-      res.push([...path]);
-    } else {
-      root.left && dfs(root.left, sum + root.val);
-      root.right && dfs(root.right, sum + root.val);
+function hasPathSum(root: TreeNode | null, targetSum: number): boolean {
+    if(root == null) return false
+
+    let res = false;
+    const dfs = (node: TreeNode | null,sum:number)=>{
+        if(node == null) return
+        // 这时候是叶子结点，不要忘了加上当前节点的值
+        if(sum + node.val === targetSum && isLeafNode(node)) res = true
+
+        dfs(node.left,sum + node.val);
+        dfs(node.right,sum + node.val)
     }
-    path.pop();
-  }
-  dfs(root, 0);
-  return res;
+    dfs(root,0)
+    return res
 };
 ```
-
 ## 121 买卖股票的最佳时机
 
 > 某天买入，未来的某天卖出
@@ -2050,7 +2145,7 @@ var maxProfit = function(prices) {
  */
 var isPalindrome = function(s) {
   //忽略非字母和数字的情况
-  s = s.toLowerCase().replace(/[^0-9a-zA-Z]/g, "");
+  s = s.toLowerCase().replace(/[^0-9a-zA-Z]/g, '');
   let i = 0;
   let j = s.length - 1;
   while (i < j) {
@@ -2104,7 +2199,7 @@ function sumNumbers(root: TreeNode | null): number {
   dfs(root);
   let sum = 0;
   result.forEach((item) => {
-    const num = Number(item.join(""));
+    const num = Number(item.join(''));
     sum += num;
   });
 
@@ -2259,7 +2354,7 @@ var reverseWords = function(s) {
   return s
     .split(/\s+/)
     .reverse()
-    .join(" ")
+    .join(' ')
     .trim();
 };
 ```
@@ -2402,9 +2497,9 @@ var largestNumber = function(nums) {
     return s2 - s1;
   });
 
-  if (nums[0] === 0) return "0";
+  if (nums[0] === 0) return '0';
 
-  return nums.join("");
+  return nums.join('');
 };
 ```
 
@@ -2451,13 +2546,13 @@ var numIslands = function(grid) {
       x >= grid.length ||
       y < 0 ||
       y >= grid[0].length ||
-      grid[x][y] === "0"
+      grid[x][y] === '0'
       //注意最后一个条件也不需要处理
     ) {
       return;
     } else {
       //说明碰到了“1”
-      grid[x][y] = "0";
+      grid[x][y] = '0';
       dfs(x, y - 1);
       dfs(x, y + 1);
       dfs(x - 1, y);
@@ -2468,7 +2563,7 @@ var numIslands = function(grid) {
   for (let x = 0; x < grid.length; x++) {
     for (let y = 0; y < grid[0].length; y++) {
       // 如果找到了陆地
-      if (grid[x][y] === "1") {
+      if (grid[x][y] === '1') {
         // 就先记录下来
         count++;
         // 然后在当前的位置进行深搜
@@ -2795,11 +2890,11 @@ var countBattleships = function(board) {
       x >= board.length ||
       y < 0 ||
       y >= board[0].length ||
-      board[x][y] === "."
+      board[x][y] === '.'
     ) {
       return;
     } else {
-      board[x][y] = ".";
+      board[x][y] = '.';
       dfs(x, y - 1);
       dfs(x, y + 1);
       dfs(x - 1, y);
@@ -2809,7 +2904,7 @@ var countBattleships = function(board) {
 
   for (let x = 0; x < board.length; x++) {
     for (let y = 0; y < board[0].length; y++) {
-      if (board[x][y] === "X") {
+      if (board[x][y] === 'X') {
         count++;
         dfs(x, y);
       }
@@ -2857,15 +2952,15 @@ var findDuplicates = function(nums) {
  * @return {string}
  */
 var reverseWords = function(s) {
-  let origin_arr = s.split(" ");
+  let origin_arr = s.split(' ');
   let new_arr = [];
   for (let val of origin_arr) {
     let tmp = [];
     tmp = Array.from(val);
     let reverse_arr = tmp.reverse();
-    new_arr.push(reverse_arr.join(""));
+    new_arr.push(reverse_arr.join(''));
   }
-  let final = new_arr.join(" ");
+  let final = new_arr.join(' ');
   return final;
 };
 ```
@@ -3151,7 +3246,7 @@ function binsarySearch(arr, target, lp, rp) {
  * @return {string}
  */
 var replaceSpace = function(s) {
-  return s.replace(/ /g, "%20");
+  return s.replace(/ /g, '%20');
 };
 ```
 
@@ -3294,7 +3389,7 @@ var getKthFromEnd = function(head, k) {
  * @return {ListNode}
  */
 var deleteNode = function(head, val) {
-  let pre = new ListNode("虚拟头结点");
+  let pre = new ListNode('虚拟头结点');
   //将pre节点与头结点相连
   pre.next = head;
   //从preNode开始遍历
@@ -3320,7 +3415,7 @@ var deleteNode = function(head, val) {
  * @return {character}
  */
 var firstUniqChar = function(s) {
-  let res = " ";
+  let res = ' ';
 
   let map = {};
   //初始化计数器

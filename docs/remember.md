@@ -831,3 +831,12 @@ const convert = (arr: Item[]) => {
 const res = convert(arr);
 console.log(JSON.stringify(res));
 ```
+
+## 获取详细的数据类型
+
+```ts
+Object.prototype.toString.call(someType);
+```
+
+## reduce系列
+### getRever
