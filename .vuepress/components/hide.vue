@@ -2,9 +2,9 @@
   <div
     style="display: inline-flex; flex-direction: column; align-items: center"
   >
-    <span v-if="hide === false"
+    <span v-if="isShowWord" v-on:click="clickShowWord()"
       ><span v-for="(s, idx) in textArr" :key="idx"
-        ><span :style="textStyle(idx)">{{ s }}</span></span
+        ><span :style="getTextStyle(idx)">{{ s }}</span></span
       >
     </span>
 
@@ -13,6 +13,7 @@
       type="text"
       v-model="curVal"
       @keydown="handleKeyDown"
+      :style="inputStyle"
     />
     <span v-if="hide === false" style="color: #2196f3">{{ curVal }}</span>
   </div>
@@ -35,6 +36,15 @@ export default {
     textArr() {
       return this.txt.split("");
     },
+    isShowWord(){
+      if(this.diffIdx.length === 0) return false
+      return this.hide === false
+    },
+    inputStyle() {
+      return {
+        width: `${this.txt.length * 0.5}em`,
+      };
+    },
   },
   methods: {
     myclick() {
@@ -42,13 +52,13 @@ export default {
       span.style.color = "white";
     },
     handleKeyDown(e) {
-      if (e.key === "Enter") {
+      // Enter or Tab
+      if (e.key === "Enter" || e.key === "Tab") {
         this.hide = false;
         const diffIdx = this.getStrDiffIdxs(this.txt, this.curVal);
         this.diffIdx = diffIdx;
       }
     },
-
     getStrDiffIdxs(str1, str2) {
       let diffIdxs = [];
       for (let i = 0; i < str1.length; i++) {
@@ -59,13 +69,23 @@ export default {
       return diffIdxs;
     },
 
-    textStyle(idx) {
+    getTextStyle(idx) {
       if (this.diffIdx.includes(idx)) {
         return "color: red";
       } else {
         return "color: #2196f3";
       }
     },
+
+    restoreData() {
+      this.hide = true;
+      this.curVal = "";
+      this.diffIdx = [];
+      this.text = ""
+    },
+    clickShowWord(){
+      this.restoreData()
+    }
   },
 };
 </script>

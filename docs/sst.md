@@ -11,19 +11,19 @@ sidebar: "auto"
 
 ## Sound Receptors
 
-This lecture mainly talks about <hide txt="sound receptors"></hide>. Firstly, the speaker agrees that sound receptors are small devices. Also, he mentions that receptors can translate vibrational energy into fluid. Lastly, the speaker believes that physical motion can translate into electrical signals. MIT students would find that sound receptors are remarkable and beautiful.
+This lecture mainly talks about <hide txt="sound receptors"></hide>. Firstly, the speaker agrees that sound receptors <hide txt='are small devices'></hide>. Also, he mentions that <hide txt='receptors can translate vibrational energy into fluid'></hide>. Lastly, the speaker believes that <hide txt='physical motion can translate into electrical signals'></hide>. MIT students would find that sound receptors are remarkable and beautiful.
 
 ## Biology, DNA & RNA
 
-This lecture mainly talks about biology provides profound insights into the world. Firstly, the speaker agrees that creatures are similar and related to each other. Also, he mentions that DNA and RNA can store and transmit their genetic and inherited information. Lastly, the speaker believes that everything is based on cells, cells are building blocks of all organisms. 
+This lecture mainly talks about <hide txt='biology provides profound insights into the world'></hide>. Firstly, the speaker agrees that <hide txt='creatures are similar and related to each other'></hide>. Also, he mentions that <hide txt='DNA and RNA can store and transmit their genetic and inherited information'></hide>. Lastly, the speaker believes that <hide txt='everything is based on cells'></hide>, cells are building blocks of all organisms. 
 
 ## Artificial intelligence
 
-This lecture mainly talks about artificial intelligence that humans tell a computer what to do and how to do it. Firstly, the speaker agrees that a message will develop systems and symbols. Also, he mentions that computers have similar functions to human brains because they are both symbol processors. In conclusion, it’s an informative lecture.
+This lecture mainly talks about <hide txt='artificial intelligence that humans tell a computer what to do and how to do it'></hide>. Firstly, the speaker agrees that <hide txt='a message will develop systems and symbols'></hide>. Also, he mentions that <hide txt='computers have similar functions to human brains'></hide> because <hide txt='they are both symbol processors'></hide>. In conclusion, it’s an informative lecture.
 
 ## Kids' Museum Campaign
 
-This lecture mainly talks about a mother who was a journalist with the Guardian newspaper. Firstly, the speaker says that she wrote an article and complained about her experience. Also, she mentions that she was thrown out of a museum because her kids shouted in the museum. Lastly, many people set up the Kids in Museum’s campaign to advocate family-friendly museums. 
+This lecture mainly talks about <hide txt='a mother who was a journalist'></hide> <hide txt='with the Guardian newspaper'></hide>. Firstly, the speaker says that she wrote an article and complained about her experience. Also, she mentions that she was thrown out of a museum because her kids shouted in the museum. Lastly, many people set up the Kids in Museum’s campaign to advocate family-friendly museums. 
 
 ## The Human Rights Act
 
