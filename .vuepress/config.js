@@ -82,7 +82,7 @@ module.exports = {
     author: '寻光',
     authorAvatar: '/images/hero.png',
     startYear: '2017',
-    // record: '豫ICP备2021007683号',
+    record: '豫ICP备2023004838号-1',
   },
   markdown: {
     lineNumbers: true,
