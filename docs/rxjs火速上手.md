@@ -21,11 +21,11 @@ sidebar: 'auto'
 
 ### Observer
 
-观察者。既然有 Observable，必然有一个发起观察的主体。这个主体是一个函数。类似于`Promise.then`中的逻辑。
+观察者。既然有 Observable，必然有一个发起观察的`观察者`。它是一个包含了三个回调函数的对象，这些回调函数定义了`Observable`在不同阶段的行为。
 
 ### subscribe
 
-订阅。用来连接`Observable`和`Observer`。类似于`Promise.then`
+订阅。用来连接`Observable`和`Observer`。 
 
 ```ts
 import { Observable } from 'rxjs';
@@ -92,7 +92,7 @@ observerable.subscribe(observer2);
 
 next 方法和 promise.resolve 有些不太一样，promise 中每个 promise 的状态一旦被处理将无法回滚，也就是说你只能调用一次 resolve。
 
-但是 rxjs 的 next 方法可以调用多次。
+但是 rxjs 的 next 方法可以执行多次。
 
 ```ts
 import { Observable } from 'rxjs';
@@ -180,7 +180,10 @@ setTimeout(() => {
 
 ### BehaviorSubject
 
-和 Subject 的区别是，允许传入一个默认值，在订阅后**会立即通知**观察者。
+一个具有`Behavior`的 Subject。这个Behavior我们可以理解为当前的状态或当前的行为。
+在初始化BehaviorSubject，必须要有一个初始的行为。
+
+聪明的你肯定想到了，这不就是`状态管理`嘛。
 
 ```ts
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
@@ -269,6 +272,14 @@ const observer: Partial<Observer<number>> = {
 };
 observerable.subscribe(observer);
 ```
+
+## 冷观察与热观察
+
+Cold Observables 就好像是一个很冷的冰块，只有你发起订阅时，才会开始发射数据，冷观察的类型为unicast。
+比如Http请求。
+
+Hot Observables 就好像是一个太阳，无论是否发起订阅都会发射数据，类型为multicast。
+比如鼠标键盘事件。
 
 ## 创建 Observerable 的辅助方法
 
