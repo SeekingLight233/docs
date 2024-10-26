@@ -100,22 +100,21 @@ xhr.send(null);
 - 可以简单理解为在 max-age 中都会触发强制缓存。
 
 - Cache-Control:max-age/no-cache/no-store
-  ::: tip
   no-cache 和 no-store 的区别
+
 - no-cache：不使用强制缓存，直接使用协商缓存
-- no-store: 不使用强制缓存，也不用协商缓存
-  :::
+- no-store: 不缓存
 - expires 已被 cache-control 代替
 
 #### 协商缓存
 
 协商缓存是服务器端校验缓存的策略.
 
-- max-age 过期就会触发协商缓存
+- 设置 no-cache 或者 max-age 过期就会触发协商缓存
 
-- 浏览器在**再次**发送请求时，会带上**资源标识**。服务器可以根据这些资源标识进行判断，相同返回 304（body 为空），否则返回 200（body 里有最新的资源）。
+- 浏览器在**再次**发送请求时，会带上资源的元信息
 
-- 有哪些资源标识？
+- 有哪些资源的元信息？
 
   1. last-Modified: 资源的最后修改时间（精确到秒），请求的时候用的是`if-Modified-Since`,value 还是`last-Modified`中的 value
   2. Etag：资源的唯一标识，请求的时候用的是`if-None-Match`,value 还是`etag`中的 value
@@ -223,3 +222,43 @@ http 明文传输的内容很容易被其他人窃取和篡改,这种攻击方�
 4. 服务器此时会用私钥去解密这个`premaster-key`
 
 现在这个时间节点后，客户端和服务器就都有对方的`随机数`和`premaster-key`了，他们会计算出一个相同的`master-key`，来进行对称接下来所有的 http 报文。
+
+## WebSocket
+
+### 帧结构
+
+FIN + Opcode + 帧长度
+Opcode: 1 是文本，2 是 binary，9 和 10 是心跳
+
+### 握手流程
+
+1. 先发一个 Http 请求，Connection: Upgrade
+2. server 返回 101
+
+### JS 中使用
+
+```js
+const ws = new WebSocket('ws://example.com/socketserver');
+ws.onopen = () => {
+  // 连接打开时的操作
+  ws.send('Hello, server!'); // 发送一个消息到服务器
+};
+
+ws.onmessage = (e) => {
+  // e.data 包含从服务器接收到的数据
+  console.log(e.data);
+};
+
+ws.onerror = (e) => {
+  // 发生错误时的操作
+  console.error(e.message);
+};
+
+ws.onclose = (e) => {
+  // 连接关闭时的操作
+  console.log(e.code, e.reason);
+};
+
+// 你也可以主动关闭连接
+ws.close();
+```

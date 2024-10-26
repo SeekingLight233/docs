@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>fib-rw | SeekingLight</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="description" content="赋时光以生命">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    
+    <link rel="preload" href="/assets/css/0.styles.06fcff93.css" as="style"><link rel="preload" href="/assets/js/app.f062f27a.js" as="script"><link rel="preload" href="/assets/js/3.8b0ceda2.js" as="script"><link rel="preload" href="/assets/js/1.0effaf7c.js" as="script"><link rel="preload" href="/assets/js/50.edc786f1.js" as="script"><link rel="preload" href="/assets/js/31.3d27bbef.js" as="script"><link rel="prefetch" href="/assets/js/10.38872ce2.js"><link rel="prefetch" href="/assets/js/11.8df56cc0.js"><link rel="prefetch" href="/assets/js/12.cafd34c2.js"><link rel="prefetch" href="/assets/js/13.5561f0d7.js"><link rel="prefetch" href="/assets/js/14.2f2fe36b.js"><link rel="prefetch" href="/assets/js/15.72bc090a.js"><link rel="prefetch" href="/assets/js/16.59efc561.js"><link rel="prefetch" href="/assets/js/17.340c033a.js"><link rel="prefetch" href="/assets/js/18.7a6067e9.js"><link rel="prefetch" href="/assets/js/19.03b0963f.js"><link rel="prefetch" href="/assets/js/20.7591ecaf.js"><link rel="prefetch" href="/assets/js/21.04d3d4ff.js"><link rel="prefetch" href="/assets/js/22.a7b7ab66.js"><link rel="prefetch" href="/assets/js/23.33688b53.js"><link rel="prefetch" href="/assets/js/24.96dae278.js"><link rel="prefetch" href="/assets/js/25.a51de905.js"><link rel="prefetch" href="/assets/js/26.10e7de7b.js"><link rel="prefetch" href="/assets/js/27.88da0a0f.js"><link rel="prefetch" href="/assets/js/28.787d9ca0.js"><link rel="prefetch" href="/assets/js/29.66d17589.js"><link rel="prefetch" href="/assets/js/30.c842ac26.js"><link rel="prefetch" href="/assets/js/32.79b49e0c.js"><link rel="prefetch" href="/assets/js/33.000f0f72.js"><link rel="prefetch" href="/assets/js/34.c5b39586.js"><link rel="prefetch" href="/assets/js/35.a9a77a95.js"><link rel="prefetch" href="/assets/js/36.4c3da50f.js"><link rel="prefetch" href="/assets/js/37.f919a2d8.js"><link rel="prefetch" href="/assets/js/38.079f4e9c.js"><link rel="prefetch" href="/assets/js/39.54632668.js"><link rel="prefetch" href="/assets/js/4.ff412fc0.js"><link rel="prefetch" href="/assets/js/40.d9741f71.js"><link rel="prefetch" href="/assets/js/41.821c91e8.js"><link rel="prefetch" href="/assets/js/42.2ad7798d.js"><link rel="prefetch" href="/assets/js/43.8487eff8.js"><link rel="prefetch" href="/assets/js/44.a12823b7.js"><link rel="prefetch" href="/assets/js/45.76c216d1.js"><link rel="prefetch" href="/assets/js/46.b8b61cac.js"><link rel="prefetch" href="/assets/js/47.49abbcd5.js"><link rel="prefetch" href="/assets/js/48.985ac72c.js"><link rel="prefetch" href="/assets/js/49.7ec76b9f.js"><link rel="prefetch" href="/assets/js/5.ed86cd32.js"><link rel="prefetch" href="/assets/js/51.be002084.js"><link rel="prefetch" href="/assets/js/52.72fcbcaa.js"><link rel="prefetch" href="/assets/js/53.1580e099.js"><link rel="prefetch" href="/assets/js/54.b64952f6.js"><link rel="prefetch" href="/assets/js/55.5fe9dfdd.js"><link rel="prefetch" href="/assets/js/56.4f09a5cb.js"><link rel="prefetch" href="/assets/js/57.40026237.js"><link rel="prefetch" href="/assets/js/58.000963dc.js"><link rel="prefetch" href="/assets/js/59.75d36f3c.js"><link rel="prefetch" href="/assets/js/6.8a5f5a7c.js"><link rel="prefetch" href="/assets/js/60.c867bf65.js"><link rel="prefetch" href="/assets/js/61.4d5fc115.js"><link rel="prefetch" href="/assets/js/62.da106880.js"><link rel="prefetch" href="/assets/js/63.1850fd48.js"><link rel="prefetch" href="/assets/js/64.54671246.js"><link rel="prefetch" href="/assets/js/65.f67b61d8.js"><link rel="prefetch" href="/assets/js/66.c09a2717.js"><link rel="prefetch" href="/assets/js/67.3047db65.js"><link rel="prefetch" href="/assets/js/7.501b8d2e.js"><link rel="prefetch" href="/assets/js/8.270a07f6.js"><link rel="prefetch" href="/assets/js/9.ef68ce12.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.06fcff93.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container" data-v-19557b78><div data-v-19557b78><div id="loader-wrapper" class="loading-wrapper" data-v-d48f4d20 data-v-19557b78 data-v-19557b78><div class="loader-main" data-v-d48f4d20><div data-v-d48f4d20></div><div data-v-d48f4d20></div><div data-v-d48f4d20></div><div data-v-d48f4d20></div></div> <!----> <!----></div> <div class="password-shadow password-wrapper-out" style="display:none;" data-v-64685f0e data-v-19557b78 data-v-19557b78><h3 class="title" style="display:none;" data-v-64685f0e data-v-64685f0e>SeekingLight</h3> <!----> <label id="box" class="inputBox" style="display:none;" data-v-64685f0e data-v-64685f0e><input type="password" value="" data-v-64685f0e> <span data-v-64685f0e>Konck! Knock!</span> <button data-v-64685f0e>OK</button></label> <div class="footer" style="display:none;" data-v-64685f0e data-v-64685f0e><span data-v-64685f0e><i class="iconfont reco-theme" data-v-64685f0e></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-64685f0e>vuePress-theme-reco</a></span> <span data-v-64685f0e><i class="iconfont reco-copyright" data-v-64685f0e></i> <a data-v-64685f0e><span data-v-64685f0e>寻光</span>
+            
+          <span data-v-64685f0e>2017 - </span>
+          2022
+        </a></span></div></div> <div class="hide" data-v-19557b78><header class="navbar" data-v-19557b78><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/icon.png" alt="SeekingLight" class="logo"> <span class="site-name">SeekingLight</span></a> <div class="links"><div class="color-picker"><a class="color-button"><i class="iconfont reco-color"></i></a> <div class="color-picker-menu" style="display:none;"><div class="mode-options"><h4 class="title">Choose mode</h4> <ul class="color-mode-options"><li class="dark">dark</li><li class="auto active">auto</li><li class="light">light</li></ul></div></div></div> <div class="search-box"><i class="iconfont reco-search"></i> <input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link"><i class="iconfont reco-home"></i>
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      分类
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/杂记/" class="nav-link"><i class="iconfont undefined"></i>
+  杂记
+</a></li><li class="dropdown-item"><!----> <a href="/categories/前端/" class="nav-link"><i class="iconfont undefined"></i>
+  前端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/计算机组成原理/" class="nav-link"><i class="iconfont undefined"></i>
+  计算机组成原理
+</a></li><li class="dropdown-item"><!----> <a href="/categories/Typescript/" class="nav-link"><i class="iconfont undefined"></i>
+  Typescript
+</a></li><li class="dropdown-item"><!----> <a href="/categories/算法/" class="nav-link"><i class="iconfont undefined"></i>
+  算法
+</a></li><li class="dropdown-item"><!----> <a href="/categories/后端/" class="nav-link"><i class="iconfont undefined"></i>
+  后端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/计算机网络/" class="nav-link"><i class="iconfont undefined"></i>
+  计算机网络
+</a></li><li class="dropdown-item"><!----> <a href="/categories/操作系统/" class="nav-link"><i class="iconfont undefined"></i>
+  操作系统
+</a></li><li class="dropdown-item"><!----> <a href="/categories/编程范式/" class="nav-link"><i class="iconfont undefined"></i>
+  编程范式
+</a></li><li class="dropdown-item"><!----> <a href="/categories/测试驱动开发/" class="nav-link"><i class="iconfont undefined"></i>
+  测试驱动开发
+</a></li><li class="dropdown-item"><!----> <a href="/categories/PTE/" class="nav-link"><i class="iconfont undefined"></i>
+  PTE
+</a></li><li class="dropdown-item"><!----> <a href="/categories/色彩空间/" class="nav-link"><i class="iconfont undefined"></i>
+  色彩空间
+</a></li></ul></div></div><div class="nav-item"><a href="/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/timeLine/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间轴
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      关于
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/SeekingLight233" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://space.bilibili.com/37019841?from=search&amp;seid=11160746842115235145" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-bilibili"></i>
+  BiliBili
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://music.163.com/#/user/home?id=355059838" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-douyin"></i>
+  网易云
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="/contact.html" class="nav-link"><i class="iconfont reco-wechat"></i>
+  联系我
+</a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask" data-v-19557b78></div> <aside class="sidebar" data-v-19557b78><div class="personal-info-wrapper" data-v-042e23d4><img src="/images/hero.png" alt="author-avatar" class="personal-img" data-v-042e23d4> <h3 class="name" data-v-042e23d4>
+    寻光
+  </h3> <div class="num" data-v-042e23d4><div data-v-042e23d4><h3 data-v-042e23d4>51</h3> <h6 data-v-042e23d4>Article</h6></div> <div data-v-042e23d4><h3 data-v-042e23d4>89</h3> <h6 data-v-042e23d4>Tag</h6></div></div> <hr data-v-042e23d4></div> <nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link"><i class="iconfont reco-home"></i>
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      分类
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/杂记/" class="nav-link"><i class="iconfont undefined"></i>
+  杂记
+</a></li><li class="dropdown-item"><!----> <a href="/categories/前端/" class="nav-link"><i class="iconfont undefined"></i>
+  前端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/计算机组成原理/" class="nav-link"><i class="iconfont undefined"></i>
+  计算机组成原理
+</a></li><li class="dropdown-item"><!----> <a href="/categories/Typescript/" class="nav-link"><i class="iconfont undefined"></i>
+  Typescript
+</a></li><li class="dropdown-item"><!----> <a href="/categories/算法/" class="nav-link"><i class="iconfont undefined"></i>
+  算法
+</a></li><li class="dropdown-item"><!----> <a href="/categories/后端/" class="nav-link"><i class="iconfont undefined"></i>
+  后端
+</a></li><li class="dropdown-item"><!----> <a href="/categories/计算机网络/" class="nav-link"><i class="iconfont undefined"></i>
+  计算机网络
+</a></li><li class="dropdown-item"><!----> <a href="/categories/操作系统/" class="nav-link"><i class="iconfont undefined"></i>
+  操作系统
+</a></li><li class="dropdown-item"><!----> <a href="/categories/编程范式/" class="nav-link"><i class="iconfont undefined"></i>
+  编程范式
+</a></li><li class="dropdown-item"><!----> <a href="/categories/测试驱动开发/" class="nav-link"><i class="iconfont undefined"></i>
+  测试驱动开发
+</a></li><li class="dropdown-item"><!----> <a href="/categories/PTE/" class="nav-link"><i class="iconfont undefined"></i>
+  PTE
+</a></li><li class="dropdown-item"><!----> <a href="/categories/色彩空间/" class="nav-link"><i class="iconfont undefined"></i>
+  色彩空间
+</a></li></ul></div></div><div class="nav-item"><a href="/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/timeLine/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间轴
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      关于
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://github.com/SeekingLight233" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://space.bilibili.com/37019841?from=search&amp;seid=11160746842115235145" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-bilibili"></i>
+  BiliBili
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://music.163.com/#/user/home?id=355059838" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-douyin"></i>
+  网易云
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="/contact.html" class="nav-link"><i class="iconfont reco-wechat"></i>
+  联系我
+</a></li></ul></div></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>fib-rw</span> <!----></p> <!----></section></li></ul> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-64685f0e data-v-19557b78><h3 class="title" style="display:none;" data-v-64685f0e data-v-64685f0e>fib-rw</h3> <!----> <label id="box" class="inputBox" style="display:none;" data-v-64685f0e data-v-64685f0e><input type="password" value="" data-v-64685f0e> <span data-v-64685f0e>Konck! Knock!</span> <button data-v-64685f0e>OK</button></label> <div class="footer" style="display:none;" data-v-64685f0e data-v-64685f0e><span data-v-64685f0e><i class="iconfont reco-theme" data-v-64685f0e></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-64685f0e>vuePress-theme-reco</a></span> <span data-v-64685f0e><i class="iconfont reco-copyright" data-v-64685f0e></i> <a data-v-64685f0e><span data-v-64685f0e>寻光</span>
+            
+          <span data-v-64685f0e>2017 - </span>
+          2022
+        </a></span></div></div> <div data-v-19557b78><main class="page"><div class="page-title" style="display:none;"><h1>fib-rw</h1> <hr> <div data-v-34ea29db><i class="iconfont reco-account" data-v-34ea29db><span data-v-34ea29db>寻光</span></i> <i class="iconfont reco-date" data-v-34ea29db><span data-v-34ea29db>2019-01-01</span></i> <!----> <!----></div></div> <div class="theme-reco-content content__default" style="display:none;"><p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3em;" data-v-7d7f8e5e> <!----></div> the energy.
+侵蚀精力。</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:2.5em;" data-v-7d7f8e5e> <!----></div> they are emotional
+他们情绪激动的地方</p> <p>a <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div> definition
+一个工作定义</p> <p>one or two <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:6em;" data-v-7d7f8e5e> <!----></div>
+一两个区别</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:2em;" data-v-7d7f8e5e> <!----></div> the possibility
+打开一种可能性</p> <p>&quot;interact with each other&quot; might seem <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5.5em;" data-v-7d7f8e5e> <!----></div>
+“相互作用”看起来可能是不必要的</p> <p>but, <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:6em;" data-v-7d7f8e5e> <!----></div>
+但是，尽管如此</p> <p>Pearson has <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3em;" data-v-7d7f8e5e> <!----></div> together the work of
+皮尔森将....的工作【拼凑】在一起</p> <p>a <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4em;" data-v-7d7f8e5e> <!----></div> millennium calendar
+一个独特的千年历</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:6.5em;" data-v-7d7f8e5e> <!----></div> and discoveries
+突破和发现</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4em;" data-v-7d7f8e5e> <!----></div> life
+延长寿命</p> <p>artificial organs <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3em;" data-v-7d7f8e5e> <!----></div> into use
+人造器官开始使用</p> <p>but,<div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div>
+但是，然而</p> <p>have something <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4.5em;" data-v-7d7f8e5e> <!----></div>
+有共同之处</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div> the conventions of western art
+连同西方艺术的惯例一样</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:1.5em;" data-v-7d7f8e5e> <!----></div>...'uniquely Japanese'.
+但是这是日本独有的</p> <p>there is nothing <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div> in the universe
+宇宙中没有什么是不变的</p> <p>born bears in its <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:2em;" data-v-7d7f8e5e> <!----></div> the seeds of change
+在它的【子宫】里生下了变化的种子</p> <p>remarkably <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div>
+非常相关</p> <p>dictionary publishers are <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:6.5em;" data-v-7d7f8e5e> <!----></div> into their data</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3em;" data-v-7d7f8e5e> <!----></div> to a more vibrant,up-to-date <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div>.
+【接触】到一种以前从末真正研究过的更有活力的、最新的【白话文】。</p> <p>have also <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div> over time</p> <p>This difference is no more <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div> than in Western society today, when <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div> of health and health promotion are being challenged and <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4em;" data-v-7d7f8e5e> <!----></div> in new ways.</p> <p>这种差异在今天的西方社会再明显不过了，因为健康和健康促进的【概念】正在受到挑战，并以新的方式【扩展】。</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4em;" data-v-7d7f8e5e> <!----></div> the culprit behind a national crisis.
+【揭露了】一场国家危机背后的罪魁祸首</p> <p>a <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3em;" data-v-7d7f8e5e> <!----></div> had been stealing across France's vineyards
+一种枯萎病正在法国的葡萄园中横行</p> <p>its spread <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div>
+它的传播是不可阻挡的</p> <p>First a single vine would <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3em;" data-v-7d7f8e5e> <!----></div>
+首先一株葡萄树会【枯萎】</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:2.5em;" data-v-7d7f8e5e> <!----></div> out prey
+【使】猎物【暴露】</p> <p>have <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3em;" data-v-7d7f8e5e> <!----></div> us
+【击败了】我们</p> <p>the decision levels were <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5.5em;" data-v-7d7f8e5e> <!----></div>
+决策层次【向下推】了</p> <p>two divisions were <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div>
+两个部门被训练【be trained】</p> <p>they <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div> to use as much as their skill
+他们【尽力】使用他们的技能</p> <p>two divisions <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:8em;" data-v-7d7f8e5e> <!----></div></p> <p>was <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div> Amnesty International
+被【重命名】为大赦国际</p> <p>relief and <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:7em;" data-v-7d7f8e5e> <!----></div> grants
+救济和康复资助</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div> threats
+真正的威胁</p> <p>Mandela's <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:6em;" data-v-7d7f8e5e> <!----></div></p> <p>need for mental <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5.5em;" data-v-7d7f8e5e> <!----></div> and exercise
+需要精神【刺激】和锻炼</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5.5em;" data-v-7d7f8e5e> <!----></div> scraping
+【破坏性的】刮擦</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4.5em;" data-v-7d7f8e5e> <!----></div> trainable
+【显著的】可训练的</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div> and frustrated</p> <p>a widening <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div> scandal
+日益扩大的【检查】丑闻</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div> of vehicle production
+暂停汽车生产</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:1.5em;" data-v-7d7f8e5e> <!----></div> into words
+用语言表达</p> <p>hand <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4.5em;" data-v-7d7f8e5e> <!----></div>
+手支配</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5.5em;" data-v-7d7f8e5e> <!----></div> into
+分布到</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3em;" data-v-7d7f8e5e> <!----></div> distributed
+【均匀地】分布</p> <p>several <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4em;" data-v-7d7f8e5e> <!----></div> types
+几种【不同的】类型</p> <p>strictly <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4em;" data-v-7d7f8e5e> <!----></div>
+严格来说</p> <p>considerable <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:2.5em;" data-v-7d7f8e5e> <!----></div>
+大量的【技能】</p> <p>more <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5.5em;" data-v-7d7f8e5e> <!----></div> matter
+更实质的问题</p> <p>not <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5.5em;" data-v-7d7f8e5e> <!----></div>
+没法辨识</p> <p>work as <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div>
+工作方式如下</p> <p>in every <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div>
+在各个方面</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div> of culture
+文化观念</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:1.5em;" data-v-7d7f8e5e> <!----></div> into
+使合适</p> <p>is charged up with
+由...充电</p> <p>but <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:2.5em;" data-v-7d7f8e5e> <!----></div>
+但是...尽管</p> <p>get electricity out <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div> heat</p> <p>In achieving <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5.5em;" data-v-7d7f8e5e> <!----></div>
+定罪</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3em;" data-v-7d7f8e5e> <!----></div> of the murder
+谋杀罪</p> <p>Was Again <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5.5em;" data-v-7d7f8e5e> <!----></div>
+再次被解释</p> <p>To be <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4em;" data-v-7d7f8e5e> <!----></div>
+决定性的</p> <p>Media <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4.5em;" data-v-7d7f8e5e> <!----></div>
+媒体关注</p> <p>floral <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4.5em;" data-v-7d7f8e5e> <!----></div>
+花卉供品</p> <p>something To <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:1em;" data-v-7d7f8e5e> <!----></div> with
+同...有关</p> <p>different color <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5.5em;" data-v-7d7f8e5e> <!----></div>
+不同的颜色组合</p> <p>are similar in <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:7.5em;" data-v-7d7f8e5e> <!----></div>
+在特征上与...相似</p> <p>be targets for <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5.5em;" data-v-7d7f8e5e> <!----></div>
+是天文学家的目标</p> <p>is easy to <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3em;" data-v-7d7f8e5e> <!----></div>
+很容易探测</p> <p>posts <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:1em;" data-v-7d7f8e5e> <!----></div> Instagram</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4.5em;" data-v-7d7f8e5e> <!----></div> the appearance category
+【属于】外貌类</p> <p>than the other 14 categories <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4em;" data-v-7d7f8e5e> <!----></div>
+比其他 14 个类别【加起来】</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3em;" data-v-7d7f8e5e> <!----></div> than taken with a group
+【而不是】和一群人一起拍的</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5.5em;" data-v-7d7f8e5e> <!----></div> the demographics of the social media platform
+【考虑到】社交媒体平台的人口统计数据</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4.5em;" data-v-7d7f8e5e> <!----></div> in soil and aerial temperatures
+降低土壤和空气温度</p> <p>In the garden <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div>
+在园林【环境中】</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:1.5em;" data-v-7d7f8e5e> <!----></div> rainfall
+低降水量</p> <p>The price is set by <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4.5em;" data-v-7d7f8e5e> <!----></div> many factors
+价格是通过【平衡】许多因素来确定的</p> <p>fair <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:2.5em;" data-v-7d7f8e5e> <!----></div>
+公允市值</p> <p>It also should be <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:2.5em;" data-v-7d7f8e5e> <!----></div> that
+另外应该【注意到】</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div> the bosses
+【追踪】老板</p> <p>proved as <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3em;" data-v-7d7f8e5e> <!----></div>
+证明...有效</p> <p>started her <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div>
+开始了她的企业</p> <p>illustrated <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4.5em;" data-v-7d7f8e5e> <!----></div>
+图解目录</p> <p>growing <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div>
+日益流行</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4.5em;" data-v-7d7f8e5e> <!----></div> of artists
+艺术家的【出现】....</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4.5em;" data-v-7d7f8e5e> <!----></div> with...
+起源于</p> <p>mythical <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div>
+神话人物</p> <p>cumbersome designations
+繁琐的名称</p> <p>easier to <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4em;" data-v-7d7f8e5e> <!----></div>
+更容易通过无线电广播</p> <p>The system was <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div> in 1953</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3em;" data-v-7d7f8e5e> <!----></div> cognitive health.
+评估认知健康</p> <p>available to <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:6.5em;" data-v-7d7f8e5e> <!----></div>
+可用于从业者</p> <p>concerns <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3em;" data-v-7d7f8e5e> <!----></div> by
+被...提出的问题</p> <p>three measures <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4.5em;" data-v-7d7f8e5e> <!----></div>
+三种被验证过的措施</p> <p>trying to <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div>
+试图解开</p> <p>track <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:2em;" data-v-7d7f8e5e> <!----></div>
+追踪</p> <p>five-fold <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4em;" data-v-7d7f8e5e> <!----></div>
+五倍增长</p> <p>commercial <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div>
+商业奇观</p> <p>issues of <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:6em;" data-v-7d7f8e5e> <!----></div>
+真实性问题</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div> on a number of texts
+【依赖】一系列文本</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:2.5em;" data-v-7d7f8e5e> <!----></div> that
+认为...</p> <p>conducted <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5.5em;" data-v-7d7f8e5e> <!----></div>
+进行实验</p> <p>become <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div>
+变得流行</p> <p>receptors on the <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3em;" data-v-7d7f8e5e> <!----></div>
+舌头上的感受器</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5.5em;" data-v-7d7f8e5e> <!----></div> wisdom
+主流的观点</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4.5em;" data-v-7d7f8e5e> <!----></div> desert
+烈日灼热的沙漠</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div> is
+困难】在于</p> <p>beauty is in the eye of the <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4em;" data-v-7d7f8e5e> <!----></div>
+情人眼里出西施</p> <p>extraneous <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4.5em;" data-v-7d7f8e5e> <!----></div>
+外来的偏见</p> <p>facetious <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:2.5em;" data-v-7d7f8e5e> <!----></div>
+一个滑稽的傻笑</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4.5em;" data-v-7d7f8e5e> <!----></div> the biological world
+【转向】生物世界</p> <p>complex <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3em;" data-v-7d7f8e5e> <!----></div>
+复杂的设计</p> <p>nature <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div>
+自然 打败 他们</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:2em;" data-v-7d7f8e5e> <!----></div> through the air
+在空气中 旋转</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:2.5em;" data-v-7d7f8e5e> <!----></div> surfaces
+陡峭的表面</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5.5em;" data-v-7d7f8e5e> <!----></div> costs are lower
+维护成本更低</p> <p>energy <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div>
+能源效率</p> <p>As a general <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:2em;" data-v-7d7f8e5e> <!----></div>
+一般来说</p> <p>uncommon <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:6em;" data-v-7d7f8e5e> <!----></div>
+非同寻常的满意</p> <p>very <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div>
+非常小心地</p> <p>but <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4em;" data-v-7d7f8e5e> <!----></div>
+但是热情激昂</p> <p>against <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4em;" data-v-7d7f8e5e> <!----></div>
+反对贪婪</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4em;" data-v-7d7f8e5e> <!----></div> good eating
+喜欢美食</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:1em;" data-v-7d7f8e5e> <!----></div> existence
+存在</p> <p>cheapest time <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:2.5em;" data-v-7d7f8e5e> <!----></div>
+最便宜的时间段</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:2em;" data-v-7d7f8e5e> <!----></div> the grid
+放置进电网中</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:1em;" data-v-7d7f8e5e> <!----></div> campus</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:2em;" data-v-7d7f8e5e> <!----></div> travel sustainably
+更多的旅行</p> <p>cutting <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:1em;" data-v-7d7f8e5e> <!----></div>
+减少</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div> a systematic understanding
+发展对...的系统理解</p> <p>come to <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div>
+崭露头角</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div> afield
+更远的地方</p> <p>large volumes
+大量</p> <p>carry out
+执行</p> <p>As time <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div>
+随着时间的推移</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4em;" data-v-7d7f8e5e> <!----></div> and control the flow of water
+限制和控制水流</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5em;" data-v-7d7f8e5e> <!----></div> history</p> <p>knocked down
+拆除</p> <p>a <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div> of cost
+一部分费用</p> <p>in <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5.5em;" data-v-7d7f8e5e> <!----></div> with
+与...合作</p> <p>in <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:6.5em;" data-v-7d7f8e5e> <!----></div> detail
+前所未有的细节</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4em;" data-v-7d7f8e5e> <!----></div> on experiential learning
+关注体验式学习的趋势</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:1.5em;" data-v-7d7f8e5e> <!----></div> exporter of
+最大的出口国</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:5.5em;" data-v-7d7f8e5e> <!----></div> producer
+重要的生产者</p> <p><div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:4em;" data-v-7d7f8e5e> <!----></div> as a unifying concept
+被认为是一个统一的概念</p> <p>the <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:3.5em;" data-v-7d7f8e5e> <!----></div> of roads
+网络的道路</p> <p>the <div style="display:inline-flex;flex-direction:column;align-items:center;" data-v-7d7f8e5e><!----> <input type="text" value="" style="width:2.5em;" data-v-7d7f8e5e> <!----></div> of the Mayan
+玛雅的中心</p></div> <footer class="page-edit" style="display:none;"><!----> <div class="last-updated"><span class="prefix">Last Updated: </span> <span class="time">10/8/2022, 11:45:13 AM</span></div></footer> <!----> <!----></main> <!----></div></div></div></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.f062f27a.js" defer></script><script src="/assets/js/3.8b0ceda2.js" defer></script><script src="/assets/js/1.0effaf7c.js" defer></script><script src="/assets/js/50.edc786f1.js" defer></script><script src="/assets/js/31.3d27bbef.js" defer></script>
+  </body>
+</html>
